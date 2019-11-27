@@ -18,15 +18,26 @@ async function start() {
   );
 
   koaWebpack({
-    config
+    config,
+    devMiddleware: {
+      stats: {
+        modules: false,
+        children: false,
+        performance: false,
+        entrypoints: false,
+        colors: true,
+      }
+    }
   }).then(middleware => {
     app.use(middleware);
   });
 
   app.use(cors());
 
-  app.listen(8207, () => {
-    console.log('app listen at 8207');
+  const port = 8207;
+
+  app.listen(port, () => {
+    console.log(`serverURL: http://localhost:${port}`);
   });
 }
 
