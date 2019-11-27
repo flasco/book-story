@@ -1,4 +1,3 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -20,9 +19,6 @@ module.exports = merge.smart(getBaseConfig(), {
       cleanOnceBeforeBuildPatterns: ['css/*.*', 'js/*.*'],
       root: path.resolve(__dirname, DIST_PATH)
     }),
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].css'
-    }),
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, STATIC_PATH),
@@ -43,14 +39,6 @@ module.exports = merge.smart(getBaseConfig(), {
           }
         }
       },
-      {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
-      },
-      {
-        test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
-      }
     ]
   },
   output: {

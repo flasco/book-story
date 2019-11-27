@@ -19,27 +19,17 @@ module.exports = merge.smart(getBaseConfig(), {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
-              plugins: [
-                'react-hot-loader/babel',
-              ],
-            },
+              plugins: ['react-hot-loader/babel']
+            }
           },
-          'react-hot-loader/webpack',
-        ],
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
-      },
-    ],
+          'react-hot-loader/webpack'
+        ]
+      }
+    ]
   },
   output: {
     path: path.join(__dirname, STATIC_PATH),
     filename: 'js/bundle.js',
-    publicPath: 'http://localhost:8207/',
-  },
+    publicPath: 'http://localhost:8207/'
+  }
 });

@@ -2,9 +2,14 @@ const webpack = require('webpack');
 const path = require('path');
 const { DIST_PATH } = require('./base');
 const resolve = require('path').resolve;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 // 为了能取到不同配置里设置的环境变量，改成 function
 module.exports = () => {
+  const isDev = process.env.PROJECT_ENV === 'development';
+
+  const styleLoader = isDev ? 'style-loader' : MiniCssExtractPlugin.loader;
+
   const config = {
     module: {
       rules: [
@@ -82,6 +87,28 @@ module.exports = () => {
               loader: 'ts-loader'
             }
           ]
+        },
+        {
+          test: /\.css$/,
+          use: [styleLoader, 'css-loader']
+        },
+        {
+          test: /\.m\.scss$/,
+          use: [
+            styleLoader,
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true
+              }
+            },
+            'sass-loader'
+          ]
+        },
+        {
+          test: /\.scss$/,
+          exclude: /\.m\.scss$/,
+          use: [styleLoader, 'css-loader', 'sass-loader']
         }
       ]
     },
@@ -105,13 +132,14 @@ module.exports = () => {
     ]
   };
 
-  const isDev = process.env.PROJECT_ENV === 'development';
-
   if (!isDev) {
     config.plugins.unshift(
       new webpack.DllReferencePlugin({
         context: __dirname,
         manifest: path.join(__dirname, `${DIST_PATH}/vendor-manifest.json`)
+      }),
+      new MiniCssExtractPlugin({
+        filename: 'css/[name].css'
       })
     );
   }

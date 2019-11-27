@@ -20,6 +20,7 @@ async function start() {
       // 构建过程出错
       spinner.fail();
       console.log(err);
+      console.log(stats.toString());
       process.exit(1);
     }
     spinner.succeed();
