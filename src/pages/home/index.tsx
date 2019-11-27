@@ -6,12 +6,33 @@ import styles from './index.m.scss';
 import { getChapter } from './api';
 import getPageArr from '@/utils/text';
 
+import { screenWidth, LeftBoundary, RightBoundary } from '@/constants';
+
 let startPoint: number[] = [];
 let endPoint: number[] = [];
 
-const screenWidth = screen.availWidth;
-const LeftBoundary = screenWidth / 4;
-const RightBoundary = screenWidth - LeftBoundary;
+const fontSize = 20;
+const lineHeight = 32;
+const contentLeft = Math.floor(((screenWidth - 40) % fontSize) / 4);
+
+const PageRender = ({ title, page, total, current }) => {
+  return (
+    <div
+      className={styles.container}
+      style={{ height: screen.availHeight - 40 }}
+    >
+      <div className={styles.title}>{title}</div>
+      <div
+        className={styles.content}
+        style={{ paddingLeft: contentLeft }}
+        dangerouslySetInnerHTML={{ __html: page.join('<br />') }}
+      />
+      <div className={styles.footer}>
+        {current}/{total}
+      </div>
+    </div>
+  );
+};
 
 const Home = () => {
   const [pages, setPages] = useState<string[][]>([[]]);
@@ -23,7 +44,7 @@ const Home = () => {
   useEffect(() => {
     getChapter().then(val => {
       setTitle(val.title);
-      const pageArr = getPageArr(val.content);
+      const pageArr = getPageArr(val.content, { fontSize, lineHeight });
       setPages(pageArr);
     });
   }, []);
@@ -38,6 +59,8 @@ const Home = () => {
 
   return (
     <div
+      className={cx(styles.light)}
+      style={{ height: screen.availHeight }}
       onTouchStart={e => {
         // console.log('start', e.touches[0].clientX, e.touches[0].clientY);
         startPoint = [e.touches[0].clientX, e.touches[0].clientY];
@@ -68,20 +91,13 @@ const Home = () => {
         afterChange={to => setCur(to)}
       >
         {pages.map((page, ind) => (
-          <div
+          <PageRender
             key={`pages-${ind}`}
-            className={styles.container}
-            style={{ height: screen.availHeight - 40 }}
-          >
-            <div className={styles.title}>{title}</div>
-            <div
-              className={styles.content}
-              dangerouslySetInnerHTML={{ __html: page.join('<br />') }}
-            />
-            <div className={styles.footer}>
-              {ind + 1}/{pages.length}
-            </div>
-          </div>
+            title={title}
+            page={page}
+            current={ind + 1}
+            total={pageSize}
+          />
         ))}
       </Carousel>
     </div>

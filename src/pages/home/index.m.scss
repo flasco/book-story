@@ -15,18 +15,16 @@
 
 .footer {
   position: absolute;
-  bottom: 20px;
+  bottom: 16px;
   right: 30px;
 }
 
 .content {
-  font-size: 21px;
+  font-size: 20px;
   word-wrap: break-word;
   word-break: break-all;
-  overflow: hidden;
   line-height: 32px;
   // text-indent: 2em;
   text-align: justify;
-  padding-left: 8px;
   padding-top: 4px;
 }
