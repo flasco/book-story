@@ -9,7 +9,7 @@ const config = require('../config/webpack.dev');
 async function start() {
   const app = new Koa();
 
-  const root = path.resolve(__dirname, '../static');
+  const root = path.resolve(__dirname, '../public');
 
   app.use(
     static(root, {

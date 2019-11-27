@@ -25,7 +25,11 @@ self.addEventListener('activate', function(e) {
       .then(cacheNames => {
         return Promise.all(
           cacheNames
-            .filter(cacheNames => cacheNames !== cacheStorageKey)
+            .filter(
+              cacheNames =>
+                cacheNames !== STATIC_CACHE_NAME &&
+                cacheNames !== DATA_CACHE_NAME
+            )
             .map(cacheNames => caches.delete(cacheNames))
         );
       })

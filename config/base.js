@@ -1,5 +1,5 @@
 
-exports.STATIC_PATH = '../static/dist';
+exports.STATIC_PATH = '../public';
 
 exports.DIST_PATH = '../dist';
 

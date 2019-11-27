@@ -7,7 +7,7 @@ const path = require('path');
 const merge = require('webpack-merge');
 
 const getBaseConfig = require('./webpack.base');
-const { DIST_PATH, MAIN_JS } = require('./base');
+const { DIST_PATH, MAIN_JS, STATIC_PATH } = require('./base');
 
 process.env.PROJECT_ENV = 'production';
 
@@ -25,8 +25,9 @@ module.exports = merge.smart(getBaseConfig(), {
     }),
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, '../static'),
+        from: path.resolve(__dirname, STATIC_PATH),
         to: path.resolve(__dirname, DIST_PATH),
+        ignore: ['index-dev.html']
       }
     ])
   ],
