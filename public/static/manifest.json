@@ -1,8 +1,8 @@
 {
-  "name": "lucky-app full-name",
-  "short_name": "lucky-app-short",
+  "name": "Book Story",
+  "short_name": "book-story",
   "start_url": "/index.html",
-  "theme_color": "#faa",
+  "theme_color": "#f8f8ff",
   "background_color": "#3f51b5",
   "display": "standalone",
   "icons": [{

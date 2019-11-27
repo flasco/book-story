@@ -13,12 +13,12 @@
 
       <script>
         // 注册service work
-        if ('serviceWorker' in navigator) {
-          window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./static/sw.js')
-              .then((reg) => {
-                // return pushMessageAction();
-              });
+        if (navigator.serviceWorker) {
+          // scope要对
+          navigator.serviceWorker.register('./sw.js')
+          .then((registration) => {
+            console.log('action:', registration.scope);
+            // return pushMessageAction();
           });
         }
       </script>

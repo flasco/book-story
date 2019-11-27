@@ -16,28 +16,16 @@ self.addEventListener('install', e => {
 
   // self.skipWaiting();
 });
-
-self.addEventListener('activate', function(e) {
-  // 获取所有不同于当前版本名称cache下的内容，删除
-  e.waitUntil(
-    caches
-      .keys()
-      .then(cacheNames => {
-        return Promise.all(
-          cacheNames
-            .filter(
-              cacheNames =>
-                cacheNames !== STATIC_CACHE_NAME &&
-                cacheNames !== DATA_CACHE_NAME
-            )
-            .map(cacheNames => caches.delete(cacheNames))
-        );
-      })
-      .then(() => {
-        return self.clients.claim();
-      })
-  );
+self.addEventListener('activate', e => {
+  caches.keys().then(keys => {
+    return Promise.all(keys.map(key => {
+      if (key !== STATIC_CACHE_NAME && key !== DATA_CACHE_NAME) {
+        return caches.delete(key);
+      }
+    }))
+  });
 });
+
 
 self.addEventListener('fetch', e => {
   console.log('fetch:', e.request.url);

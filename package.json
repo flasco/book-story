@@ -8,7 +8,8 @@
     "dev": "node scripts/dev-koa.js",
     "build": "node scripts/build-render.js",
     "upgrade-dep": "yarn upgrade-interactive",
-    "upgrade-latest-dep": "yarn upgrade-dep --latest"
+    "upgrade-latest-dep": "yarn upgrade-dep --latest",
+    "serve": "node scripts/serve.js"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",
