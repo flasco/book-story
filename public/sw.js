@@ -28,7 +28,7 @@ self.addEventListener('activate', e => {
 
 
 self.addEventListener('fetch', e => {
-  console.log('fetch:', e.request.url);
+  // console.log('fetch:', e.request.url);
   if (e.request.url.includes('/api/')) {
     e.respondWith(
       caches.open(DATA_CACHE_NAME).then(cache => {

@@ -1,3 +1,32 @@
-.a {
-  color: yellow;
+.container {
+  padding: 20px;
+  position: relative;
+}
+
+.light {
+  background: #acc7a7;
+}
+
+.title {
+  font-size: 16px;
+  color: #576457;
+  line-height: 24px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+}
+
+.content {
+  font-size: 21px;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
+  line-height: 32px;
+  // text-indent: 2em;
+  text-align: justify;
+  padding-left: 8px;
+  padding-top: 4px;
 }
