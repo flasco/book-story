@@ -11,7 +11,7 @@ function suspenseContainer(Component) {
   );
 }
 
-const routes = (
+const routes = () => (
   <HashRouter>
     <Switch>
       <Route path="/" exact component={Home} />

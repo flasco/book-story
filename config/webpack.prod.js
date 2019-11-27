@@ -1,4 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -6,7 +7,7 @@ const path = require('path');
 const merge = require('webpack-merge');
 
 const getBaseConfig = require('./webpack.base');
-const { STATIC_PATH, MAIN_JS } = require('./base');
+const { DIST_PATH, MAIN_JS } = require('./base');
 
 process.env.PROJECT_ENV = 'production';
 
@@ -17,11 +18,17 @@ module.exports = merge.smart(getBaseConfig(), {
     new CleanWebpackPlugin({
       verbose: false,
       cleanOnceBeforeBuildPatterns: ['css/*.*', 'js/*.*'],
-      root: path.resolve(__dirname, STATIC_PATH)
+      root: path.resolve(__dirname, DIST_PATH)
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css'
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../static'),
+        to: path.resolve(__dirname, DIST_PATH),
+      }
+    ])
   ],
   module: {
     rules: [
@@ -31,15 +38,7 @@ module.exports = merge.smart(getBaseConfig(), {
         use: {
           loader: 'babel-loader',
           options: {
-            cacheDirectory: true,
-            plugins: [
-              [
-                require.resolve('babel-plugin-zent'),
-                {
-                  automaticStyleImport: true
-                }
-              ]
-            ]
+            cacheDirectory: true
           }
         }
       },
@@ -54,14 +53,10 @@ module.exports = merge.smart(getBaseConfig(), {
     ]
   },
   output: {
-    path: path.join(__dirname, STATIC_PATH),
-    filename: 'js/bundle.js',
-    publicPath: './dist/'
+    path: path.join(__dirname, DIST_PATH),
+    filename: 'js/bundle.js'
   },
   optimization: {
-    minimizer: [
-      new OptimizeCSSAssetsPlugin({}),
-      new TerserPlugin()
-    ]
+    minimizer: [new OptimizeCSSAssetsPlugin({}), new TerserPlugin()]
   }
 });

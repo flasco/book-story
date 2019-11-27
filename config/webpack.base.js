@@ -1,11 +1,11 @@
 const webpack = require('webpack');
 const path = require('path');
-const { STATIC_PATH } = require('./base');
+const { DIST_PATH } = require('./base');
 const resolve = require('path').resolve;
 
 // 为了能取到不同配置里设置的环境变量，改成 function
 module.exports = () => {
-  return {
+  const config = {
     module: {
       rules: [
         // 原生node
@@ -75,16 +75,8 @@ module.exports = () => {
               loader: 'babel-loader',
               options: {
                 cacheDirectory: true,
-                plugins: [
-                  [
-                    require.resolve('babel-plugin-zent'),
-                    {
-                      automaticStyleImport: true,
-                    },
-                  ],
-                  'react-hot-loader/babel',
-                ],
-              },
+                plugins: ['react-hot-loader/babel']
+              }
             },
             {
               loader: 'ts-loader'
@@ -101,19 +93,28 @@ module.exports = () => {
     resolve: {
       extensions: ['.ts', '.js', '.tsx'],
       alias: {
-        '@': resolve(__dirname, '../src'),
+        '@': resolve(__dirname, '../src')
       }
     },
     plugins: [
-      new webpack.DllReferencePlugin({
-        context: __dirname,
-        manifest: path.join(__dirname, `${STATIC_PATH}/vendor-manifest.json`)
-      }),
       new webpack.DefinePlugin({
-        "process.env": {
+        'process.env': {
           PROJECT_ENV: JSON.stringify(process.env.PROJECT_ENV)
         }
       })
     ]
+  };
+
+  const isDev = process.env.PROJECT_ENV === 'development';
+
+  if (!isDev) {
+    config.plugins.unshift(
+      new webpack.DllReferencePlugin({
+        context: __dirname,
+        manifest: path.join(__dirname, `${DIST_PATH}/vendor-manifest.json`)
+      })
+    );
   }
+
+  return config;
 };

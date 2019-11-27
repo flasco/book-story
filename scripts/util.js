@@ -3,7 +3,7 @@ const path = require('path');
 const ora = require('ora');
 const webpack = require('webpack');
 const dllConfig = require('../config/webpack.dll');
-const { STATIC_PATH } = require('../config/base');
+const { DIST_PATH } = require('../config/base');
 /**
  * @param {string} filePath asd
  */
@@ -15,10 +15,10 @@ function fileExists(filePath) {
   });
 }
 
-exports.checkMainfest = () => {
+exports.checkManifest = () => {
   const filePath = path.resolve(
     __dirname,
-    `${STATIC_PATH}/vendor-manifest.json`
+    `${DIST_PATH}/vendor-manifest.json`
   );
   return fileExists(filePath);
 };

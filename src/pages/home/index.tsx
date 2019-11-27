@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Notify } from 'zent';
+import { Button, Toast } from 'antd-mobile';
 import { getS } from '@/utils';
 import './index.scss';
 
 class Home extends React.PureComponent {
   clickOpen = () => {
-    Notify.error('123');
+    Toast.info('123');
   }
 
   render() {

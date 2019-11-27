@@ -1,0 +1,13 @@
+{
+  "name": "lucky-app full-name",
+  "short_name": "lucky-app-short",
+  "start_url": "/index.html",
+  "theme_color": "#faa",
+  "background_color": "#3f51b5",
+  "display": "standalone",
+  "icons": [{
+    "src": "app.png",
+    "sizes": "418x418",
+    "type": "image/png"
+  }]
+}

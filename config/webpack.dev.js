@@ -20,12 +20,6 @@ module.exports = merge.smart(getBaseConfig(), {
             options: {
               cacheDirectory: true,
               plugins: [
-                [
-                  require.resolve('babel-plugin-zent'),
-                  {
-                    automaticStyleImport: true,
-                  },
-                ],
                 'react-hot-loader/babel',
               ],
             },
