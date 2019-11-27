@@ -3,6 +3,7 @@ const path = require('path');
 const { DIST_PATH } = require('./base');
 const resolve = require('path').resolve;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
 // 为了能取到不同配置里设置的环境变量，改成 function
 module.exports = () => {
@@ -133,14 +134,15 @@ module.exports = () => {
   };
 
   if (!isDev) {
-    config.plugins.unshift(
+    config.plugins.push(
       new webpack.DllReferencePlugin({
         context: __dirname,
         manifest: path.join(__dirname, `${DIST_PATH}/vendor-manifest.json`)
       }),
       new MiniCssExtractPlugin({
         filename: 'css/[name].css'
-      })
+      }),
+      new CompressionWebpackPlugin()
     );
   }
 

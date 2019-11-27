@@ -1,5 +1,6 @@
-let path = require('path');
-let webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const { DIST_PATH } = require('./base');
 
 module.exports = {
@@ -19,5 +20,6 @@ module.exports = {
       name: '[name]_library',
       context: __dirname
     }),
+    new CompressionWebpackPlugin()
   ]
 };

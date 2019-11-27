@@ -10,7 +10,8 @@ async function start() {
 
   app.use(
     static(root, {
-      index: 'index.html'
+      index: 'index.html',
+      gzip: true,
     })
   );
 
