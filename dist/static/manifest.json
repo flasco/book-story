@@ -1,0 +1,13 @@
+{
+  "name": "Book Story",
+  "short_name": "book-story",
+  "start_url": "/index.html",
+  "theme_color": "#f9f9f9",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "icons": [{
+    "src": "app.png",
+    "sizes": "418x418",
+    "type": "image/png"
+  }]
+}
