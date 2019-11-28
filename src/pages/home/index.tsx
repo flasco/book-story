@@ -6,7 +6,7 @@ import styles from './index.m.scss';
 import { getChapter } from './api';
 import getPageArr from '@/utils/text';
 
-import { screenWidth, LeftBoundary, RightBoundary } from '@/constants';
+import { screenWidth, LeftBoundary, RightBoundary, screenHeight } from '@/constants';
 
 let startPoint: number[] = [];
 let endPoint: number[] = [];
@@ -14,12 +14,13 @@ let endPoint: number[] = [];
 const fontSize = 20;
 const lineHeight = 32;
 const contentLeft = Math.floor(((screenWidth - 40) % fontSize) / 4);
+const contentHeight = screenHeight - 40;
 
 const PageRender = ({ title, page, total, current }) => {
   return (
     <div
       className={styles.container}
-      style={{ height: screen.availHeight - 40 }}
+      style={{ height: contentHeight }}
     >
       <div className={styles.title}>{title}</div>
       <div
@@ -57,10 +58,11 @@ const Home = () => {
     if (cur > 0) setCur(cur - 1);
   };
 
+  // if (pages[0].length < 1) return null;
   return (
     <div
       className={cx(styles.light)}
-      style={{ height: screen.availHeight }}
+      style={{ height: screenHeight }}
       onTouchStart={e => {
         // console.log('start', e.touches[0].clientX, e.touches[0].clientY);
         startPoint = [e.touches[0].clientX, e.touches[0].clientY];
