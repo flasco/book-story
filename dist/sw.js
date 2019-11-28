@@ -3,7 +3,7 @@ const STATIC_CACHE_NAME = `static-cache-${SW_VERSION}`;
 const DATA_CACHE_NAME = `data-cache-${SW_VERSION}`;
 
 // 可以不同源
-const FILES_TO_CACHE = ['/', '/js/bundle.js'];
+const FILES_TO_CACHE = ['./', './js/bundle.js'];
 
 self.addEventListener('install', e => {
   console.log(`[sw-${SW_VERSION}]: install`);
