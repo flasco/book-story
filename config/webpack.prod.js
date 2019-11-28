@@ -43,7 +43,8 @@ module.exports = merge.smart(getBaseConfig(), {
   },
   output: {
     path: path.join(__dirname, DIST_PATH),
-    filename: 'js/bundle.js'
+    filename: 'js/bundle.js',
+    publicPath: '/book-story'
   },
   optimization: {
     minimizer: [new OptimizeCSSAssetsPlugin({}), new TerserPlugin()]
