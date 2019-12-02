@@ -11,7 +11,7 @@ import { screenWidth, LeftBoundary, RightBoundary, screenHeight } from '@/consta
 let startPoint: number[] = [];
 let endPoint: number[] = [];
 
-const fontSize = 20;
+const fontSize = 22;
 const lineHeight = 32;
 const contentLeft = Math.floor(((screenWidth - 40) % fontSize) / 4);
 const contentHeight = screenHeight - 40;
@@ -46,6 +46,7 @@ const Home = () => {
     getChapter().then(val => {
       setTitle(val.title);
       const pageArr = getPageArr(val.content, { fontSize, lineHeight });
+      console.log(pageArr);
       setPages(pageArr);
     });
   }, []);
@@ -88,7 +89,6 @@ const Home = () => {
       <Carousel
         className={cx(styles.light)}
         dots={false}
-        swipeSpeed={24}
         selectedIndex={cur}
         afterChange={to => setCur(to)}
       >

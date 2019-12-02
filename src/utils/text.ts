@@ -1,7 +1,9 @@
+import safeAreaInsets from 'safe-area-insets';
+
 const screenWidth = window.screen.availWidth;
 const screenHeight = window.screen.availHeight;
-
-const extraPosition = screenWidth > 400 ? 1 : 0;
+const safeTop = safeAreaInsets.top;
+const safeBtm = safeAreaInsets.bottom;
 
 export default function getPageArr(testT: string, {
   fontSize = 20,
@@ -9,7 +11,8 @@ export default function getPageArr(testT: string, {
 }) {
   // 40 是左右 padding
   const lineWidth = Math.floor((screenWidth - 40) / fontSize);
-  const line = Math.round((screenHeight - 40 - 24) / lineHeight) - 1; // 31 是行高，24 是标题高度，40 是上下 padding
+  const line = Math.round((screenHeight - 40 - 24 - safeTop - safeBtm) / lineHeight) - 1; // 31 是行高，24 是标题高度，40 是上下 padding
+
   const lines = parseContent(testT, lineWidth * 2);
   return getPages(lines, line);
 }
@@ -55,7 +58,7 @@ function parseContent(str: string, width: number) {
     }
 
     const sWidth = getCharLength(s);
-    if (currentLineWidth + sWidth > width + extraPosition) {
+    if (currentLineWidth + sWidth > width) {
       if (currentLine.length > 0) {
         lines.push(currentLine);
       }

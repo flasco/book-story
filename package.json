@@ -57,6 +57,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
+    "safe-area-insets": "^1.4.1",
     "tslib": "^1.10.0"
   }
 }
