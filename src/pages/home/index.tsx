@@ -62,7 +62,7 @@ const Home = () => {
   return (
     <div
       className={cx(styles.light)}
-      style={{ height: screenHeight }}
+      style={{ height: screenHeight, overflow: 'hidden' }}
       onTouchStart={e => {
         // console.log('start', e.touches[0].clientX, e.touches[0].clientY);
         startPoint = [e.touches[0].clientX, e.touches[0].clientY];
