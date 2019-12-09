@@ -24,6 +24,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["./src/**/*", "./defination"],
+  "include": ["./src/**/*"],
   "exclude": ["node_modules"]
 }
