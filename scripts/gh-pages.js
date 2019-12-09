@@ -1,17 +1,16 @@
 const ghpages = require('gh-pages');
-
-function callback() {
-  console.log('doc deploy success.');
-}
+const ora = require('ora');
 
 function main() {
+  const spinner = ora('deploy...').start();
+
   ghpages.publish(
     'dist',
     {
       branch: 'gh-pages',
       repo: 'https://gitee.com/flasco/book-story.git'
     },
-    callback
+    () => spinner.succeed()
   );
 }
 

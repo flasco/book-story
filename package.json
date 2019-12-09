@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "node scripts/dev-koa.js",
     "build": "node scripts/build-render.js",
+    "build:doc": "node scripts/build-render.js && node scripts/gh-pages.js",
     "upgrade-dep": "yarn upgrade-interactive",
     "upgrade-latest-dep": "yarn upgrade-dep --latest",
     "serve": "node scripts/serve.js"

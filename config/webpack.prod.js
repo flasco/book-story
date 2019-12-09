@@ -22,7 +22,7 @@ module.exports = merge.smart(getBaseConfig(), {
       {
         from: path.resolve(__dirname, STATIC_PATH),
         to: path.resolve(__dirname, DIST_PATH),
-        ignore: ['index-dev.html']
+        ignore: ['index-template.html']
       }
     ])
   ],
