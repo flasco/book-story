@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      class="js-site-favicon"
+      href="./static/favicon.ico"
+    />
+    <link rel="apple-touch-icon" href="./static/app-iOS.jpg" />
+    <link rel="apple-touch-startup-image" href="./static/app-iOS.jpg" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>Book Story</title>
+    <link rel="manifest" href="./manifest.json" />
+  </head>
+  <body>
+    <div id="root">loading script...</div>
+    <noscript>plz allow script run</noscript>
+
+    <script>
+      // 注册service work
+      if (navigator.serviceWorker) {
+        // scope要对
+        navigator.serviceWorker.register('./sw.js').then(registration => {
+          console.log('action:', registration.scope);
+          // return pushMessageAction();
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -4,6 +4,7 @@ const { DIST_PATH } = require('./base');
 const resolve = require('path').resolve;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // 为了能取到不同配置里设置的环境变量，改成 function
 module.exports = () => {
@@ -129,6 +130,10 @@ module.exports = () => {
         'process.env': {
           PROJECT_ENV: JSON.stringify(process.env.PROJECT_ENV)
         }
+      }),
+      new HtmlWebpackPlugin({
+        template: './public/index-template.html',
+        filename: 'index.html'
       })
     ]
   };
@@ -140,9 +145,11 @@ module.exports = () => {
         manifest: path.join(__dirname, `${DIST_PATH}/vendor-manifest.json`)
       }),
       new MiniCssExtractPlugin({
-        filename: 'css/[name].css'
+        filename: 'css/[name]-[hash:6].css'
       }),
-      new CompressionWebpackPlugin()
+      new CompressionWebpackPlugin({
+        test: /\.(js|css)/,
+      })
     );
   }
 

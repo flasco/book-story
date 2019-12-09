@@ -29,7 +29,7 @@ module.exports = merge.smart(getBaseConfig(), {
   },
   output: {
     path: path.join(__dirname, STATIC_PATH),
-    filename: 'js/bundle.js',
+    filename: 'bundle.js',
     publicPath: 'http://localhost:8207/'
   }
 });

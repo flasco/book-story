@@ -16,7 +16,6 @@ module.exports = merge.smart(getBaseConfig(), {
   plugins: [
     new CleanWebpackPlugin({
       verbose: false,
-      cleanOnceBeforeBuildPatterns: ['css/*.*', 'js/*.*'],
       root: path.resolve(__dirname, DIST_PATH)
     }),
     new CopyWebpackPlugin([
@@ -43,7 +42,7 @@ module.exports = merge.smart(getBaseConfig(), {
   },
   output: {
     path: path.join(__dirname, DIST_PATH),
-    filename: 'js/bundle.js'
+    filename: 'js/bundle-[hash:6].js'
   },
   optimization: {
     minimizer: [new OptimizeCSSAssetsPlugin({}), new TerserPlugin()]
