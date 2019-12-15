@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const { DIST_PATH, DLL_LIST } = require('./base');
 
@@ -19,6 +20,11 @@ module.exports = {
       path: path.join(__dirname, DIST_PATH, '[name]-manifest.json'),
       name: '[name]_library',
       context: __dirname,
+    }),
+    new CleanWebpackPlugin({
+      verbose: false,
+      cleanOnceBeforeBuildPatterns: ['dll/*'],
+      root: path.resolve(__dirname, DIST_PATH)
     }),
     new CompressionWebpackPlugin(),
   ],

@@ -31,5 +31,8 @@
         });
       }
     </script>
+    <% if (!IS_DEV) { %>
+    <script src="<%=VENDOR %>"></script>
+    <% } %>
   </body>
 </html>

@@ -29,6 +29,7 @@ exports.dllComplier = () => {
     webpack(dllConfig, (err, stats) => {
       if (err || stats.hasErrors()) {
         console.error(err);
+        console.error(stats.toString());
         spinnerDll.fail();
         process.exit(1);
       }

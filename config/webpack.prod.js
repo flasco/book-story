@@ -16,15 +16,16 @@ module.exports = merge.smart(getBaseConfig(), {
   plugins: [
     new CleanWebpackPlugin({
       verbose: false,
-      root: path.resolve(__dirname, DIST_PATH)
+      cleanOnceBeforeBuildPatterns: ['**/*', '!**/vendor*', '!**/dll*'],
+      root: path.resolve(__dirname, DIST_PATH),
     }),
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, STATIC_PATH),
         to: path.resolve(__dirname, DIST_PATH),
-        ignore: ['index-template.html']
-      }
-    ])
+        ignore: ['index-template.ejs'],
+      },
+    ]),
   ],
   module: {
     rules: [
@@ -34,17 +35,17 @@ module.exports = merge.smart(getBaseConfig(), {
         use: {
           loader: 'babel-loader',
           options: {
-            cacheDirectory: true
-          }
-        }
+            cacheDirectory: true,
+          },
+        },
       },
-    ]
+    ],
   },
   output: {
     path: path.join(__dirname, DIST_PATH),
-    filename: 'js/bundle-[hash:6].js'
+    filename: 'js/bundle-[hash:6].js',
   },
   optimization: {
-    minimizer: [new OptimizeCSSAssetsPlugin({}), new TerserPlugin()]
-  }
+    minimizer: [new OptimizeCSSAssetsPlugin({}), new TerserPlugin()],
+  },
 });
