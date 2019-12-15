@@ -1,5 +1,12 @@
-# REACT-BOILERPLATE
+# book-story
 
-Create by react 16.8 and webpack 4.
+Create by react 16.12 and webpack 4.x
 
-Waiting for supplement.
+## TODO
+[] 书架
+[] 阅读页
+[] 目录页
+[] 排行页
+[] 详情页
+[] 用户权限
+[] 主题方案
