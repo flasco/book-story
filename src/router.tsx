@@ -23,7 +23,7 @@ const routes = () => (
         <Route
           exact
           path="/"
-          render={() => <span>hello</span>}
+          render={() => <Redirect from="/" to="/shelf" />}
         />
         <Route path="/shelf" exact component={Shelf} />
         <Route path="/read" exact component={Read} />
