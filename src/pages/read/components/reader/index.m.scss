@@ -4,7 +4,7 @@
 // }
 
 .container {
-  padding: 20px;
+  padding: 20px 16px;
   padding-bottom: calc(20px - env(safe-area-inset-bottom));
   position: relative;
 }
@@ -21,15 +21,17 @@
 
 .footer {
   position: absolute;
-  bottom: 16px;
+  bottom: 10px;
   right: 30px;
+  line-height: 16px;
 }
 
 .content {
-  font-size: 23px;
+  font-size: 24px;
   word-wrap: break-word;
+  font-family:  sans-serif;
   word-break: break-all;
-  line-height: 34px;
+  line-height: 38px;
   // text-indent: 2em;
   text-align: justify;
   padding-top: 4px;

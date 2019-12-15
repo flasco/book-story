@@ -1,21 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
 import { Carousel } from 'antd-mobile';
 
-import {
-  screenWidth,
-  LeftBoundary,
-  RightBoundary,
-  screenHeight
-} from '@/constants';
-import { fontSize } from '@/config/read';
+import { LeftBoundary, RightBoundary, screenHeight } from '@/constants';
 
 import styles from './index.m.scss';
+
+const Comp = Carousel as any;
 
 let startPoint: number[] = [];
 let endPoint: number[] = [];
 
-const contentLeft = Math.floor(((screenWidth - 40) % fontSize) / 4);
 const contentHeight = screenHeight - 40;
 
 const PageRender = ({ title, page, total, current }) => {
@@ -24,7 +19,6 @@ const PageRender = ({ title, page, total, current }) => {
       <div className={styles.title}>{title}</div>
       <div
         className={styles.content}
-        style={{ paddingLeft: contentLeft }}
         dangerouslySetInnerHTML={{ __html: page.join('<br />') }}
       />
       <div className={styles.footer}>
@@ -45,6 +39,12 @@ const Reader: React.FC<IReaderProps> = props => {
   const pageSize = pages.length;
 
   const [cur, setCur] = useState(initialPage - 1);
+
+  // 不出意外应该还有问题，到时候再看
+  useEffect(() => {
+    if (pageSize < 1) return;
+    setCur((initialPage > pageSize ? pageSize : initialPage) - 1);
+  }, [pageSize > 0]);
 
   const goNext = () => {
     if (cur < pageSize - 1) setCur(cur + 1);
@@ -82,9 +82,10 @@ const Reader: React.FC<IReaderProps> = props => {
         }
       }}
     >
-      <Carousel
+      <Comp
         className={cx(styles.light)}
         dots={false}
+        speed={100}
         selectedIndex={cur}
         afterChange={to => setCur(to)}
       >
@@ -97,7 +98,7 @@ const Reader: React.FC<IReaderProps> = props => {
             total={pageSize}
           />
         ))}
-      </Carousel>
+      </Comp>
     </div>
   );
 };

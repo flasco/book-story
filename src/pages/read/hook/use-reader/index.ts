@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { openLoading, closeLoading } from '@/utils';
-import getPageArr from '@/utils/text';
+import { newGetPageArr } from '@/utils/text';
 
 import { getChapter } from '@/pages/read/api';
 
@@ -19,14 +19,14 @@ function useReader(params?: ReaderParams) {
     getChapter(initUrl)
       .then(val => {
         setTitle(val.title);
-        setPages(getPageArr(val.content));
+        setPages(newGetPageArr(val.content));
       })
       .finally(() => closeLoading());
   }, []);
 
   return {
     title,
-    pages,
+    pages
   };
 }
 

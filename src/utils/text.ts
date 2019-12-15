@@ -5,14 +5,26 @@ import { screenHeight, screenWidth } from '@/constants';
 const safeTop = safeAreaInsets.top;
 const safeBtm = safeAreaInsets.bottom;
 
-export default function getPageArr(testT: string, params?: any) {
-  const { fontSize = f, lineHeight = l } = params ?? {};
-  // 40 是左右 padding
-  const lineWidth = Math.floor((screenWidth - 40) / fontSize);
-  const line =
-    Math.round((screenHeight - 40 - 24 - safeTop - safeBtm) / lineHeight) - 1; // 31 是行高，24 是标题高度，40 是上下 padding
+const getTextWith = (() => {
+  const sty = `24px sans-serif`;
+  const canvas = document.createElement('canvas');
+  let context: any = canvas.getContext('2d');
+  context.font = sty;
+  return (text: string) => {
+    const dimension = context.measureText(text);
+    return dimension.width;
+  };
+})();
 
-  const lines = parseContent(testT, lineWidth * 2);
+export function newGetPageArr(testT: string, params?: any) {
+  const { lineHeight = l } = params ?? {};
+  // 32 是左右 padding
+  const maxWidth = screenWidth - 32;
+
+  const line = Math.floor(
+    (screenHeight - 40 - 24 - 16 - 8 - safeTop - safeBtm) / lineHeight
+  ); // 24 是标题高度，40 是上下 padding，16是底部页数的行高, 8 是留白
+  const lines = newParse(testT, maxWidth);
   return getPages(lines, line);
 }
 
@@ -35,14 +47,13 @@ function getPages(lines: string[], perPage: number) {
   return pages;
 }
 
-function parseContent(str: string, width: number) {
+function newParse(str: string, width: number) {
   if (typeof str !== 'string' || str.length < 1) {
     return [];
   }
   str = cleanContent(str);
   const lines: any[] = [];
   let currentLine = '';
-  let currentLineWidth = 0;
   for (let i = 0, j = str.length; i < j; i++) {
     const s = getExceptedChar(str.charAt(i));
     const code = s.codePointAt(0) as number;
@@ -52,21 +63,16 @@ function parseContent(str: string, width: number) {
         lines.push(currentLine);
       }
       currentLine = '';
-      currentLineWidth = 0;
       continue;
     }
 
-    const sWidth = getCharLength(s);
-    if (currentLineWidth + sWidth > width) {
-      if (currentLine.length > 0) {
-        lines.push(currentLine);
-      }
+    const sWidth = getTextWith(currentLine + s);
+    if (sWidth > width) {
+      lines.push(currentLine);
       currentLine = '';
-      currentLineWidth = 0;
     }
 
     currentLine += s;
-    currentLineWidth += sWidth;
   }
 
   if (currentLine.length > 0) {
@@ -77,11 +83,7 @@ function parseContent(str: string, width: number) {
 
 function getExceptedChar(char: string) {
   const code = char.codePointAt(0) as number;
-  if (code == 8220 || code == 8221) {
-    return '"';
-  } else if (code == 8216 || code == 8217) {
-    return "'";
-  } else if (
+  if (
     (code >= 48 && code <= 56) ||
     (code >= 65 && code <= 91) ||
     (code >= 97 && code <= 122)
@@ -97,11 +99,4 @@ function cleanContent(str: string) {
     .filter(i => i.trim().length > 0)
     .map(i => '\u3000\u3000' + i.trim())
     .join('\n\n');
-}
-
-function getCharLength(str: string) {
-  if (typeof str !== 'string' || str.length === 0) return 0;
-  const charCode = str.charCodeAt(0);
-  if (charCode >= 0x0000 && charCode <= 0x00ff) return 1;
-  return 2;
 }
