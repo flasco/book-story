@@ -1,8 +1,8 @@
 import { get } from '@/utils/request';
 
-export function getChapter() {
+export function getChapter(url: string) {
   return get('/v2/analysis', {
     action: 2,
-    url: 'http://www.xinxs.la/34_34495/2266828.html',
+    url,
   });
 }

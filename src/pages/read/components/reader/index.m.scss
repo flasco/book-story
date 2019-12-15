@@ -1,8 +1,7 @@
-:global {
-  body {
-    background: #acc7a7;
-  }
-}
+
+// :global(.base-container) {
+//   background: var(--read-container);
+// }
 
 .container {
   padding: 20px;
@@ -10,12 +9,12 @@
 }
 
 .light {
-  background: #acc7a8;
+  background: var(--read-container);
 }
 
 .title {
   font-size: 16px;
-  color: #576457;
+  color: var(--read-title);
   line-height: 24px;
 }
 

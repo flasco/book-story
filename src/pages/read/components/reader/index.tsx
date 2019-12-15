@@ -1,27 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Carousel } from 'antd-mobile';
+import React, { useState } from 'react';
 import cx from 'classnames';
+import { Carousel } from 'antd-mobile';
+
+import {
+  screenWidth,
+  LeftBoundary,
+  RightBoundary,
+  screenHeight,
+} from '@/constants';
+import { fontSize } from '@/config/read';
 
 import styles from './index.m.scss';
-import { getChapter } from './api';
-import getPageArr from '@/utils/text';
-
-import { screenWidth, LeftBoundary, RightBoundary, screenHeight } from '@/constants';
 
 let startPoint: number[] = [];
 let endPoint: number[] = [];
 
-const fontSize = 22;
-const lineHeight = 32;
 const contentLeft = Math.floor(((screenWidth - 40) % fontSize) / 4);
 const contentHeight = screenHeight - 40;
 
 const PageRender = ({ title, page, total, current }) => {
   return (
-    <div
-      className={styles.container}
-      style={{ height: contentHeight }}
-    >
+    <div className={styles.container} style={{ height: contentHeight }}>
       <div className={styles.title}>{title}</div>
       <div
         className={styles.content}
@@ -35,21 +34,17 @@ const PageRender = ({ title, page, total, current }) => {
   );
 };
 
-const Home = () => {
-  const [pages, setPages] = useState<string[][]>([[]]);
-  const [title, setTitle] = useState<string>('');
-  const [cur, setCur] = useState(0);
+interface IReaderProps {
+  pages: string[][];
+  title?: string;
+  initialPage?: number;
+}
 
+const Reader: React.FC<IReaderProps> = props => {
+  const { pages = [], title = '', initialPage = 1 } = props;
   const pageSize = pages.length;
 
-  useEffect(() => {
-    getChapter().then(val => {
-      setTitle(val.title);
-      const pageArr = getPageArr(val.content, { fontSize, lineHeight });
-      console.log(pageArr);
-      setPages(pageArr);
-    });
-  }, []);
+  const [cur, setCur] = useState(initialPage - 1);
 
   const goNext = () => {
     if (cur < pageSize - 1) setCur(cur + 1);
@@ -59,7 +54,8 @@ const Home = () => {
     if (cur > 0) setCur(cur - 1);
   };
 
-  // if (pages[0].length < 1) return null;
+  if (pageSize === 0) return null;
+
   return (
     <div
       className={cx(styles.light)}
@@ -92,7 +88,7 @@ const Home = () => {
         selectedIndex={cur}
         afterChange={to => setCur(to)}
       >
-        {pages.map((page, ind) => (
+        {pages.map((page: any, ind: number) => (
           <PageRender
             key={`pages-${ind}`}
             title={title}
@@ -106,4 +102,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Reader;

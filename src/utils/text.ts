@@ -1,17 +1,17 @@
 import safeAreaInsets from 'safe-area-insets';
+import { fontSize as f, lineHeight as l } from '@/config/read';
 
 const screenWidth = window.screen.availWidth;
 const screenHeight = window.screen.availHeight;
 const safeTop = safeAreaInsets.top;
 const safeBtm = safeAreaInsets.bottom;
 
-export default function getPageArr(testT: string, {
-  fontSize = 20,
-  lineHeight = 32
-}) {
+export default function getPageArr(testT: string, params?: any) {
+  const { fontSize = f, lineHeight = l } = params ?? {};
   // 40 是左右 padding
   const lineWidth = Math.floor((screenWidth - 40) / fontSize);
-  const line = Math.round((screenHeight - 40 - 24 - safeTop - safeBtm) / lineHeight) - 1; // 31 是行高，24 是标题高度，40 是上下 padding
+  const line =
+    Math.round((screenHeight - 40 - 24 - safeTop - safeBtm) / lineHeight) - 1; // 31 是行高，24 是标题高度，40 是上下 padding
 
   const lines = parseContent(testT, lineWidth * 2);
   return getPages(lines, line);
