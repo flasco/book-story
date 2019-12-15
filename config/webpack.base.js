@@ -135,7 +135,7 @@ module.exports = () => {
         template: './public/index-template.ejs',
         templateParameters: {
           IS_DEV: isDev,
-          VENDOR: '/dll/vendor.dll.js', //manifest就是dll生成的json
+          VENDOR: './dll/vendor.dll.js', //manifest就是dll生成的json
         },
         filename: 'index.html',
       }),
