@@ -1,8 +1,7 @@
 import safeAreaInsets from 'safe-area-insets';
 import { fontSize as f, lineHeight as l } from '@/config/read';
+import { screenHeight, screenWidth } from '@/constants';
 
-const screenWidth = window.screen.availWidth;
-const screenHeight = window.screen.availHeight;
 const safeTop = safeAreaInsets.top;
 const safeBtm = safeAreaInsets.bottom;
 

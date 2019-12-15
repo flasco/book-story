@@ -6,7 +6,7 @@ import {
   screenWidth,
   LeftBoundary,
   RightBoundary,
-  screenHeight,
+  screenHeight
 } from '@/constants';
 import { fontSize } from '@/config/read';
 
