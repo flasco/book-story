@@ -20,7 +20,7 @@ const routes = () => (
   <HashRouter>
     <Switch>
       <ThemeWrapper>
-        <Redirect from="/" exact to="/shelf" />
+        <Route path="/" exact render={() => <Redirect from="/" exact to="/shelf" />} />
         <Route path="/shelf" exact component={Shelf} />
         <Route path="/read" exact component={Read} />
       </ThemeWrapper>

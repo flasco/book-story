@@ -1,2 +1,2 @@
 export const fontSize = 24;
-export const lineHeight = 32;
+export const lineHeight = 36;
