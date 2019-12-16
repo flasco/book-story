@@ -40,6 +40,8 @@ module.exports = {
         '@typescript-eslint/explicit-function-return-type': 0,
         '@typescript-eslint/no-unused-vars': 2,
         '@typescript-eslint/no-explicit-any': 0,
+        '@typescript-eslint/interface-name-prefix': 0,
+        'react/prop-types': 0,
       },
     },
   ],

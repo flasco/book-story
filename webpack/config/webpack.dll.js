@@ -24,7 +24,7 @@ module.exports = {
     new CleanWebpackPlugin({
       verbose: false,
       cleanOnceBeforeBuildPatterns: ['dll/*'],
-      root: path.resolve(__dirname, DIST_PATH)
+      root: path.resolve(__dirname, DIST_PATH),
     }),
     new CompressionWebpackPlugin(),
   ],

@@ -18,14 +18,15 @@ self.addEventListener('install', e => {
 });
 self.addEventListener('activate', e => {
   caches.keys().then(keys => {
-    return Promise.all(keys.map(key => {
-      if (key !== STATIC_CACHE_NAME && key !== DATA_CACHE_NAME) {
-        return caches.delete(key);
-      }
-    }))
+    return Promise.all(
+      keys.map(key => {
+        if (key !== STATIC_CACHE_NAME && key !== DATA_CACHE_NAME) {
+          return caches.delete(key);
+        }
+      })
+    );
   });
 });
-
 
 self.addEventListener('fetch', e => {
   // console.log('fetch:', e.request.url);
