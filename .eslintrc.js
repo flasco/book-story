@@ -1,36 +1,46 @@
 module.exports = {
-  root: true,
-  parser: 'babel-eslint',
-  parserOptions: {
-    ecmaVersion: 2017,
-    sourceType: 'module'
+  rules: {
+    quotes: ['error', 'single'],
+    eqeqeq: [
+      'error',
+      'always',
+      {
+        null: 'ignore',
+      },
+    ],
   },
-  env: {
-    es6: true,
-    browser: true,
-    commonjs: true
-  },
-  globals: {
-    _global: false,
-    __DEBUG__: false
-  },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'google'],
-  plugins: ['lean-imports', 'react-hooks'],
   settings: {
     react: {
-      version: '16.8.3' // React version, default to the latest React stable release
-    }
+      version: '16.8.0', // React version, default to the latest React stable release
+    },
   },
-  rules: {
-    'react-hooks/rules-of-hooks': 'error',
-    'require-jsdoc': 0,
-    'object-curly-spacing': [2, 'always'],
-    'valid-jsdoc': 0,
-    'no-invalid-this': 0,
-    'lean-imports/import': [2, ['lodash', 'zan-utils', 'date-fns']],
-    'react/no-deprecated': 0,
-    'react/prop-types': [2, { skipUndeclared: true }],
-    'react/display-name': 0,
-    'react/display-name': 0
-  }
+  overrides: [
+    {
+      files: ['*.js', '*.jsx'],
+      parser: 'babel-eslint',
+      extends: ['plugin:prettier/recommended', 'plugin:react/recommended'],
+      plugins: ['react'],
+    },
+    {
+      files: ['*.ts', '*.tsx'],
+      extends: [
+        'plugin:prettier/recommended',
+        'prettier/react',
+        'prettier/@typescript-eslint',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:react/recommended',
+      ],
+      parser: '@typescript-eslint/parser',
+      plugins: ['react', '@typescript-eslint'],
+
+      rules: {
+        // @fixable 必须使用 === 或 !==，禁止使用 == 或 !=，与 null 比较时除外
+        '@typescript-eslint/indent': ['error', 2],
+        // 类和接口的命名必须遵守帕斯卡命名法，比如 PersianCat
+        '@typescript-eslint/explicit-function-return-type': 0,
+        '@typescript-eslint/no-unused-vars': 2,
+        '@typescript-eslint/no-explicit-any': 0,
+      },
+    },
+  ],
 };
