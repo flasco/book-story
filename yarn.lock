@@ -3880,18 +3880,6 @@ strip-json-comments@~1.0.1:
   resolved "https://registry.npm.taobao.org/strip-json-comments/download/strip-json-comments-1.0.4.tgz#1e15fbcac97d3ee99bf2d73b4c656b082bbafb91"
   integrity sha1-HhX7ysl9Pumb8tc7TGVrCCu6+5E=
 
-stylelint-config-recommended@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npm.taobao.org/stylelint-config-recommended/download/stylelint-config-recommended-3.0.0.tgz#e0e547434016c5539fe2650afd58049a2fd1d657"
-  integrity sha1-4OVHQ0AWxVOf4mUK/VgEmi/R1lc=
-
-stylelint-config-standard@^19.0.0:
-  version "19.0.0"
-  resolved "https://registry.npm.taobao.org/stylelint-config-standard/download/stylelint-config-standard-19.0.0.tgz#66f0cf13f33b8a9e34965881493b38fc1313693a"
-  integrity sha1-ZvDPE/M7ip40lliBSTs4/BMTaTo=
-  dependencies:
-    stylelint-config-recommended "^3.0.0"
-
 supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/supports-color/download/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"

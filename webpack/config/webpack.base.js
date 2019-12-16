@@ -1,10 +1,11 @@
-const webpack = require('webpack');
 const path = require('path');
-const { DIST_PATH } = require('./base');
-const resolve = require('path').resolve;
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const { DIST_PATH } = require('./base');
+const alias = require('./alias');
 
 // 为了能取到不同配置里设置的环境变量，改成 function
 module.exports = () => {
@@ -132,10 +133,8 @@ module.exports = () => {
       __filename: false,
     },
     resolve: {
+      alias,
       extensions: ['.ts', '.js', '.tsx'],
-      alias: {
-        '@': resolve(__dirname, '../../src'),
-      },
       mainFields: ['module', 'main'],
       modules: [path.resolve(__dirname, '../node_modules'), 'node_modules'],
     },

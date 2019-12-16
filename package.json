@@ -30,7 +30,6 @@
     "prettier": "^1.18.2",
     "react-hot-loader": "^4.12.18",
     "sass-lint": "^1.13.1",
-    "stylelint-config-standard": "^19.0.0",
     "typescript": "^3.7.3"
   },
   "dependencies": {
