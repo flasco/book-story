@@ -124,6 +124,7 @@ module.exports = () => {
       alias: {
         '@': resolve(__dirname, '../src'),
       },
+      mainFields: ['module', 'main'],
     },
     plugins: [
       new webpack.DefinePlugin({
