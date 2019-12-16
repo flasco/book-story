@@ -12,13 +12,31 @@ module.exports = () => {
 
   const styleLoader = isDev ? 'style-loader' : MiniCssExtractPlugin.loader;
 
+  const babelOpts = {
+    cacheDirectory: true,
+    babelrc: false,
+    plugins: [
+      [require.resolve('babel-plugin-import'), { libraryName: 'antd-mobile', style: 'css' }], // `style: true` 会加载 less 文件
+      require.resolve('@babel/plugin-proposal-class-properties'),
+      require.resolve('@babel/plugin-transform-runtime'),
+      require.resolve('@babel/plugin-syntax-dynamic-import')
+    ],
+    presets: [
+      require.resolve('@babel/preset-env'),
+      require.resolve('@babel/preset-react')
+    ]
+  };
+
+  if (isDev) babelOpts.plugins.unshift('react-hot-loader/babel');
+
   const config = {
+    context: path.resolve(__dirname, '../../'),
     module: {
       rules: [
         // 原生node
         {
           test: /\.node$/,
-          use: 'node-loader',
+          use: 'node-loader'
         },
         // WOFF Font
         {
@@ -27,9 +45,9 @@ module.exports = () => {
             loader: 'url-loader',
             options: {
               limit: 10000,
-              mimetype: 'application/font-woff',
-            },
-          },
+              mimetype: 'application/font-woff'
+            }
+          }
         },
         // WOFF2 Font
         {
@@ -38,9 +56,9 @@ module.exports = () => {
             loader: 'url-loader',
             options: {
               limit: 10000,
-              mimetype: 'application/font-woff',
-            },
-          },
+              mimetype: 'application/font-woff'
+            }
+          }
         },
         // TTF Font
         {
@@ -49,14 +67,14 @@ module.exports = () => {
             loader: 'url-loader',
             options: {
               limit: 10000,
-              mimetype: 'application/octet-stream',
-            },
-          },
+              mimetype: 'application/octet-stream'
+            }
+          }
         },
         // EOT Font
         {
           test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-          use: 'file-loader',
+          use: 'file-loader'
         },
         // SVG Font
         {
@@ -65,14 +83,14 @@ module.exports = () => {
             loader: 'url-loader',
             options: {
               limit: 10000,
-              mimetype: 'image/svg+xml',
-            },
-          },
+              mimetype: 'image/svg+xml'
+            }
+          }
         },
         // Common Image Formats
         {
           test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-          use: 'url-loader',
+          use: 'url-loader'
         },
         {
           test: /\.tsx?$/,
@@ -80,19 +98,16 @@ module.exports = () => {
           use: [
             {
               loader: 'babel-loader',
-              options: {
-                cacheDirectory: true,
-                plugins: ['react-hot-loader/babel'],
-              },
+              options: babelOpts
             },
             {
-              loader: 'ts-loader',
-            },
-          ],
+              loader: 'ts-loader'
+            }
+          ]
         },
         {
           test: /\.css$/,
-          use: [styleLoader, 'css-loader'],
+          use: [styleLoader, 'css-loader']
         },
         {
           test: /\.m\.scss$/,
@@ -101,59 +116,63 @@ module.exports = () => {
             {
               loader: 'css-loader',
               options: {
-                modules: true,
-              },
+                modules: true
+              }
             },
-            'sass-loader',
-          ],
+            'sass-loader'
+          ]
         },
         {
           test: /\.scss$/,
           exclude: /\.m\.scss$/,
-          use: [styleLoader, 'css-loader', 'sass-loader'],
-        },
-      ],
+          use: [styleLoader, 'css-loader', 'sass-loader']
+        }
+      ]
     },
     target: 'web',
     node: {
       __dirname: false,
-      __filename: false,
+      __filename: false
     },
     resolve: {
       extensions: ['.ts', '.js', '.tsx'],
       alias: {
-        '@': resolve(__dirname, '../src'),
+        '@': resolve(__dirname, '../../src')
       },
       mainFields: ['module', 'main'],
+      modules: [path.resolve(__dirname, '../node_modules'), 'node_modules']
+    },
+    resolveLoader: {
+      modules: [path.resolve(__dirname, '../node_modules'), 'node_modules']
     },
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
-          PROJECT_ENV: JSON.stringify(process.env.PROJECT_ENV),
-        },
+          PROJECT_ENV: JSON.stringify(process.env.PROJECT_ENV)
+        }
       }),
       new HtmlWebpackPlugin({
         template: './public/index-template.ejs',
         templateParameters: {
           IS_DEV: isDev,
-          VENDOR: './dll/vendor.dll.js', //manifest就是dll生成的json
+          VENDOR: './dll/vendor.dll.js' //manifest就是dll生成的json
         },
-        filename: 'index.html',
-      }),
-    ],
+        filename: 'index.html'
+      })
+    ]
   };
 
   if (!isDev) {
     config.plugins.push(
       new webpack.DllReferencePlugin({
         context: __dirname,
-        manifest: path.join(__dirname, `${DIST_PATH}/vendor-manifest.json`),
+        manifest: path.join(__dirname, `${DIST_PATH}/vendor-manifest.json`)
       }),
       new MiniCssExtractPlugin({
-        filename: 'css/[name]-[hash:6].css',
+        filename: 'css/[name]-[hash:6].css'
       }),
       new CompressionWebpackPlugin({
-        test: /\.(js|css)/,
+        test: /\.(js|css)/
       })
     );
   }

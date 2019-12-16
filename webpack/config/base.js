@@ -1,8 +1,8 @@
-exports.STATIC_PATH = '../public';
+exports.STATIC_PATH = '../../public';
 
-exports.DIST_PATH = '../dist';
+exports.DIST_PATH = '../../dist';
 
-exports.MAIN_JS = '../src/main.tsx';
+exports.MAIN_JS = '../../src/main.tsx';
 
 exports.DLL_LIST = [
   'react',

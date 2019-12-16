@@ -3,10 +3,12 @@ const path = require('path');
 const cors = require('koa2-cors');
 const static = require('koa-static');
 
+const { DIST_PATH } = require('../config/base');
+
 async function start() {
   const app = new Koa();
 
-  const root = path.resolve(__dirname, '../dist');
+  const root = path.resolve(__dirname, DIST_PATH);
 
   app.use(
     static(root, {
