@@ -1,21 +1,17 @@
 import React from 'react';
 
+import Content from './content';
+import Title from './title';
+import Footer from './footer';
+
 import styles from './index.m.scss';
 
 const NewReader = ({ pages }) => {
   return (
     <div className={styles.container}>
-      <div>123</div>
-      <div className={styles.box2}>
-        <div className={styles.box}>
-          <div className={styles.main}>
-            {pages.map((i, ind) => (
-              <p key={'' + ind}>{i}</p>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div>123354</div>
+      <Title name={'第一章：诡异的世界'} />
+      <Content pages={pages} />
+      <Footer page={1} total={20} />
     </div>
   );
 };

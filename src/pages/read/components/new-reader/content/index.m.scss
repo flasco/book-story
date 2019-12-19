@@ -1,0 +1,30 @@
+.main {
+  column-gap: 16px;
+  columns: calc(100vw - 32px);
+  column-count: 1;
+  height: 100%;
+  transition: transform 100ms ease 0s;
+
+  font-size: 24px;
+  word-wrap: break-word;
+  font-family: sans-serif;
+  line-height: 1.8;
+
+  p {
+    margin: 0;
+    word-break: break-all;
+    text-indent: 2em;
+  }
+}
+
+.wrapper {
+  position: absolute;
+  text-align: justify;
+  bottom: 2rem;
+  top: 2rem;
+}
+
+.inner {
+  margin: 0 16px;
+  height: 100%;
+}
