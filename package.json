@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "node webpack/scripts/dev-koa.js",
     "build": "node webpack/scripts/build-render.js --re-dll",
-    "build:doc": "node webpack/scripts/build-render.js  --re-dll && node scripts/gh-pages.js",
+    "build:doc": "node webpack/scripts/build-render.js  --re-dll && node webpack/scripts/gh-pages.js",
     "upgrade-dep": "yarn upgrade-interactive",
     "upgrade-latest-dep": "yarn upgrade-dep --latest",
     "serve": "node webpack/scripts/serve.js"

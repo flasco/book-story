@@ -1,6 +1,6 @@
 .footer {
   position: absolute;
-  bottom: 0;
+  bottom: env(safe-area-inset-bottom);
   right: 16px;
   line-height: 1.5rem;
 }

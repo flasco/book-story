@@ -20,7 +20,7 @@
 .wrapper {
   position: absolute;
   text-align: justify;
-  bottom: 1.5rem;
+  bottom: calc(1.5rem + env(safe-area-inset-bottom));
   top: 2rem;
 }
 
