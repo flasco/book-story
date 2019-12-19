@@ -25,6 +25,14 @@ module.exports = () => {
     presets: [require.resolve('@babel/preset-env'), require.resolve('@babel/preset-react')],
   };
 
+  const postCssLoader = {
+    loader: 'postcss-loader',
+    options: {
+      ident: 'postcss',
+      plugins: () => [require('postcss-preset-env')()],
+    },
+  };
+
   if (isDev) babelOpts.plugins.unshift('react-hot-loader/babel');
 
   const config = {
@@ -105,7 +113,7 @@ module.exports = () => {
         },
         {
           test: /\.css$/,
-          use: [styleLoader, 'css-loader'],
+          use: [styleLoader, 'css-loader', postCssLoader],
         },
         {
           test: /\.m\.scss$/,
@@ -119,13 +127,14 @@ module.exports = () => {
                 },
               },
             },
+            postCssLoader,
             'sass-loader',
           ],
         },
         {
           test: /\.scss$/,
           exclude: /\.m\.scss$/,
-          use: [styleLoader, 'css-loader', 'sass-loader'],
+          use: [styleLoader, 'css-loader', postCssLoader, 'sass-loader'],
         },
       ],
     },

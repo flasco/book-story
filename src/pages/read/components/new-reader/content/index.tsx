@@ -52,14 +52,8 @@ const Content: React.FC<{ pages: string[] }> = ({ pages }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.inner}>
-        <div
-          className={styles.main}
-          ref={ref}
-          onTouchStart={onDown}
-          onTouchMove={onMove}
-          onTouchEnd={onEnd}
-        >
+      <div className={styles.inner} onTouchStart={onDown} onTouchMove={onMove} onTouchEnd={onEnd}>
+        <div className={styles.main} ref={ref}>
           {pages.map((i: string, ind: number) => (
             <p key={'' + ind}>{i}</p>
           ))}
