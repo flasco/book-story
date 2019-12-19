@@ -42,6 +42,7 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 0,
         '@typescript-eslint/interface-name-prefix': 0,
         '@typescript-eslint/no-use-before-define': 0,
+        'react/no-children-prop': 0,
         'react/prop-types': 0,
       },
     },

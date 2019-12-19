@@ -114,7 +114,9 @@ module.exports = () => {
             {
               loader: 'css-loader',
               options: {
-                modules: true,
+                modules: {
+                  localIdentName: isDev ? '[local]--[hash:base64:4]' : '[hash:base64:4]',
+                },
               },
             },
             'sass-loader',

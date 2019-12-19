@@ -1,14 +1,14 @@
 .main {
   column-gap: 16px;
-  columns: calc(100vw - 32px);
+  column-width: calc(100vw - 32px);
   column-count: 1;
+  column-fill: auto;
   height: 100%;
-  transition: transform 100ms ease 0s;
 
   font-size: 24px;
   word-wrap: break-word;
   font-family: sans-serif;
-  line-height: 1.8;
+  line-height: 1.6;
 
   p {
     margin: 0;
