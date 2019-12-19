@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { openLoading, closeLoading } from '@/utils';
-import { newGetPageArr } from '@/utils/text';
+import { newGetP } from '@/utils/text';
 
 import { getChapter } from '@/pages/read/api';
 
@@ -9,8 +9,7 @@ interface ReaderParams {
 }
 
 function useReader(params?: ReaderParams) {
-  const { initUrl = 'http://www.xinxs.la/34_34495/2266828.html' } =
-    params ?? {};
+  const { initUrl = 'http://www.xinxs.la/34_34495/2266828.html' } = params ?? {};
   const [pages, setPages] = useState<any>([]);
   const [title, setTitle] = useState('');
 
@@ -19,14 +18,14 @@ function useReader(params?: ReaderParams) {
     getChapter(initUrl)
       .then(val => {
         setTitle(val.title);
-        setPages(newGetPageArr(val.content));
+        setPages(newGetP(val.content));
       })
       .finally(() => closeLoading());
   }, []);
 
   return {
     title,
-    pages
+    pages,
   };
 }
 

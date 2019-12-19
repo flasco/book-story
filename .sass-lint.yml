@@ -42,5 +42,6 @@ rules:
   no-warn: 2
   property-units: 0
   indentation: 2
+  property-sort-order: 0
 
   final-newline: 2
