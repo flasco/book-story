@@ -1,15 +1,20 @@
 import React from 'react';
 
-import Content from './content';
+import Content, { IContentProps } from './content';
 import Title from './title';
 
 import styles from './index.m.scss';
 
-const NewReader = ({ pages }) => {
+interface INewReaderProps extends IContentProps {
+  title?: string;
+}
+
+const NewReader: React.FC<INewReaderProps> = props => {
+  const { pages, title = '', initPage } = props;
   return (
     <div className={styles.container}>
-      <Title name={'第一章：诡异的世界'} />
-      <Content pages={pages} />
+      <Title name={title} />
+      <Content pages={pages} initPage={initPage} />
     </div>
   );
 };

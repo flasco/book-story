@@ -28,3 +28,10 @@
   margin: 0 16px;
   height: 100%;
 }
+
+.footer {
+  position: absolute;
+  bottom: env(safe-area-inset-bottom);
+  right: 16px;
+  line-height: 1.5rem;
+}

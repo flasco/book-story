@@ -2,23 +2,20 @@ import React, { useState, useEffect } from 'react';
 
 import { screenWidth } from '@/constants';
 
-import Footer from '../footer';
+import useDrag from './hooks/use-drag';
 
 import styles from './index.m.scss';
 
-let startX = 0;
-
 const pageWidth = screenWidth - 16;
 
-interface IContentProps {
+export interface IContentProps {
   initPage?: number;
   pages: string[];
 }
 
 const Content: React.FC<IContentProps> = ({ pages, initPage = 4 }) => {
-  const ref = React.createRef<HTMLDivElement>();
-  const [page, setPage] = useState(initPage - 1);
   const [total, setTotal] = useState(0);
+  const { ref, page, touchEvent } = useDrag({ initPage: initPage - 1, total });
 
   useEffect(() => {
     if (pages.length > 0) {
@@ -28,47 +25,13 @@ const Content: React.FC<IContentProps> = ({ pages, initPage = 4 }) => {
     }
   }, [pages]);
 
-  const onDown = e => {
-    startX = e.touches[0].clientX;
-    const current = ref.current as HTMLDivElement;
-
-    requestAnimationFrame(() => {
-      current.style.transition = 'transform 50ms ease 0s';
-    });
-  };
-
-  const onMove = e => {
-    const prevX = e.touches?.[0].clientX - startX;
-    const current = ref.current as HTMLDivElement;
-
-    requestAnimationFrame(() => {
-      current.style.transform = `translateX(-${page * pageWidth - prevX}px)`;
-    });
-  };
-
-  const onEnd = e => {
-    const endX = e.changedTouches[0].clientX;
-    const diff = endX - startX;
-    const current = ref.current as HTMLDivElement;
-
-    let currentPage = page;
-    if (Math.abs(diff) > 20) {
-      currentPage = diff < 0 ? page + 1 : page - 1;
-      setPage(currentPage);
-    }
-    requestAnimationFrame(() => {
-      current.style.transition = 'transform 150ms ease 0s';
-      current.style.transform = `translateX(-${currentPage * pageWidth}px)`;
-    });
-  };
-
   return (
     <>
       <div className={styles.wrapper}>
-        <div className={styles.inner} onTouchStart={onDown} onTouchMove={onMove} onTouchEnd={onEnd}>
+        <div className={styles.inner} {...touchEvent}>
           <div
-            className={styles.main}
             ref={ref}
+            className={styles.main}
             style={{ transform: `translateX(-${page * pageWidth}px)` }}
           >
             {pages.map((i: string, ind: number) => (
@@ -77,7 +40,9 @@ const Content: React.FC<IContentProps> = ({ pages, initPage = 4 }) => {
           </div>
         </div>
       </div>
-      <Footer page={page + 1} total={total} />
+      <div className={styles.footer}>
+        {page + 1}/{total}
+      </div>
     </>
   );
 };
