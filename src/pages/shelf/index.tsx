@@ -10,7 +10,7 @@ import styles from './index.m.scss';
 
 const Shelf = () => {
   return (
-    <Container className={styles.container} title={appName}>
+    <Container className={styles.container} title={appName} showBar>
       <Link to={'/read'}>测试</Link>
     </Container>
   );

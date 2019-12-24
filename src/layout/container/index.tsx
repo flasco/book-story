@@ -9,6 +9,7 @@ import { NavBar, Icon } from 'antd-mobile';
 interface INavBarProps {
   title?: string;
   back?: boolean;
+  showBar?: boolean;
 }
 interface IContainerProps extends INavBarProps {
   className?: string;
@@ -17,7 +18,7 @@ interface IContainerProps extends INavBarProps {
 const LeftIcon = <Icon type="left" />;
 
 const Container: React.FC<IContainerProps> = props => {
-  const { children = null, className, title = '标题', back = false } = props;
+  const { children = null, className, title = '标题', back = false, showBar = false } = props;
   const history = useHistory();
 
   const params = useMemo(() => {
@@ -32,7 +33,7 @@ const Container: React.FC<IContainerProps> = props => {
 
   return (
     <div className={cx(styles.box, className)}>
-      <NavBar {...params}>{title}</NavBar>
+      {showBar && <NavBar {...params}>{title}</NavBar>}
       {children}
     </div>
   );
