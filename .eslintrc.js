@@ -44,6 +44,7 @@ module.exports = {
         '@typescript-eslint/no-use-before-define': 0,
         'react/no-children-prop': 0,
         'react/prop-types': 0,
+        '@typescript-eslint/indent': 0,
       },
     },
   ],
