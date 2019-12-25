@@ -1,4 +1,6 @@
 declare module '*.m.scss' {
-  const content: any;
+  const content: {
+    [key: string]: string;
+  };
   export default content;
 }

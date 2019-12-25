@@ -1,31 +1,27 @@
 import React from 'react';
 import { Route, Switch, HashRouter, Redirect } from 'react-router-dom';
 
-import ThemeWrapper from './layout/theme-wrapper';
+import ThemeWrapper, { ContextWrapper } from './layout/theme-wrapper';
 
 import Read from './pages/read';
 import Shelf from './pages/shelf';
 
-// const Home = suspenseContainer(lazy(() => import('./pages/home')));
-
-// function suspenseContainer(Component) {
-//   return (props) => (
-//     <Suspense fallback={<div>Loading...</div>}>
-//       <Component {...props} />
-//     </Suspense>
-//   );
-// }
+const Wrapper: React.FC = ({ children }) => (
+  <ContextWrapper>
+    <ThemeWrapper>{children}</ThemeWrapper>
+  </ContextWrapper>
+);
 
 const routes = () => (
-  <HashRouter>
-    <Switch>
-      <ThemeWrapper>
+  <Wrapper>
+    <HashRouter>
+      <Switch>
         <Route path="/" exact render={() => <Redirect from="/" exact to="/shelf" />} />
         <Route path="/shelf" exact component={Shelf} />
         <Route path="/read" exact component={Read} />
-      </ThemeWrapper>
-    </Switch>
-  </HashRouter>
+      </Switch>
+    </HashRouter>
+  </Wrapper>
 );
 
 export default routes;
