@@ -7,3 +7,7 @@ export function openLoading(text?: string) {
 export function closeLoading() {
   Toast.hide();
 }
+
+export function spliceLine(str: string, count: number) {
+  return str.length > count ? str.substr(0, count) + '...' : str;
+}

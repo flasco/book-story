@@ -1,24 +1,15 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo } from 'react';
 
-import Container from '@/layout/container';
 import { appName } from '@/constants';
+import Container from '@/layout/container';
+import useDrawer from '@/hooks/use-sider';
+
+import Drawer from './components/drawer';
+import BookList from './components/book-list';
 
 import styles from './index.m.scss';
 // import { useBook } from '@/hooks/use-book';
-import { Drawer, Icon } from 'antd-mobile';
-
-const SiderBar = () => {
-  return <div className={styles.sider}>123</div>;
-};
-
-const useDrawer = () => {
-  const [open, setOpen] = useState(false);
-
-  const changeOpen = useCallback(() => {
-    setOpen(!open);
-  }, [open]);
-  return [open, changeOpen] as [boolean, () => void];
-};
+import { Icon } from 'antd-mobile';
 
 const RightIcon = ({ onClick }) => (
   <div onClick={onClick}>
@@ -30,25 +21,12 @@ const RightIcon = ({ onClick }) => (
 const Shelf = () => {
   // const { flattens, api, books } = useBook();
   const [open, changeOpen] = useDrawer();
-
-  const siderBar = useMemo(SiderBar, []);
+  const right = useMemo(() => <RightIcon onClick={changeOpen} />, [changeOpen]);
 
   return (
-    <Container
-      className={styles.container}
-      title={appName}
-      showBar
-      topRight={<RightIcon onClick={changeOpen} />}
-    >
-      <Drawer
-        className={styles.box}
-        sidebar={siderBar}
-        position="right"
-        open={open}
-        contentStyle={{ height: '100%' }}
-        onOpenChange={changeOpen}
-      >
-        hello
+    <Container showBar title={appName} className={styles.container} topRight={right}>
+      <Drawer open={open} changeOpen={changeOpen}>
+        <BookList />
       </Drawer>
     </Container>
   );

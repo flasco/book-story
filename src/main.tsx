@@ -15,4 +15,8 @@ document.body.addEventListener(
   { passive: false }
 ); //passive 参数不能省略，用来兼容ios和android
 
+document.body.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+});
+
 render(<App />, document.getElementById('root'));
