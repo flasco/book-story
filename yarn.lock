@@ -2736,6 +2736,11 @@ onetime@^5.1.0:
   dependencies:
     mimic-fn "^2.1.0"
 
+onfire.js@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/onfire.js/download/onfire.js-2.0.0.tgz#d77126bf99f859ac1770f363896b6d1819de4afd"
+  integrity sha1-13Emv5n4WawXcPNjiWttGBneSv0=
+
 opencollective-postinstall@^2.0.2:
   version "2.0.2"
   resolved "https://registry.npm.taobao.org/opencollective-postinstall/download/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
