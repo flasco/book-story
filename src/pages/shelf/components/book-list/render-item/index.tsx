@@ -1,5 +1,6 @@
 import React from 'react';
 import TouchableHighlight from '@/components/touchable';
+import ImageShow from '@/components/image-show';
 
 import { IBook } from '@/defination';
 import { spliceLine } from '@/utils';
@@ -18,7 +19,7 @@ const getSubTitle = item => {
 const Item = ({ item }) => {
   return (
     <TouchableHighlight className={styles.item}>
-      <img src={item.img} className={styles.img} />
+      <ImageShow src={item.img} className={styles.img} />
       <div className={styles.info}>
         <div className={styles.first}>
           <div className={styles.title}>{item.bookName}</div>
