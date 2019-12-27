@@ -13,23 +13,27 @@ interface INavBarProps {
 }
 interface IContainerProps extends INavBarProps {
   className?: string;
+  topRight?: any;
 }
 
 const LeftIcon = <Icon type="left" />;
 
 const Container: React.FC<IContainerProps> = props => {
-  const { children = null, className, title = '标题', back = false, showBar = false } = props;
+  const { children = null, className } = props;
+  const { title = '标题', back = false, showBar = false, topRight = null } = props;
   const history = useHistory();
 
+  /** params 不应该动态改变 */
   const params = useMemo(() => {
-    const payload = back
-      ? {
-          icon: LeftIcon,
-          onLeftClick: () => history.goBack(),
-        }
-      : {};
+    const payload: any = {
+      rightContent: topRight,
+    };
+    if (back) {
+      payload.icon = LeftIcon;
+      payload.onLeftClick = () => history.goBack();
+    }
     return payload;
-  }, [back]);
+  }, [topRight]);
 
   return (
     <div className={cx(styles.box, className)}>
