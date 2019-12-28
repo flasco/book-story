@@ -44,7 +44,7 @@ const Content: React.FC<IContentProps> = ({ pages, initPage = 1 }) => {
             style={{ transform: `translateX(-${page * pageWidth}px)` }}
           >
             {pages.map((i: string, ind: number) => (
-              <p key={'' + ind}>{i}</p>
+              <p key={'asd_x' + ind}>{i}</p>
             ))}
           </div>
         </div>
