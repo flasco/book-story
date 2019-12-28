@@ -34,6 +34,7 @@ function useDrag({ initPage, total, baseClass }: IUseDragParams) {
     [ref]
   );
 
+  /** 垃圾throttle，别用，用了就掉帧 */
   const onTouchMove = useCallback(
     (e: any) => {
       e.preventDefault();
