@@ -23,7 +23,8 @@ function useDrag({ initPage, total }: IUseDragParams) {
 
       const current = ref.current as HTMLDivElement;
       requestAnimationFrame(() => {
-        current.style.transition = 'transform 30ms ease 0s';
+        // 跟随手指移动的样式
+        current.style.transition = 'transform 50ms ease 0s';
       });
     },
     [ref, inAnimate]
