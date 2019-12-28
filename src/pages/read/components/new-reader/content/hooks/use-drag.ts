@@ -1,24 +1,36 @@
 import { createRef, useState, useCallback } from 'react';
-import cx from 'classnames';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
 
-import styles from './index.m.scss';
-
 let startX = 0;
+let inAnimate = false;
 
 const pageWidth = screenWidth - 16;
-let inAnimate = false;
 
 interface IUseDragParams {
   initPage: number;
   total: number;
-  baseClass: string;
 }
 
-function useDrag({ initPage, total, baseClass }: IUseDragParams) {
+function useDrag({ initPage, total }: IUseDragParams) {
   const ref = createRef<HTMLDivElement>();
   const [page, setPage] = useState(initPage - 1);
+
+  /** cur 从1开始 */
+  const goTo = useCallback(
+    (cur: number, needAnimate = true) => {
+      cur = cur - 1;
+      const current = ref.current as HTMLDivElement;
+      setPage(cur);
+      inAnimate = true;
+      requestAnimationFrame(() => {
+        current.style.transition = needAnimate ? 'transform 150ms ease 0s' : 'none';
+        current.style.transform = `translateX(-${cur * pageWidth}px)`;
+        setTimeout(() => (inAnimate = false), needAnimate ? 160 : 30);
+      });
+    },
+    [ref]
+  );
 
   const onTouchStart = useCallback(
     e => {
@@ -28,7 +40,7 @@ function useDrag({ initPage, total, baseClass }: IUseDragParams) {
       const current = ref.current as HTMLDivElement;
       requestAnimationFrame(() => {
         // 跟随手指移动的样式
-        current.className = cx(baseClass, styles.drag);
+        current.style.transition = 'none';
       });
     },
     [ref]
@@ -56,7 +68,9 @@ function useDrag({ initPage, total, baseClass }: IUseDragParams) {
       const diff = endX - startX;
 
       let currentPage = page;
+      let needAnimate = false;
       if (Math.abs(diff) > 20) {
+        needAnimate = true;
         currentPage += diff < 0 ? 1 : -1;
       } else {
         if (endX < leftBoundary) {
@@ -71,14 +85,7 @@ function useDrag({ initPage, total, baseClass }: IUseDragParams) {
       if (currentPage < 0 || currentPage >= total) currentPage = page;
 
       page !== currentPage && setPage(currentPage);
-
-      const current = ref.current as HTMLDivElement;
-      inAnimate = true;
-      requestAnimationFrame(() => {
-        current.className = cx(baseClass, styles.move);
-        current.style.transform = `translateX(-${currentPage * pageWidth}px)`;
-        setTimeout(() => (inAnimate = false), 160);
-      });
+      goTo(currentPage + 1, needAnimate);
     },
     [ref, page, total]
   );
@@ -86,6 +93,7 @@ function useDrag({ initPage, total, baseClass }: IUseDragParams) {
   return {
     page,
     ref,
+    goTo,
     touchEvent: {
       onTouchStart,
       onTouchMove,

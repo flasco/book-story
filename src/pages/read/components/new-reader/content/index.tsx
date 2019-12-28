@@ -15,7 +15,7 @@ export interface IContentProps {
 
 const Content: React.FC<IContentProps> = ({ pages, initPage = 1 }) => {
   const [total, setTotal] = useState(0);
-  const { ref, page, touchEvent } = useDrag({ initPage, total, baseClass: styles.main });
+  const { ref, page, touchEvent, goTo } = useDrag({ initPage, total });
 
   useEffect(() => {
     if (pages.length > 0) {
@@ -24,6 +24,10 @@ const Content: React.FC<IContentProps> = ({ pages, initPage = 1 }) => {
       setTotal(totalPage);
     }
   }, [pages]);
+
+  useEffect(() => {
+    if (initPage > 1) goTo(initPage, false);
+  }, [initPage]);
 
   const footer = useMemo(() => {
     if (total < 1) return null;
@@ -38,11 +42,7 @@ const Content: React.FC<IContentProps> = ({ pages, initPage = 1 }) => {
     <>
       <div className={styles.wrapper}>
         <div className={styles.inner} {...touchEvent}>
-          <div
-            ref={ref}
-            className={styles.main}
-            style={{ transform: `translateX(-${page * pageWidth}px)` }}
-          >
+          <div ref={ref} className={styles.main}>
             {pages.map((i: string, ind: number) => (
               <p key={'asd_x' + ind}>{i}</p>
             ))}
