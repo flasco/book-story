@@ -42,7 +42,7 @@ function useDrag({ initPage, total, baseClass }: IUseDragParams) {
 
       const current = ref.current as HTMLDivElement;
       requestAnimationFrame(() => {
-        current.style.webkitTransform = `translate3d(-${page * pageWidth - prevX}px, 0, 0)`;
+        current.style.transform = `translateX(-${page * pageWidth - prevX}px)`;
       });
     },
     [page, ref]
@@ -75,7 +75,7 @@ function useDrag({ initPage, total, baseClass }: IUseDragParams) {
       inAnimate = true;
       requestAnimationFrame(() => {
         current.className = cx(baseClass, styles.move);
-        current.style.webkitTransform = `translate3d(-${currentPage * pageWidth}px, 0, 0)`;
+        current.style.transform = `translateX(-${currentPage * pageWidth}px)`;
         setTimeout(() => (inAnimate = false), 160);
       });
     },
