@@ -13,22 +13,25 @@ interface IUseDragParams {
 
 function useDrag({ initPage, total }: IUseDragParams) {
   const ref = createRef<HTMLDivElement>();
+  const [inAnimate, setAnimate] = useState(false);
   const [page, setPage] = useState(initPage - 1);
 
   const onTouchStart = useCallback(
     e => {
+      if (inAnimate) return;
       startX = e.touches[0].clientX;
 
       const current = ref.current as HTMLDivElement;
       requestAnimationFrame(() => {
-        current.style.transition = 'transform 50ms ease 0s';
+        current.style.transition = 'transform 30ms ease 0s';
       });
     },
-    [ref]
+    [ref, inAnimate]
   );
 
   const onTouchMove = useCallback(
     e => {
+      if (inAnimate) return;
       const prevX = e.touches[0].clientX - startX;
 
       const current = ref.current as HTMLDivElement;
@@ -36,11 +39,12 @@ function useDrag({ initPage, total }: IUseDragParams) {
         current.style.transform = `translateX(-${page * pageWidth - prevX}px)`;
       });
     },
-    [page, ref]
+    [page, ref, inAnimate]
   );
 
   const onTouchEnd = useCallback(
     e => {
+      if (inAnimate) return;
       const endX = e.changedTouches[0].clientX;
       const diff = endX - startX;
 
@@ -64,12 +68,14 @@ function useDrag({ initPage, total }: IUseDragParams) {
       page !== currentPage && setPage(currentPage);
 
       const current = ref.current as HTMLDivElement;
+      setAnimate(true);
       requestAnimationFrame(() => {
-        current.style.transition = `transform ${isAnimate ? '150' : '0'}ms ease 0s`;
+        current.style.transition = `transform ${isAnimate ? '150' : '120'}ms ease 0s`;
         current.style.transform = `translateX(-${currentPage * pageWidth}px)`;
+        setTimeout(() => setAnimate(false), 160);
       });
     },
-    [ref, page, total]
+    [ref, page, total, inAnimate]
   );
 
   return {
