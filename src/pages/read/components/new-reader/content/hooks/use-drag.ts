@@ -1,4 +1,5 @@
 import { createRef, useState, useCallback } from 'react';
+import throttle from 'lodash/throttle';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
 
@@ -31,16 +32,25 @@ function useDrag({ initPage, total }: IUseDragParams) {
   );
 
   const onTouchMove = useCallback(
-    e => {
+    throttle((e: any) => {
       if (inAnimate) return;
       const prevX = e.touches[0].clientX - startX;
 
       const current = ref.current as HTMLDivElement;
-      requestAnimationFrame(() => {
-        current.style.transform = `translateX(-${page * pageWidth - prevX}px)`;
-      });
-    },
+      current != null &&
+        requestAnimationFrame(() => {
+          current.style.transform = `translateX(-${page * pageWidth - prevX}px)`;
+        });
+    }, 18),
     [page, ref, inAnimate]
+  );
+
+  const onMove = useCallback(
+    e => {
+      e.persist();
+      onTouchMove(e);
+    },
+    [onTouchMove]
   );
 
   const onTouchEnd = useCallback(
@@ -64,7 +74,7 @@ function useDrag({ initPage, total }: IUseDragParams) {
         }
       }
 
-      if (currentPage < 0 || currentPage >= total) return;
+      if (currentPage < 0 || currentPage >= total) currentPage = page;
 
       page !== currentPage && setPage(currentPage);
 
@@ -84,7 +94,7 @@ function useDrag({ initPage, total }: IUseDragParams) {
     ref,
     touchEvent: {
       onTouchStart,
-      onTouchMove,
+      onTouchMove: onMove,
       onTouchEnd,
     },
   };
