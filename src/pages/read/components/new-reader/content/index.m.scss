@@ -4,6 +4,7 @@
   column-count: 1;
   column-fill: auto;
   height: 100%;
+  will-change: transform;
 
   font-size: 24px;
   word-wrap: break-word;
@@ -25,9 +26,8 @@
 }
 
 .inner {
-  margin: 0 16px;
+  padding: 0 16px;
   height: 100%;
-  transform: translate3d(0, 0, 0);
 }
 
 .footer {

@@ -15,7 +15,7 @@ export interface IContentProps {
 
 const Content: React.FC<IContentProps> = ({ pages, initPage = 1 }) => {
   const [total, setTotal] = useState(0);
-  const { ref, page, touchEvent } = useDrag({ initPage, total });
+  const { ref, page, touchEvent } = useDrag({ initPage, total, baseClass: styles.main });
 
   useEffect(() => {
     if (pages.length > 0) {

@@ -1,7 +1,10 @@
 import { createRef, useState, useCallback } from 'react';
 import throttle from 'lodash/throttle';
+import cx from 'classnames';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
+
+import styles from './index.m.scss';
 
 let startX = 0;
 
@@ -10,9 +13,10 @@ const pageWidth = screenWidth - 16;
 interface IUseDragParams {
   initPage: number;
   total: number;
+  baseClass: string;
 }
 
-function useDrag({ initPage, total }: IUseDragParams) {
+function useDrag({ initPage, total, baseClass }: IUseDragParams) {
   const ref = createRef<HTMLDivElement>();
   const [inAnimate, setAnimate] = useState(false);
   const [page, setPage] = useState(initPage - 1);
@@ -25,7 +29,7 @@ function useDrag({ initPage, total }: IUseDragParams) {
       const current = ref.current as HTMLDivElement;
       requestAnimationFrame(() => {
         // 跟随手指移动的样式
-        current.style.transition = 'transform 50ms ease 0s';
+        current.className = cx(baseClass, styles.drag);
       });
     },
     [ref, inAnimate]
@@ -39,7 +43,7 @@ function useDrag({ initPage, total }: IUseDragParams) {
       const current = ref.current as HTMLDivElement;
       current != null &&
         requestAnimationFrame(() => {
-          current.style.transform = `translateX(-${page * pageWidth - prevX}px)`;
+          current.style.transform = `translate(-${page * pageWidth - prevX}px, 0)`;
         });
     }, 18),
     [page, ref, inAnimate]
@@ -60,9 +64,7 @@ function useDrag({ initPage, total }: IUseDragParams) {
       const diff = endX - startX;
 
       let currentPage = page;
-      let isAnimate = false;
       if (Math.abs(diff) > 20) {
-        isAnimate = true;
         currentPage += diff < 0 ? 1 : -1;
       } else {
         if (endX < leftBoundary) {
@@ -81,8 +83,8 @@ function useDrag({ initPage, total }: IUseDragParams) {
       const current = ref.current as HTMLDivElement;
       setAnimate(true);
       requestAnimationFrame(() => {
-        current.style.transition = `transform ${isAnimate ? '150' : '120'}ms ease 0s`;
-        current.style.transform = `translateX(-${currentPage * pageWidth}px)`;
+        current.className = cx(baseClass, styles.move);
+        current.style.transform = `translate(-${currentPage * pageWidth}px, 0)`;
         setTimeout(() => setAnimate(false), 160);
       });
     },
