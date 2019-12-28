@@ -7,13 +7,13 @@ import useReader from './hook/use-reader';
 
 import styles from './index.m.scss';
 
-const Home = () => {
-  const { pages } = useReader();
-  // console.log(pages);
+const Home = props => {
+  const bookInfo = props?.location?.state ?? null;
+  const { title, pages, watched } = useReader(bookInfo);
 
   return (
     <Container className={styles.container}>
-      <NewReader pages={pages} />
+      <NewReader pages={pages} title={title} initPage={watched} />
     </Container>
   );
 };

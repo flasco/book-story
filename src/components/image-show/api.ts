@@ -1,6 +1,6 @@
 import { getAsBuffer } from '@/utils/request';
 
-import { getItem, setItem, STORE_LEVEL } from '@/utils/storage';
+import { getItem, setItem, STORE_LEVEL } from '@/storage/base';
 import { buffer2Base64 } from '@/utils';
 
 export async function getImage(url: string) {

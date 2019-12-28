@@ -57,7 +57,7 @@ const useBookAndFlatten = () => {
   const moveToBooks = useCallback(
     (index: number) => {
       const book = flattens.splice(index, 1)[0];
-      book.latestStamp = Date.now();
+      book.latestRead = Date.now();
 
       books.unshift(book);
       setBooks(books);
@@ -69,7 +69,7 @@ const useBookAndFlatten = () => {
   /** 传入的book只有baseInfo，operatorInfo需要在这里插入 */
   const insertBook = useCallback(
     (book: IBook) => {
-      book.latestStamp = Date.now();
+      book.latestRead = Date.now();
 
       books.unshift(book);
       setBooks([...books]);
@@ -79,7 +79,7 @@ const useBookAndFlatten = () => {
 
   const clickBookToRead = useCallback(
     (index: number) => {
-      books[index].latestStamp = Date.now();
+      books[index].latestRead = Date.now();
       setBooks(books);
     },
     [books]
@@ -91,7 +91,7 @@ const useBookAndFlatten = () => {
     for (let i = 1, len = arr.length; i < len; i++) {
       preIndex = i - 1;
       current = arr[i];
-      while (preIndex >= 0 && arr[preIndex].latestStamp < current.latestStamp) {
+      while (preIndex >= 0 && arr[preIndex].latestRead < current.latestRead) {
         arr[preIndex + 1] = arr[preIndex];
         preIndex--;
       }

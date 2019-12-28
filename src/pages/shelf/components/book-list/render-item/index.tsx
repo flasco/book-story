@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import TouchableHighlight from '@/components/touchable';
 import ImageShow from '@/components/image-show';
+import { useHistory } from 'react-router';
 
 import { IBook } from '@/defination';
 import { spliceLine } from '@/utils';
@@ -16,9 +17,11 @@ const getSubTitle = item => {
   return spliceLine(item.latestChapter, 15);
 };
 
-const Item = ({ item }) => {
+const Item: React.FC<{ item: IBook }> = ({ item }) => {
+  const { push } = useHistory();
+  const onClick = useCallback(() => push('/read', item), []);
   return (
-    <TouchableHighlight className={styles.item}>
+    <TouchableHighlight className={styles.item} onClick={onClick}>
       <ImageShow src={item.img} className={styles.img} />
       <div className={styles.info}>
         <div className={styles.first}>

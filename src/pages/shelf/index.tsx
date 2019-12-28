@@ -1,16 +1,14 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
+import { Icon } from 'antd-mobile';
 
 import { appName } from '@/constants';
 import Container from '@/layout/container';
 import useDrawer from '@/hooks/use-sider';
 
-import { ee } from '@/main';
-
 import Drawer from './components/drawer';
 import BookList from './components/book-list';
 
 import styles from './index.m.scss';
-import { Icon } from 'antd-mobile';
 
 const RightIcon = ({ onClick }) => (
   <div onClick={onClick}>
@@ -23,9 +21,6 @@ const Shelf = () => {
   const [open, changeOpen] = useDrawer();
   const right = useMemo(() => <RightIcon onClick={changeOpen} />, [changeOpen]);
 
-  useEffect(() => {
-    ee.on('app-state', (isActive: boolean) => console.log('app-state', isActive));
-  }, []);
   return (
     <Container showBar title={appName} className={styles.container} topRight={right}>
       <Drawer open={open} changeOpen={changeOpen}>

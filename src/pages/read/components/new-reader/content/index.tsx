@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 import { screenWidth } from '@/constants';
 
@@ -13,9 +13,9 @@ export interface IContentProps {
   pages: string[];
 }
 
-const Content: React.FC<IContentProps> = ({ pages, initPage = 4 }) => {
+const Content: React.FC<IContentProps> = ({ pages, initPage = 1 }) => {
   const [total, setTotal] = useState(0);
-  const { ref, page, touchEvent } = useDrag({ initPage: initPage - 1, total });
+  const { ref, page, touchEvent } = useDrag({ initPage, total });
 
   useEffect(() => {
     if (pages.length > 0) {
@@ -24,6 +24,15 @@ const Content: React.FC<IContentProps> = ({ pages, initPage = 4 }) => {
       setTotal(totalPage);
     }
   }, [pages]);
+
+  const footer = useMemo(() => {
+    if (total < 1) return null;
+    return (
+      <div className={styles.footer}>
+        {page + 1}/{total}
+      </div>
+    );
+  }, [total, page]);
 
   return (
     <>
@@ -40,9 +49,7 @@ const Content: React.FC<IContentProps> = ({ pages, initPage = 4 }) => {
           </div>
         </div>
       </div>
-      <div className={styles.footer}>
-        {page + 1}/{total}
-      </div>
+      {footer}
     </>
   );
 };

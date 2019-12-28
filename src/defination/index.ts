@@ -14,14 +14,12 @@ interface IBookBase {
 interface IBookOperator {
   /** 选中的源 */
   plantformId: number;
-  /** 最后阅读的章节 */
+  /** 最近阅读的时间戳，排序用 */
   latestRead: number;
   /** 是否有更新 */
   isUpdate: boolean;
   /** 更新的章节数 */
   updateNum: number;
-  /** 最近阅读的时间戳，排序用 */
-  latestStamp: number;
   /** 源 */
   source: {
     [key: string]: string;
@@ -29,3 +27,13 @@ interface IBookOperator {
 }
 
 export type IBook = IBookBase & IBookOperator;
+
+export interface IChapter {
+  title: string;
+  url: string;
+}
+
+export interface IContent {
+  title: string;
+  content: string;
+}

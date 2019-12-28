@@ -18,3 +18,13 @@ export function buffer2Base64(buffer: any) {
     btoa(new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), ''))
   );
 }
+
+export function formatObj2Str(obj: object) {
+  return Object.keys(obj)
+    .map(key => `${key}=${obj[key]}`)
+    .join('&');
+}
+
+export function transformURL(url: string, obj?: object) {
+  return url + (obj != null ? '?' + formatObj2Str(obj as any) : '');
+}

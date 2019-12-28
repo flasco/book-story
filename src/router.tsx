@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, HashRouter, Redirect } from 'react-router-dom';
+import { Route, BrowserRouter, Redirect } from 'react-router-dom';
 
 import ThemeWrapper, { ContextWrapper } from './layout/theme-wrapper';
 
@@ -12,15 +12,15 @@ const Wrapper: React.FC = ({ children }) => (
   </ContextWrapper>
 );
 
+const basepath = `${location.pathname}#`;
+
 const routes = () => (
   <Wrapper>
-    <HashRouter>
-      <Switch>
-        <Route path="/" exact render={() => <Redirect from="/" exact to="/shelf" />} />
-        <Route path="/shelf" exact component={Shelf} />
-        <Route path="/read" exact component={Read} />
-      </Switch>
-    </HashRouter>
+    <BrowserRouter basename={basepath}>
+      <Route path="/" exact render={() => <Redirect from="/" exact to="/shelf" />} />
+      <Route path="/shelf" exact component={Shelf} />
+      <Route path="/read" exact component={Read} />
+    </BrowserRouter>
   </Wrapper>
 );
 

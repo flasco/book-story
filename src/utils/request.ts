@@ -1,19 +1,12 @@
 import axios from 'axios';
+
 import { getIp } from '@/config';
+import { transformURL } from '@/utils';
 
 axios.defaults.timeout = 15000; // 设置超时时间为 15s
 
-function formatObj2Str(obj: object) {
-  return Object.keys(obj)
-    .map(key => `${key}=${obj[key]}`)
-    .join('&');
-}
-
-export async function get(url: string, payload?: object) {
-  url = getIp() + url;
-  if (payload != null) {
-    url += `?${formatObj2Str(payload)}`;
-  }
+export async function get<T = any>(url: string, payload?: object): Promise<T> {
+  url = transformURL(getIp() + url, payload);
   const {
     err,
     data: { data, code, msg },
@@ -25,10 +18,7 @@ export async function get(url: string, payload?: object) {
 }
 
 export async function getAsBuffer(url: string, payload?: object) {
-  url = getIp() + url;
-  if (payload != null) {
-    url += `?${formatObj2Str(payload)}`;
-  }
+  url = transformURL(getIp() + url, payload);
   const { err, data } = await axios.get(url, { responseType: 'arraybuffer' });
 
   if (err) throw err.message || err;
