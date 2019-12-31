@@ -25,7 +25,7 @@ function useDrag({ initPage, total }: IUseDragParams) {
       inAnimate = true;
       requestAnimationFrame(() => {
         current.style.transition = needAnimate ? 'transform 150ms ease 0s' : 'none';
-        current.style.transform = `translateX(-${cur * pageWidth}px)`;
+        current.style.transform = `translateX(${0 - cur * pageWidth}px)`;
         setTimeout(() => (inAnimate = false), needAnimate ? 160 : 30);
       });
     },
@@ -55,7 +55,7 @@ function useDrag({ initPage, total }: IUseDragParams) {
 
       const current = ref.current as HTMLDivElement;
       requestAnimationFrame(() => {
-        current.style.transform = `translateX(-${page * pageWidth - prevX}px)`;
+        current.style.transform = `translateX(${0 - page * pageWidth + prevX}px)`;
       });
     },
     [page, ref]

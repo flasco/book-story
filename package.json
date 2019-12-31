@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "inst": "yarn & cd webpack && yarn",
+    "inst": "yarn && cd webpack && yarn",
     "dev": "node webpack/scripts/dev-koa.js",
     "build": "node webpack/scripts/build-render.js --re-dll",
     "build:doc": "node webpack/scripts/build-render.js  --re-dll && node webpack/scripts/gh-pages.js",
