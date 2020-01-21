@@ -46,12 +46,12 @@ function useReader(bookInfo?: IBook) {
 
       setTitle(chapter.title);
       setPages(newGetP(chapter.content));
-      closeLoading();
     } catch (error) {
-      closeLoading();
       Toast.fail(error.message || error);
       setTitle('');
       setPages([]);
+    } finally {
+      closeLoading();
     }
   };
 
