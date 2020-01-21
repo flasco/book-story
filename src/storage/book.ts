@@ -13,8 +13,8 @@ export function updateChapterList(sourceUrl: string, list: IChapter[]) {
 }
 
 interface IRecord {
-  recordChapterNum: 0;
-  recordPage: 1;
+  recordChapterNum: number;
+  recordPage: number;
 }
 
 export function getBookRecord(sourceUrl: string): IRecord {

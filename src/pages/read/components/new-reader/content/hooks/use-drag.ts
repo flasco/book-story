@@ -1,20 +1,38 @@
-import { createRef, useState, useCallback } from 'react';
+import { createRef, useState, useCallback, useEffect } from 'react';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
+import { Toast } from 'antd-mobile';
 
 let startX = 0;
 let inAnimate = false;
+let ctrlPos = 0;
 
 const pageWidth = screenWidth - 16;
 
 interface IUseDragParams {
   initPage: number;
-  total: number;
+  prevChapter: () => Promise<boolean>;
+  nextChapter: () => Promise<boolean>;
 }
 
-function useDrag({ initPage, total }: IUseDragParams) {
+function useDrag(pages, { initPage, prevChapter, nextChapter }: IUseDragParams) {
   const ref = createRef<HTMLDivElement>();
   const [page, setPage] = useState(initPage - 1);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    if (pages.length > 0) {
+      const totalWidth = ref.current?.scrollWidth as number;
+      const totalPage = (totalWidth + 16) / pageWidth;
+      setTotal(totalPage);
+      if (ctrlPos < 0) goTo(totalPage, false);
+      else if (ctrlPos > 0) goTo(1, false);
+    }
+  }, [pages]);
+
+  useEffect(() => {
+    if (initPage > 1) goTo(initPage, false);
+  }, [initPage]);
 
   /** cur 从1开始 */
   const goTo = useCallback(
@@ -28,6 +46,7 @@ function useDrag({ initPage, total }: IUseDragParams) {
         current.style.transform = `translateX(${0 - cur * pageWidth}px)`;
         setTimeout(() => (inAnimate = false), needAnimate ? 160 : 30);
       });
+      ctrlPos = 0;
     },
     [ref]
   );
@@ -62,14 +81,14 @@ function useDrag({ initPage, total }: IUseDragParams) {
   );
 
   const onTouchEnd = useCallback(
-    e => {
+    async e => {
       if (inAnimate) return;
       const endX = e.changedTouches[0].clientX;
       const diff = endX - startX;
 
       let currentPage = page;
       let needAnimate = false;
-      if (Math.abs(diff) > 20) {
+      if (Math.abs(diff) > 5) {
         needAnimate = true;
         currentPage += diff < 0 ? 1 : -1;
       } else {
@@ -82,8 +101,23 @@ function useDrag({ initPage, total }: IUseDragParams) {
         }
       }
 
-      if (currentPage < 0 || currentPage >= total) currentPage = page;
-
+      if (currentPage < 0) {
+        ctrlPos = -1;
+        const isEdge = !(await prevChapter());
+        if (isEdge) {
+          Toast.info('已经是第一章');
+          currentPage = page;
+        }
+        return;
+      } else if (currentPage >= total) {
+        ctrlPos = 1;
+        const isEdge = !(await nextChapter());
+        if (isEdge) {
+          Toast.info('已经是到底了');
+          currentPage = page;
+        }
+        return;
+      }
       page !== currentPage && setPage(currentPage);
       goTo(currentPage + 1, needAnimate);
     },
@@ -92,6 +126,7 @@ function useDrag({ initPage, total }: IUseDragParams) {
 
   return {
     page,
+    total,
     ref,
     goTo,
     touchEvent: {

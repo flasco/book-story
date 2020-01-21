@@ -1,20 +1,17 @@
 import React from 'react';
 
-import Content, { IContentProps } from './content';
+import Content from './content';
 import Title from './title';
 
 import styles from './index.m.scss';
+import { useReaderContext } from '../../context';
 
-interface INewReaderProps extends IContentProps {
-  title?: string;
-}
-
-const NewReader: React.FC<INewReaderProps> = props => {
-  const { pages, title = '', initPage } = props;
+const NewReader: React.FC = () => {
+  const { title } = useReaderContext();
   return (
     <div className={styles.container}>
       <Title name={title} />
-      <Content pages={pages} initPage={initPage} />
+      <Content />
     </div>
   );
 };

@@ -1,33 +1,17 @@
-import React, { useState, useEffect, useMemo } from 'react';
-
-import { screenWidth } from '@/constants';
+import React, { useMemo } from 'react';
 
 import useDrag from './hooks/use-drag';
 
 import styles from './index.m.scss';
+import { useReaderContext } from '@/pages/read/context';
 
-const pageWidth = screenWidth - 16;
-
-export interface IContentProps {
-  initPage?: number;
-  pages: string[];
-}
-
-const Content: React.FC<IContentProps> = ({ pages, initPage = 1 }) => {
-  const [total, setTotal] = useState(0);
-  const { ref, page, touchEvent, goTo } = useDrag({ initPage, total });
-
-  useEffect(() => {
-    if (pages.length > 0) {
-      const totalWidth = ref.current?.scrollWidth as number;
-      const totalPage = (totalWidth + 16) / pageWidth;
-      setTotal(totalPage);
-    }
-  }, [pages]);
-
-  useEffect(() => {
-    if (initPage > 1) goTo(initPage, false);
-  }, [initPage]);
+const Content: React.FC = () => {
+  const { pages, watched, nextChapter, prevChapter } = useReaderContext();
+  const { ref, page, touchEvent, total } = useDrag(pages, {
+    initPage: watched,
+    nextChapter,
+    prevChapter,
+  });
 
   const footer = useMemo(() => {
     if (total < 1) return null;
