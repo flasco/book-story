@@ -8,7 +8,7 @@
   position: absolute;
   top: 0;
   left: 16px;
-  line-height: 2rem;
+  line-height: 44px;
   font-size: 16px;
   color: var(--read-title);
 }
@@ -37,7 +37,7 @@
   position: absolute;
   text-align: justify;
   bottom: calc(1.5rem + env(safe-area-inset-bottom));
-  top: 2rem;
+  top: 44px;
 }
 
 .inner {

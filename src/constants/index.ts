@@ -21,3 +21,13 @@ export const FLATTEN_BLOCK = {
     '2': '',
   },
 };
+
+export enum ICON_FONT_MAP {
+  SEARCH = '\ue7b3',
+  MOON = '\ue773',
+  SUN = '\ue771',
+  ELLIPSIS = '\ue74f',
+  CONDITION = '\ue748',
+  CATALOG = '\ue747',
+  PROGRESS = '\ue609',
+}

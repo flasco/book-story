@@ -11,11 +11,12 @@ const pageWidth = screenWidth - 16;
 
 interface IUseDragParams {
   initPage: number;
+  changeMenu: () => void;
   prevChapter: () => Promise<boolean>;
   nextChapter: () => Promise<boolean>;
 }
 
-function useDrag(pages, { initPage, prevChapter, nextChapter }: IUseDragParams) {
+function useDrag(pages, { initPage, prevChapter, nextChapter, changeMenu }: IUseDragParams) {
   const ref = createRef<HTMLDivElement>();
   const [page, setPage] = useState(initPage - 1);
   const [total, setTotal] = useState(0);
@@ -82,6 +83,7 @@ function useDrag(pages, { initPage, prevChapter, nextChapter }: IUseDragParams) 
 
   const onTouchEnd = useCallback(
     async e => {
+      e.preventDefault();
       if (inAnimate) return;
       const endX = e.changedTouches[0].clientX;
       const diff = endX - startX;
@@ -97,7 +99,8 @@ function useDrag(pages, { initPage, prevChapter, nextChapter }: IUseDragParams) 
         } else if (endX > rightBoundary) {
           currentPage += 1;
         } else {
-          console.log('open menu');
+          changeMenu();
+          return;
         }
       }
 

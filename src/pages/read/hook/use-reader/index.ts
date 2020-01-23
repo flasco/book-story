@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Toast } from 'antd-mobile';
 
 import { openLoading, closeLoading } from '@/utils';
@@ -18,6 +18,9 @@ function useReader(bookInfo?: IBook) {
   const [pages, setPages] = useState<any>([]);
   const [title, setTitle] = useState('');
   const [watched, setWatched] = useState(4);
+  const [showMenu, setShow] = useState(false);
+
+  const changeMenu = useCallback(() => setShow(!showMenu), [showMenu]);
 
   const sourceUrl = useMemo(() => (bookInfo?.source[bookInfo?.plantformId] ?? null) as string, [
     bookInfo,
@@ -126,6 +129,8 @@ function useReader(bookInfo?: IBook) {
     title,
     pages,
     watched,
+    showMenu,
+    changeMenu,
     api: {
       nextChapter,
       prevChapter,

@@ -31,10 +31,8 @@ const TouchableHighlight: React.FC<IProps> = ({
 
   const onEnd = useCallback(() => {
     const now = Date.now() - timeStamp;
-    if (now < LONG_PRESS_DURATION) {
-      clearTimeout(timer);
-      onClick && onClick();
-    }
+    if (now < LONG_PRESS_DURATION) clearTimeout(timer);
+    if (onClick != null && (now < LONG_PRESS_DURATION || onLongPress == null)) onClick();
   }, [timeStamp, timer]);
 
   return (

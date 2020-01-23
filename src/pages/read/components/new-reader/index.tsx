@@ -6,9 +6,10 @@ import useDrag from '../../hook/use-drag';
 import styles from './index.m.scss';
 
 const NewReader: React.FC = () => {
-  const { title, pages, watched, nextChapter, prevChapter } = useReaderContext();
+  const { title, pages, watched, nextChapter, prevChapter, changeMenu } = useReaderContext();
   const { ref, page, touchEvent, total } = useDrag(pages, {
     initPage: watched,
+    changeMenu,
     nextChapter,
     prevChapter,
   });
