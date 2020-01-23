@@ -29,8 +29,6 @@ class RecordCache {
       ...param,
     };
 
-    console.log(param);
-
     if (needSave) {
       updateBookRecord(this.key, this.record);
     }
