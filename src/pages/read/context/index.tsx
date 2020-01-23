@@ -10,7 +10,7 @@ interface ContextValue {
   changeMenu: () => void;
   nextChapter: () => Promise<boolean>;
   prevChapter: () => Promise<boolean>;
-  saveRecord: (currentChapter: any, page: any) => void;
+  saveRecord: (page: number) => void;
 }
 
 const ReaderContext = React.createContext({} as ContextValue);

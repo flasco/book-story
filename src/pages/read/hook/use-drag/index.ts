@@ -2,6 +2,7 @@ import { createRef, useState, useCallback, useEffect } from 'react';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
 import { Toast } from 'antd-mobile';
+import { useReaderContext } from '../../context';
 
 let startX = 0;
 let inAnimate = false;
@@ -9,14 +10,11 @@ let ctrlPos = 0;
 
 const pageWidth = screenWidth - 16;
 
-interface IUseDragParams {
-  initPage: number;
-  changeMenu: () => void;
-  prevChapter: () => Promise<boolean>;
-  nextChapter: () => Promise<boolean>;
-}
+function useDrag() {
+  const params = useReaderContext();
+  const { watched: initPage, pages } = params;
+  const { prevChapter, nextChapter, changeMenu, saveRecord } = params;
 
-function useDrag(pages, { initPage, prevChapter, nextChapter, changeMenu }: IUseDragParams) {
   const ref = createRef<HTMLDivElement>();
   const [page, setPage] = useState(initPage - 1);
   const [total, setTotal] = useState(0);
@@ -41,6 +39,7 @@ function useDrag(pages, { initPage, prevChapter, nextChapter, changeMenu }: IUse
       cur = cur - 1;
       const current = ref.current as HTMLDivElement;
       setPage(cur);
+      saveRecord(cur);
       inAnimate = true;
       requestAnimationFrame(() => {
         current.style.transition = needAnimate ? 'transform 150ms ease 0s' : 'none';

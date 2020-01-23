@@ -1,9 +1,12 @@
+import { ee } from '@/main';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Toast } from 'antd-mobile';
 
 import { openLoading, closeLoading } from '@/utils';
+import ListCache from '@/cache/list';
+import RecordCache from '@/cache/record';
 import { newGetP } from '@/utils/text';
-import { getChapterList, getBookRecord, updateChapterList, updateBookRecord } from '@/storage/book';
+import { getBookRecord } from '@/storage/book';
 
 import { getChapter, getList } from '@/pages/read/api';
 import { IBook } from '@/defination';
@@ -15,9 +18,9 @@ import { IBook } from '@/defination';
  */
 
 function useReader(bookInfo?: IBook) {
-  const [pages, setPages] = useState<any>([]);
+  const [pages, setPages] = useState<any[]>([]);
   const [title, setTitle] = useState('');
-  const [watched, setWatched] = useState(4);
+  const [watched, setWatched] = useState(1);
   const [showMenu, setShow] = useState(false);
 
   const changeMenu = useCallback(() => setShow(!showMenu), [showMenu]);
@@ -26,33 +29,47 @@ function useReader(bookInfo?: IBook) {
     bookInfo,
   ]);
 
+  const cachedList = useMemo(() => new ListCache(sourceUrl), [sourceUrl]);
+  const cachedRecord = useMemo(() => new RecordCache(sourceUrl), [sourceUrl]);
+
   useEffect(() => {
     init();
   }, [bookInfo]);
+
+  const updateStates = useCallback((isActive: boolean) => {
+    if (!isActive) {
+      cachedRecord.updateRecord({}, true);
+    }
+  }, []);
+
+  useEffect(() => {
+    ee.on('app-state', updateStates);
+    return () => {
+      ee.off('app-state', updateStates);
+    };
+  }, []);
 
   const init: any = async () => {
     try {
       openLoading('数据加载中...');
       if (sourceUrl == null) throw '书源记录获取失败...';
 
-      let list = getChapterList(sourceUrl);
-      const record = getBookRecord(sourceUrl);
-      setWatched(record.recordPage);
+      setWatched(cachedRecord.getWatchedPage());
 
-      if (list == null) {
-        list = await getList(sourceUrl);
-        updateChapterList(sourceUrl, list);
+      if (!cachedList.checkIsExist()) {
+        const list = await getList(sourceUrl);
+        cachedList.updateList(list);
       }
 
-      const currentChapter = list[record.recordChapterNum].url;
+      const currentChapter = cachedList.getChapterUrl(cachedRecord.getChapterPosition());
       const chapter = await getChapter(currentChapter);
 
       setTitle(chapter.title);
       setPages(newGetP(chapter.content));
     } catch (error) {
       Toast.fail(error.message || error);
-      setTitle('');
-      setPages([]);
+      setTitle('加载失败');
+      setPages(['加载失败啦']);
     } finally {
       closeLoading();
     }
@@ -74,27 +91,24 @@ function useReader(bookInfo?: IBook) {
 
   const nextChapter = async () => {
     if (sourceUrl == null) throw '书源记录获取失败...';
-    const list = getChapterList(sourceUrl);
-    const record = getBookRecord(sourceUrl);
 
-    const position = record.recordChapterNum + 1;
-    if (position > list.length) return false;
+    const position = cachedRecord.getChapterPosition() + 1;
+    if (position > cachedList.getLength()) return false;
 
     openLoading('数据加载中...');
 
-    const currentChapter = list[position].url;
+    const currentChapter = cachedList.getChapterUrl(position);
     await goToChapter(currentChapter);
 
-    updateBookRecord(sourceUrl, {
-      ...record,
+    cachedRecord.updateRecord({
       recordChapterNum: position,
     });
+
     return true;
   };
 
   const prevChapter = async () => {
     if (sourceUrl == null) throw '书源记录获取失败...';
-    const list = getChapterList(sourceUrl);
     const record = getBookRecord(sourceUrl);
 
     const position = record.recordChapterNum - 1;
@@ -103,25 +117,21 @@ function useReader(bookInfo?: IBook) {
 
     openLoading('数据加载中...');
 
-    const currentChapter = list[position].url;
+    const currentChapter = cachedList.getChapterUrl(position);
     await goToChapter(currentChapter);
 
-    updateBookRecord(sourceUrl, {
-      ...record,
+    cachedRecord.updateRecord({
       recordChapterNum: position,
     });
     return true;
   };
 
-  const saveRecord = (currentChapter, page) => {
+  /** 只存页数，章节在翻页的时候存 */
+  const saveRecord = (page: number) => {
     if (sourceUrl == null) throw '书源记录获取失败...';
-    const list = getChapterList(sourceUrl);
 
-    const pos = list.findIndex(i => i.url === currentChapter);
-
-    updateBookRecord(sourceUrl, {
-      recordChapterNum: pos,
-      recordPage: page,
+    cachedRecord.updateRecord({
+      recordPage: page + 1,
     });
   };
 
