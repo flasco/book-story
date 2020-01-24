@@ -4,30 +4,27 @@
 
 .sunny {
   // screen-attr
-  --read-title: #576457;
   --read-container: #acc7a7;
-  --read-text: #0d2a0f;
-  --read-footer: #0d2a0f;
+  --read-title: rgba(0, 0, 0, .7);
+  --read-text: rgba(0, 0, 0, .85);
+  --read-footer: rgba(0, 0, 0, .85);
 
   --shelf-container: #e6e6e6;
-  --shelf-loading: #000;
-  --shelf-underlay: #eee;
-  --shelf-row: #f2f2f2;
-  --shelf-title: #000;
-  --shelf-subTitle: #999;
-  --shelf-solid: #d5d5d5;
+  --shelf-separator: rgba(255, 255, 255, .2);
+  --shelf-row: rgba(255, 255, 255, .41);
+  --shelf-title: rgba(0, 0, 0, 1);
+  --shelf-subTitle: rgba(0, 0, 0, .8);
 }
 
 .night {
-  --read-title: #474747;
   --read-container: #0c0c0c;
-  --read-text: #5b5b5b;
-  --read-footer: #424242;
+  --read-title: rgba(255, 255, 255, .55);
+  --read-text: rgba(255, 255, 255, .6);
+  --read-footer: rgba(255, 255, 255, .55);
 
-  --shelf-container: #282828;
-  --shelf-underlay: #2d2d2d;
-  --shelf-row: #282828;
-  --shelf-title: #ddd;
-  --shelf-subTitle: #646464;
-  --shelf-solid: #1e1e1e;
+  --shelf-container: #0c0c0c;
+  --shelf-separator: rgba(255, 255, 255, .3);
+  --shelf-row: rgba(255, 255, 255, .11);
+  --shelf-title: rgba(255, 255, 255, .75);
+  --shelf-subTitle: rgba(255, 255, 255, .6);
 }

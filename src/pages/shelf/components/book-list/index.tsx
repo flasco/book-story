@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import { ListView } from 'antd-mobile';
 import { useBook } from '@/hooks/use-book';
 
@@ -10,14 +10,19 @@ const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
 });
 
+const renderSeparator = () => {
+  return <div className={styles.separator} />;
+};
+
 const BookList = () => {
   const { books } = useBook();
-  const [datasets] = useState(ds.cloneWithRows(books));
+  const datasets = useMemo(() => ds.cloneWithRows(books), []);
 
   return (
     <ListView
       dataSource={datasets}
       renderRow={renderItem}
+      renderSeparator={renderSeparator}
       initialListSize={10}
       pageSize={10}
       className={styles.list}

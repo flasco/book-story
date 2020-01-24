@@ -2,9 +2,24 @@
   height: 100%;
   width: 100%;
 
-  :global {
-    .am-list-body {
-      background: transparent;
+  .separator {
+    height: 1px;
+    background: var(--shelf-separator);
+
+    &:last-child {
+      display: none;
+    }
+  }
+
+  :global(.am-list-body) {
+    background: transparent;
+
+    &::after {
+      display: none !important; // sass-lint:disable-line no-important
+    }
+
+    &::before {
+      display: none !important; // sass-lint:disable-line no-important
     }
   }
 }
