@@ -4,14 +4,14 @@ Create by react 16.12 and webpack 4.x
 
 ## TODO
 
-- [ ] 书架
-- [ ] 阅读页
+- [ ] 书架 [WIP]
+- [ ] 阅读页 [WIP]
 - [ ] 目录页
 - [ ] 排行页
 - [ ] 详情页
 - [ ] 用户权限
 - [x] 主题方案
-- [ ] 应用存储方案设计（localstorage）
+- [x] 应用存储方案设计（localstorage）
 
 ### 阅读页
 
@@ -23,7 +23,7 @@ Create by react 16.12 and webpack 4.x
 - [x] prefetch chapter [queue]
 - [x] chapter cached
 - [x] list && record cached
-- [ ] menu 绘制 - 返回，换源，下载，夜间，目录，进度，设置（字体大小设置 【1 - 8级拖动】）
+- [ ] menu 绘制 - 返回，换源，下载，夜间，目录，进度，设置（字体大小设置 【1 - 8 级拖动】）
 
 ### 书架页
 
