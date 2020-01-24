@@ -5,8 +5,9 @@
 .sunny {
   // screen-attr
   --read-title: #576457;
-
   --read-container: #acc7a7;
+  --read-text: #0d2a0f;
+  --read-footer: #0d2a0f;
 
   --shelf-container: #e6e6e6;
   --shelf-loading: #000;
@@ -18,9 +19,10 @@
 }
 
 .night {
-  --read-title: #ddd;
-  --read-container: #282828;
-  --read-loading: #aaa;
+  --read-title: #474747;
+  --read-container: #0c0c0c;
+  --read-text: #5b5b5b;
+  --read-footer: #424242;
 
   --shelf-container: #282828;
   --shelf-underlay: #2d2d2d;

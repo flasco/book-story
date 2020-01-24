@@ -10,14 +10,13 @@ const ThemeContext = React.createContext<Context>({} as any);
 const useSunny = (initVal: boolean): [boolean, () => void] => {
   const [sunny, setSunny] = useState(initVal);
   const changeSunny = useCallback(() => {
-    setSunny(!sunny);
-  }, [sunny]);
+    setSunny(val => !val);
+  }, [setSunny]);
   return [sunny, changeSunny];
 };
 
 export const ThemeProvider: React.FC = ({ children }) => {
   const [sunny, changeSunny] = useSunny(true);
-
   const value = useMemo(
     () => ({
       sunny,

@@ -8,9 +8,11 @@ import Touchable from '@/components/touchable';
 
 import styles from './index.m.scss';
 import { ICON_FONT_MAP } from '@/constants';
+import { useTheme } from '@/hooks/use-theme';
 
 const NavBlock = () => {
   const { goBack } = useHistory();
+  const { changeSunny } = useTheme();
   const { changeMenu, showMenu } = useReaderContext();
 
   const operatorMap = useMemo(() => {
@@ -33,7 +35,7 @@ const NavBlock = () => {
       {
         title: '夜间',
         icon: ICON_FONT_MAP.MOON,
-        click: () => console.log('123'),
+        click: () => changeSunny(),
       },
     ];
   }, []);

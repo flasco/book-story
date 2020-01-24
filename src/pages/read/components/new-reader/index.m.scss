@@ -20,6 +20,7 @@
   column-fill: auto;
   height: 100%;
   will-change: transform;
+  color: var(--read-text);
 
   font-size: 24px;
   word-wrap: break-word;
@@ -50,4 +51,5 @@
   bottom: env(safe-area-inset-bottom);
   right: 16px;
   line-height: 1.5rem;
+  color: var(--read-footer, #000);
 }

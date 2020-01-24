@@ -24,7 +24,7 @@ function useReader(bookInfo?: IBook) {
   const [watched, setWatched] = useState(1);
   const [showMenu, setShow] = useState(false);
 
-  const changeMenu = useCallback(() => setShow(!showMenu), [showMenu]);
+  const changeMenu = useCallback(() => setShow(val => !val), [setShow]);
 
   const sourceUrl = useMemo(() => (bookInfo?.source[bookInfo?.plantformId] ?? null) as string, [
     bookInfo,
