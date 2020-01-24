@@ -2,13 +2,14 @@ import { ee } from '@/main';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Toast } from 'antd-mobile';
 
-import { openLoading, closeLoading } from '@/utils';
 import ListCache from '@/cache/list';
 import RecordCache from '@/cache/record';
+import ChaptersCache from '@/cache/chapter';
+import Queue from '@/third-party/queue';
+import { openLoading, closeLoading } from '@/utils';
 import { newGetP } from '@/utils/text';
-import { getBookRecord } from '@/storage/book';
 
-import { getChapter, getList } from '@/pages/read/api';
+import { getList } from '@/pages/read/api';
 import { IBook } from '@/defination';
 
 /**
@@ -31,6 +32,20 @@ function useReader(bookInfo?: IBook) {
 
   const cachedList = useMemo(() => new ListCache(sourceUrl), [sourceUrl]);
   const cachedRecord = useMemo(() => new RecordCache(sourceUrl), [sourceUrl]);
+  const cachedChapters = useMemo(() => new ChaptersCache(sourceUrl), [sourceUrl]);
+  const workArr = useMemo(() => {
+    const queue = new Queue<string>(3);
+    queue.drain = () => null;
+    return queue;
+  }, []);
+
+  useEffect(() => {
+    // prefetch
+    workArr.work = async item => {
+      if (item === '') return;
+      await cachedChapters.getContent(item, 3);
+    };
+  }, [cachedChapters]);
 
   useEffect(() => {
     init();
@@ -39,6 +54,7 @@ function useReader(bookInfo?: IBook) {
   const updateStates = useCallback((isActive: boolean) => {
     if (!isActive) {
       cachedRecord.updateRecord({}, true);
+      cachedChapters.updateChapters();
     }
   }, []);
 
@@ -48,6 +64,12 @@ function useReader(bookInfo?: IBook) {
       ee.off('app-state', updateStates);
     };
   }, []);
+
+  const prefetchChapter = async (position, prefetch = true) => {
+    const currentChapter = cachedList.getChapterUrl(position);
+    if (prefetch) workArr.push(cachedList.getChapterUrl(position + 1));
+    return await cachedChapters.getContent(currentChapter);
+  };
 
   const init: any = async () => {
     try {
@@ -61,29 +83,15 @@ function useReader(bookInfo?: IBook) {
         cachedList.updateList(list);
       }
 
-      const currentChapter = cachedList.getChapterUrl(cachedRecord.getChapterPosition());
-      const chapter = await getChapter(currentChapter);
+      const position = cachedRecord.getChapterPosition();
+      const chapter = await prefetchChapter(position);
 
       setTitle(chapter.title);
       setPages(newGetP(chapter.content));
     } catch (error) {
       Toast.fail(error.message || error);
       setTitle('加载失败');
-      setPages(['加载失败啦']);
-    } finally {
-      closeLoading();
-    }
-  };
-
-  const goToChapter = async currentChapter => {
-    try {
-      const chapter = await getChapter(currentChapter);
-
-      setTitle(chapter.title);
-      setPages(newGetP(chapter.content));
-    } catch (error) {
-      setTitle('网络异常');
-      setPages(newGetP('网络异常，请稍后重试'));
+      setPages(['书籍列表信息加载失败']);
     } finally {
       closeLoading();
     }
@@ -97,8 +105,10 @@ function useReader(bookInfo?: IBook) {
 
     openLoading('数据加载中...');
 
-    const currentChapter = cachedList.getChapterUrl(position);
-    await goToChapter(currentChapter);
+    const chapter = await prefetchChapter(position);
+    setTitle(chapter.title);
+    setPages(newGetP(chapter.content));
+    closeLoading();
 
     cachedRecord.updateRecord({
       recordChapterNum: position,
@@ -109,16 +119,16 @@ function useReader(bookInfo?: IBook) {
 
   const prevChapter = async () => {
     if (sourceUrl == null) throw '书源记录获取失败...';
-    const record = getBookRecord(sourceUrl);
-
-    const position = record.recordChapterNum - 1;
+    const position = cachedRecord.getChapterPosition() - 1;
 
     if (position < 0) return false;
 
     openLoading('数据加载中...');
 
-    const currentChapter = cachedList.getChapterUrl(position);
-    await goToChapter(currentChapter);
+    const chapter = await prefetchChapter(position);
+    setTitle(chapter.title);
+    setPages(newGetP(chapter.content));
+    closeLoading();
 
     cachedRecord.updateRecord({
       recordChapterNum: position,

@@ -9,8 +9,8 @@ export enum STORE_LEVEL {
 const SAFE_KEY = 'book-story@safe';
 const TEMP_KEY = 'book-story@temp';
 
-const safeKey: string[] = getItem(SAFE_KEY) ?? [];
-const tempKey: string[] = getItem(TEMP_KEY) ?? [];
+const safeKey: Set<any> = new Set(getItem(SAFE_KEY)) ?? new Set();
+const tempKey: Set<any> = new Set(getItem(TEMP_KEY)) ?? new Set();
 
 setTimeout(() => {
   ee.on('app-state', (isActive: boolean) => {
@@ -29,13 +29,16 @@ export function getItem(key: string) {
 
 export function setItem(key: string, value: any, level?: STORE_LEVEL) {
   if (level === STORE_LEVEL.SAFE) {
-    safeKey.push(key);
+    safeKey.add(key);
   } else if (level !== STORE_LEVEL.STORE) {
-    tempKey.push(key);
+    tempKey.add(key);
   }
 
   const payload = { content: value };
-  localStorage.setItem(key, JSON.stringify(payload));
+  localStorage.setItem(
+    key,
+    JSON.stringify(payload, (_, value) => (value instanceof Set ? [...value] : value))
+  );
 }
 
 export function removeItem(key: string) {
@@ -44,11 +47,11 @@ export function removeItem(key: string) {
 
 export function clearTemp() {
   tempKey.forEach(key => removeItem(key));
-  tempKey.length = 0;
+  tempKey.clear();
 }
 
 export function clearAll() {
   localStorage.clear();
-  safeKey.length = 0;
-  tempKey.length = 0;
+  safeKey.clear();
+  tempKey.clear();
 }

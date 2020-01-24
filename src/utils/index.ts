@@ -28,3 +28,5 @@ export function formatObj2Str(obj: object) {
 export function transformURL(url: string, obj?: object) {
   return url + (obj != null ? '?' + formatObj2Str(obj as any) : '');
 }
+
+export const delay = (ms: number) => new Promise(res => setTimeout(res, ms));

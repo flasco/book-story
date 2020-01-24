@@ -1,11 +1,15 @@
 import { get } from '@/utils/request';
 import { IChapter, IContent } from '@/defination';
 
-export function getChapter(url: string) {
-  return get<IContent>('/v2/analysis', {
-    action: 2,
-    url,
-  });
+export function getChapter(url: string, retryCnt = 0) {
+  return get<IContent>(
+    '/v2/analysis',
+    {
+      action: 2,
+      url,
+    },
+    retryCnt
+  );
 }
 
 export function getList(url: string) {

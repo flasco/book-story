@@ -1,5 +1,5 @@
 import { setItem, getItem, STORE_LEVEL } from './base';
-import { IChapter } from '@/defination';
+import { IChapter, IContent } from '@/defination';
 
 export function getChapterList(sourceUrl: string) {
   const key = 'list@' + sourceUrl;
@@ -26,4 +26,17 @@ export function getBookRecord(sourceUrl: string): IRecord {
 export function updateBookRecord(sourceUrl: string, record: IRecord) {
   const key = 'record@' + sourceUrl;
   return setItem(key, record, STORE_LEVEL.SAFE);
+}
+
+export function getBookChapters(sourceUrl: string): { [url: string]: IContent } {
+  const key = 'chapter@' + sourceUrl;
+
+  const result = getItem(key);
+  if (result == null || Array.isArray(result)) return {};
+  return result;
+}
+
+export function updateBookChapters(sourceUrl: string, chapter: { [url: string]: IContent }) {
+  const key = 'chapter@' + sourceUrl;
+  return setItem(key, chapter);
 }
