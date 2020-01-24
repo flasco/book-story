@@ -61,15 +61,19 @@ function useReader(bookInfo?: IBook) {
   useEffect(() => {
     ee.on('app-state', updateStates);
     return () => {
+      updateStates(false);
       ee.off('app-state', updateStates);
     };
   }, []);
 
-  const prefetchChapter = async (position, prefetch = true) => {
-    const currentChapter = cachedList.getChapterUrl(position);
-    if (prefetch) workArr.push(cachedList.getChapterUrl(position + 1));
-    return await cachedChapters.getContent(currentChapter);
-  };
+  const prefetchChapter = useCallback(
+    async (position, prefetch = true) => {
+      const currentChapter = cachedList.getChapterUrl(position);
+      if (prefetch) workArr.push(cachedList.getChapterUrl(position + 1));
+      return await cachedChapters.getContent(currentChapter);
+    },
+    [cachedList, cachedChapters]
+  );
 
   const init: any = async () => {
     try {
@@ -97,7 +101,7 @@ function useReader(bookInfo?: IBook) {
     }
   };
 
-  const nextChapter = async () => {
+  const nextChapter = useCallback(async () => {
     if (sourceUrl == null) throw '书源记录获取失败...';
 
     const position = cachedRecord.getChapterPosition() + 1;
@@ -115,9 +119,9 @@ function useReader(bookInfo?: IBook) {
     });
 
     return true;
-  };
+  }, [sourceUrl]);
 
-  const prevChapter = async () => {
+  const prevChapter = useCallback(async () => {
     if (sourceUrl == null) throw '书源记录获取失败...';
     const position = cachedRecord.getChapterPosition() - 1;
 
@@ -134,16 +138,19 @@ function useReader(bookInfo?: IBook) {
       recordChapterNum: position,
     });
     return true;
-  };
+  }, [sourceUrl]);
 
   /** 只存页数，章节在翻页的时候存 */
-  const saveRecord = (page: number) => {
-    if (sourceUrl == null) throw '书源记录获取失败...';
+  const saveRecord = useCallback(
+    (page: number) => {
+      if (sourceUrl == null) throw '书源记录获取失败...';
 
-    cachedRecord.updateRecord({
-      recordPage: page + 1,
-    });
-  };
+      cachedRecord.updateRecord({
+        recordPage: page + 1,
+      });
+    },
+    [sourceUrl, cachedRecord]
+  );
 
   return {
     title,
