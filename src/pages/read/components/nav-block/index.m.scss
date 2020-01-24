@@ -34,6 +34,7 @@
   background: #000;
   height: 3rem;
   display: flex;
+  padding-bottom: env(safe-area-inset-bottom, 0);
 
   .item {
     display: flex;
