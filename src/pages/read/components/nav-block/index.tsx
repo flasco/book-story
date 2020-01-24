@@ -44,7 +44,7 @@ const NavBlock = () => {
       <div className={styles.header}>
         <Icon type="left" className={styles.back} onClick={goBack} />
       </div>
-      <div className={styles.content} onClick={() => changeMenu()} />
+      <Touchable className={styles.content} onClick={() => changeMenu()} />
       <div className={styles.footer}>
         {operatorMap.map(item => (
           <Touchable className={styles.item} key={item.title} onClick={item.click}>
