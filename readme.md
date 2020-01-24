@@ -20,6 +20,9 @@ Create by react 16.12 and webpack 4.x
 - [x] 处理数据交互
 - [x] 记录阅读进度
 - [x] 串联书架与阅读页
+- [x] prefetch chapter [queue]
+- [x] chapter cached
+- [x] list && record cached
 - [ ] menu 绘制 - 返回，换源，下载，夜间，目录，进度，设置（字体大小设置 【1 - 8级拖动】）
 
 ### 书架页
