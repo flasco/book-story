@@ -58,7 +58,7 @@ const NavBlock = () => {
 
   return (
     <div className={cx(styles.container, { [styles.hidden]: !showMenu })}>
-      <CatalogDrawer open={catalog} changeOpen={changeCatalog}>
+      <CatalogDrawer open={catalog} changeOpen={changeCatalog} changeMenu={changeMenu}>
         <div className={styles.container}>
           <div className={styles.header}>
             <Icon type="left" className={styles.back} onClick={goBack} />

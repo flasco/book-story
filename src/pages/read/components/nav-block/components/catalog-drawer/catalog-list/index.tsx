@@ -10,7 +10,7 @@ import { useReaderContext } from '@/pages/read/context';
 import styles from './index.m.scss';
 import TouchableHighlight from '@/components/touchable';
 
-const BookList = ({ changeOpen, open }) => {
+const BookList = ({ changeOpen, open, changeMenu }) => {
   const {
     cache: { list, record },
     api: { goToChapter },
@@ -28,6 +28,7 @@ const BookList = ({ changeOpen, open }) => {
 
   const onClick = useCallback(index => {
     changeOpen();
+    changeMenu();
     goToChapter(index, 1);
   }, []);
 
