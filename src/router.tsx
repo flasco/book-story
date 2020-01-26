@@ -20,6 +20,7 @@ const routes = () => (
       <Switch>
         <Route path="/shelf" exact component={Shelf} />
         <Route path="/read" exact component={Read} />
+
         <Redirect from="/*" exact to="/shelf" />
       </Switch>
     </BrowserRouter>

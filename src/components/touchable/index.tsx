@@ -22,18 +22,23 @@ const TouchableHighlight: React.FC<IProps> = ({
   const [timeStamp, setStamp] = useState(0);
   const [timer, setTimer] = useState();
 
-  const onStart = useCallback(() => {
+  const onStart = useCallback(e => {
+    e.preventDefault();
     setStamp(Date.now());
     if (onLongPress != null) {
       setTimer(setTimeout(() => onLongPress(), LONG_PRESS_DURATION));
     }
   }, []);
 
-  const onEnd = useCallback(() => {
-    const now = Date.now() - timeStamp;
-    if (now < LONG_PRESS_DURATION) clearTimeout(timer);
-    if (onClick != null && (now < LONG_PRESS_DURATION || onLongPress == null)) onClick();
-  }, [timeStamp, timer]);
+  const onEnd = useCallback(
+    e => {
+      e.preventDefault();
+      const now = Date.now() - timeStamp;
+      if (now < LONG_PRESS_DURATION) clearTimeout(timer);
+      if (onClick != null && (now < LONG_PRESS_DURATION || onLongPress == null)) onClick();
+    },
+    [timeStamp, timer]
+  );
 
   return (
     <div className={cx(styles.box, className)} onTouchStart={onStart} onTouchEnd={onEnd}>

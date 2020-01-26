@@ -1,0 +1,20 @@
+.box {
+  position: relative;
+  height: 100%;
+}
+
+:global {
+  .am-drawer-overlay {
+    z-index: 98;
+    transition: opacity 150ms ease-out;
+  }
+
+  .am-drawer-content {
+    transition: left 100ms ease-out, right 100ms ease-out;
+  }
+
+  .am-drawer-sidebar {
+    z-index: 99;
+    transition: transform 100ms ease-out;
+  }
+}

@@ -3,7 +3,7 @@ import { Icon } from 'antd-mobile';
 
 import { appName } from '@/constants';
 import Container from '@/layout/container';
-import useDrawer from '@/hooks/use-sider';
+import useSwitch from '@/hooks/use-switch';
 
 import Drawer from './components/drawer';
 import BookList from './components/book-list';
@@ -18,7 +18,7 @@ const RightIcon = ({ onClick }) => (
 
 // 如果进入阅读页，会有个修改最近阅读时间戳的操作，这个时候会导致reflow?
 const Shelf = () => {
-  const [open, changeOpen] = useDrawer();
+  const [open, changeOpen] = useSwitch();
   const right = useMemo(() => <RightIcon onClick={changeOpen} />, [changeOpen]);
 
   return (
