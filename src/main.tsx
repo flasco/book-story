@@ -12,7 +12,7 @@ setConfig({
 });
 
 function checkNeedScroll(target) {
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i <= 4; i++) {
     const className = target?.className ?? '';
     if (className.includes('needScroll')) return true;
     target = target?.parentElement ?? {};
@@ -23,7 +23,9 @@ function checkNeedScroll(target) {
 document.body.addEventListener(
   'touchmove',
   function(e) {
-    if (!checkNeedScroll(e.target)) e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
+    if (!checkNeedScroll(e.target)) {
+      e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
+    }
   },
   { passive: false }
 ); //passive 参数不能省略，用来兼容ios和android
