@@ -34,20 +34,17 @@ const useBookAndFlatten = () => {
       },
     },
     {
-      bookName: '天醒之路',
-      author: '蝴蝶蓝',
-      img: 'https://www.xinxs.la/BookFiles/BookImages/64.jpg',
-      desc:
-        '“路平，起床上课。”\n“再睡五分钟。”\n“给我起来！”\n哗！阳光洒下，照遍路平全身。\n“啊！！！”惊叫声顿时响彻云霄，将路平的睡意彻底击碎，之后已是苏唐摔门而出的怒吼：“什么条件啊你玩裸睡？！”\n......',
+      bookName: '玩家凶猛',
+      author: '黑灯夏火',
       latestChapter: '上架感言!',
-      plantformId: 2,
+      desc:
+        '这是超越维度的真实游戏，\n　　这是诸天万界的激烈竞争，\n　　波澜壮阔的史诗神话，\n　　离奇曲折的异界幻想，\n　　玩家凶猛！',
+      img: 'https://www.xinxs.la/BookFiles/BookImages/wanjiaxiongmeng.jpg',
+      plantformId: 1,
       latestRead: 0,
       isUpdate: false,
       updateNum: 0,
-      source: {
-        '1': 'https://www.xinxs.la/0_64/',
-        '2': 'http://www.kanshuzhong.com/book/36456/',
-      },
+      source: { '1': 'https://www.xinxs.la/465_465129/' },
     },
   ] as any);
   const [flattens, setFlattens] = useState<IBook[]>([]);

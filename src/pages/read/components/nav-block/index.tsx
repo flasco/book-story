@@ -63,7 +63,7 @@ const NavBlock = () => {
           <div className={styles.header}>
             <Icon type="left" className={styles.back} onClick={goBack} />
           </div>
-          <Touchable className={styles.content} onClick={() => changeMenu()} />
+          <Touchable needStop className={styles.content} onClick={() => changeMenu()} />
           {/**TODO: 状态机，同一时间内只有一个面板展示 */}
           {progress && <ProgressBlock />}
           <div className={styles.footer}>

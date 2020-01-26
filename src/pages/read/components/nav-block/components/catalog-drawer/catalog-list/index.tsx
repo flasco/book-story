@@ -3,12 +3,11 @@ import { FixedSizeList as ListView } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import cx from 'classnames';
 
-// import TouchableHighlight from '@/components/touchable';
+import TouchableHighlight from '@/components/touchable';
 
 import { useReaderContext } from '@/pages/read/context';
 
 import styles from './index.m.scss';
-import TouchableHighlight from '@/components/touchable';
 
 const BookList = ({ changeOpen, open, changeMenu }) => {
   const {
