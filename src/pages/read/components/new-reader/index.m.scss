@@ -22,13 +22,15 @@
   will-change: transform;
   color: var(--read-text);
 
-  font-size: 24px;
+  font-size: 24px; // 最后需要控制的属性
+
   word-wrap: break-word;
   font-family: sans-serif;
-  line-height: 1.6;
+  line-height: 1.8;
 
   p {
-    margin: 0;
+    margin: .1em 0;
+    font-size: 1em;
     word-break: break-all;
     text-indent: 2em;
   }

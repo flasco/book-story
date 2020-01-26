@@ -15,6 +15,9 @@ interface IProps {
   needStop?: boolean;
 }
 
+let startX = 0;
+let startY = 0;
+
 const TouchableHighlight: React.FC<IProps> = ({
   onClick = null,
   onLongPress = null,
@@ -28,6 +31,9 @@ const TouchableHighlight: React.FC<IProps> = ({
 
   const onStart = useCallback(e => {
     needStop && e.preventDefault();
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+
     setStamp(Date.now());
     if (onLongPress != null) {
       setTimer(setTimeout(() => onLongPress(), LONG_PRESS_DURATION));
@@ -37,9 +43,12 @@ const TouchableHighlight: React.FC<IProps> = ({
   const onEnd = useCallback(
     e => {
       needStop && e.preventDefault();
-      const now = Date.now() - timeStamp;
-      if (now < LONG_PRESS_DURATION) clearTimeout(timer);
-      if (onClick != null && (now < LONG_PRESS_DURATION || onLongPress == null)) onClick();
+      const { clientX: endX, clientY: endY } = e.changedTouches[0];
+      if (Math.abs(startX - endX) < 4 && Math.abs(startY - endY) < 4) {
+        const now = Date.now() - timeStamp;
+        if (now < LONG_PRESS_DURATION) clearTimeout(timer);
+        if (onClick != null && (now < LONG_PRESS_DURATION || onLongPress == null)) onClick();
+      }
     },
     [timeStamp, timer]
   );
