@@ -2,7 +2,7 @@ import { IContent } from '@/defination';
 import { getBookChapters, updateBookChapters } from '@/storage/book';
 import { getChapter } from '@/pages/read/api';
 
-class RecordCache {
+class ChapterCache {
   key: string;
   chapters: { [url: string]: IContent };
 
@@ -30,4 +30,4 @@ class RecordCache {
   };
 }
 
-export default RecordCache;
+export default ChapterCache;

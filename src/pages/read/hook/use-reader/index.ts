@@ -18,6 +18,12 @@ import { IBook } from '@/defination';
  * 书籍章节存储key约定 chapter@${sourceUrl}
  */
 
+/** 控制第一次进入章节时的变量 */
+let ctrlPos = 0;
+
+export const getCtrlPos = () => ctrlPos;
+export const changeCtrlPos = (res: number) => (ctrlPos = res);
+
 function useReader(bookInfo?: IBook) {
   const [pages, setPages] = useState<any[]>([]);
   const [title, setTitle] = useState('');
@@ -101,43 +107,39 @@ function useReader(bookInfo?: IBook) {
     }
   };
 
+  const goToChapter = useCallback(
+    async (position: number, ctrlPos: number) => {
+      if (sourceUrl == null) throw '书源记录获取失败...';
+      if (position > cachedList.getLength() || position < 0) return false;
+      openLoading('数据加载中...');
+      changeCtrlPos(ctrlPos);
+
+      const chapter = await prefetchChapter(position);
+
+      cachedRecord.updateRecord({
+        recordChapterNum: position,
+      });
+
+      setTitle(chapter.title);
+      setPages(newGetP(chapter.content));
+      closeLoading();
+
+      return true;
+    },
+    [sourceUrl]
+  );
+
   const nextChapter = useCallback(async () => {
     if (sourceUrl == null) throw '书源记录获取失败...';
 
     const position = cachedRecord.getChapterPosition() + 1;
-    if (position > cachedList.getLength()) return false;
-
-    openLoading('数据加载中...');
-
-    const chapter = await prefetchChapter(position);
-    setTitle(chapter.title);
-    setPages(newGetP(chapter.content));
-    closeLoading();
-
-    cachedRecord.updateRecord({
-      recordChapterNum: position,
-    });
-
-    return true;
+    return await goToChapter(position, 1);
   }, [sourceUrl]);
 
   const prevChapter = useCallback(async () => {
     if (sourceUrl == null) throw '书源记录获取失败...';
     const position = cachedRecord.getChapterPosition() - 1;
-
-    if (position < 0) return false;
-
-    openLoading('数据加载中...');
-
-    const chapter = await prefetchChapter(position);
-    setTitle(chapter.title);
-    setPages(newGetP(chapter.content));
-    closeLoading();
-
-    cachedRecord.updateRecord({
-      recordChapterNum: position,
-    });
-    return true;
+    return await goToChapter(position, -1);
   }, [sourceUrl]);
 
   /** 只存页数，章节在翻页的时候存 */
@@ -157,11 +159,16 @@ function useReader(bookInfo?: IBook) {
     pages,
     watched,
     showMenu,
-    changeMenu,
+    cache: {
+      list: cachedList,
+      record: cachedRecord,
+    },
     api: {
       nextChapter,
       prevChapter,
       saveRecord,
+      goToChapter,
+      changeMenu,
     },
   };
 }

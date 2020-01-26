@@ -3,17 +3,17 @@ import { createRef, useState, useCallback, useEffect } from 'react';
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
 import { Toast } from 'antd-mobile';
 import { useReaderContext } from '../../context';
+import { getCtrlPos, changeCtrlPos } from '../use-reader';
 
 let startX = 0;
 let inAnimate = false;
-let ctrlPos = 0;
 
 const pageWidth = screenWidth - 16;
 
 function useDrag() {
   const params = useReaderContext();
   const { watched: initPage, pages } = params;
-  const { prevChapter, nextChapter, changeMenu, saveRecord } = params;
+  const { prevChapter, nextChapter, changeMenu, saveRecord } = params.api;
 
   const ref = createRef<HTMLDivElement>();
   const [page, setPage] = useState(initPage - 1);
@@ -24,6 +24,7 @@ function useDrag() {
       const totalWidth = ref.current?.scrollWidth as number;
       const totalPage = (totalWidth + 16) / pageWidth;
       setTotal(totalPage);
+      const ctrlPos = getCtrlPos();
       if (ctrlPos < 0) goTo(totalPage, false);
       else if (ctrlPos > 0) goTo(1, false);
     }
@@ -46,7 +47,7 @@ function useDrag() {
         current.style.transform = `translateX(${0 - cur * pageWidth}px)`;
         setTimeout(() => (inAnimate = false), needAnimate ? 160 : 30);
       });
-      ctrlPos = 0;
+      changeCtrlPos(0);
     },
     [ref]
   );
@@ -104,7 +105,6 @@ function useDrag() {
       }
 
       if (currentPage < 0) {
-        ctrlPos = -1;
         const isEdge = !(await prevChapter());
         if (isEdge) {
           Toast.info('已经是第一章');
@@ -112,7 +112,6 @@ function useDrag() {
         }
         return;
       } else if (currentPage >= total) {
-        ctrlPos = 1;
         const isEdge = !(await nextChapter());
         if (isEdge) {
           Toast.info('已经是到底了');

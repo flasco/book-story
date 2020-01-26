@@ -14,7 +14,7 @@
 }
 
 .header {
-  background: #000;
+  background: var(--read-nav);
   height: 44px;
   display: flex;
   align-items: center;
@@ -31,7 +31,7 @@
 }
 
 .footer {
-  background: #000;
+  background: var(--read-nav);
   height: 3rem;
   display: flex;
   padding-bottom: env(safe-area-inset-bottom, 0);
