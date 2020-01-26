@@ -68,7 +68,7 @@ const NavBlock = () => {
           {progress && <ProgressBlock />}
           <div className={styles.footer}>
             {operatorMap.map(item => (
-              <Touchable className={styles.item} key={item.title} onClick={item.click}>
+              <Touchable needStop className={styles.item} key={item.title} onClick={item.click}>
                 <i className="iconfont">{item.icon}</i>
                 {item.title}
               </Touchable>

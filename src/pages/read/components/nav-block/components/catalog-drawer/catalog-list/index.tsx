@@ -51,6 +51,7 @@ const BookList = ({ changeOpen, open, changeMenu }) => {
       {({ height, width }) => (
         <ListView
           ref={listx}
+          className="needScroll"
           height={height - 44}
           itemData={data}
           itemSize={35}
