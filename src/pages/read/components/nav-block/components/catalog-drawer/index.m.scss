@@ -1,6 +1,12 @@
 .sider {
   width: 80vw;
   height: 100%;
-  background-color: var(--black-color);
+  background-color: var(--asdasdi, #d9d9d9);
   color: #fff;
+}
+
+.title {
+  background: #000;
+  line-height: 44px;
+  text-align: center;
 }

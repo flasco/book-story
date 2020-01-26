@@ -11,6 +11,7 @@ interface IProps {
   onLongPress?: any;
   children?: any;
   className?: any;
+  style?: any;
 }
 
 const TouchableHighlight: React.FC<IProps> = ({
@@ -18,6 +19,7 @@ const TouchableHighlight: React.FC<IProps> = ({
   onLongPress = null,
   children = null,
   className = '',
+  style = {},
 }) => {
   const [timeStamp, setStamp] = useState(0);
   const [timer, setTimer] = useState();
@@ -41,7 +43,12 @@ const TouchableHighlight: React.FC<IProps> = ({
   );
 
   return (
-    <div className={cx(styles.box, className)} onTouchStart={onStart} onTouchEnd={onEnd}>
+    <div
+      style={style}
+      onTouchStart={onStart}
+      onTouchEnd={onEnd}
+      className={cx(styles.box, className)}
+    >
       {children}
     </div>
   );
