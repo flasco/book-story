@@ -26,7 +26,7 @@ const Item: React.FC<{ item: IBook }> = ({ item }) => {
       <div className={styles.info}>
         <div className={styles.first}>
           <div className={styles.title}>{item.bookName}</div>
-          <CustomBadge text="更新" />
+          {item.isUpdate && <CustomBadge text="更新" />}
         </div>
         <div className={styles.sub}>{getSubTitle(item)}</div>
       </div>

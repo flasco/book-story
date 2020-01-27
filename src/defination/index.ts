@@ -1,13 +1,4 @@
 export interface IBookX {
-  bookName: string;
-  author: string;
-  desc: string;
-  img: string;
-  plantformId: number;
-  source: { [plantformId: string]: string };
-}
-
-interface IBookBase {
   /** 书名 */
   bookName: string;
   /** 作者 */
@@ -16,26 +7,24 @@ interface IBookBase {
   img: string;
   /** 描述 */
   desc: string;
-  /** 最新章节名 */
-  latestChapter: string;
+  /** 选中的源 */
+  plantformId: number;
+  /** 源 */
+  source: { [plantformId: string]: string };
 }
 
 interface IBookOperator {
-  /** 选中的源 */
-  plantformId: number;
+  /** 最新章节名 */
+  latestChapter: string;
   /** 最近阅读的时间戳，排序用 */
   latestRead: number;
   /** 是否有更新 */
   isUpdate: boolean;
   /** 更新的章节数 */
   updateNum: number;
-  /** 源 */
-  source: {
-    [key: string]: string;
-  };
 }
 
-export type IBook = IBookBase & IBookOperator;
+export type IBook = IBookX & IBookOperator;
 
 export interface IChapter {
   title: string;

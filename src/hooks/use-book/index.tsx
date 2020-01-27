@@ -1,19 +1,24 @@
 import React, { useState, useCallback, useMemo, useContext } from 'react';
-import { IBook } from '@/defination';
+
+import { getLatestChapter } from '@/api';
+import { IBook, IBookX } from '@/defination';
+import { openLoading, closeLoading } from '@/utils';
+import { Toast } from 'antd-mobile';
 
 interface Context {
   books: IBook[];
   flattens: IBook[];
   api: {
-    insertBook: (data: IBook) => void;
+    insertBook: (data: IBookX) => void;
     deleteBook: (index: number) => void;
     sortBookWithStamp: () => void;
     moveToBooks: (index: number) => void;
     moveToFlattens: (index: number) => void;
     clickBookToRead: (index: number) => void;
+    isExistBook: (book: IBookX) => boolean;
   };
 }
-const BookContext = React.createContext<Context>({} as any);
+const BookContext = React.createContext<Context>({} as Context);
 
 const useBookAndFlatten = () => {
   const [books, setBooks] = useState<IBook[]>([
@@ -49,6 +54,14 @@ const useBookAndFlatten = () => {
   ] as any);
   const [flattens, setFlattens] = useState<IBook[]>([]);
 
+  const isExistBook = useCallback(
+    (book: IBookX) => {
+      const isEQ = x => x.author === book.author && x.bookName === book.bookName;
+      return books.some(isEQ) || flattens.some(isEQ);
+    },
+    [books, flattens]
+  );
+
   const deleteBook = useCallback(
     (index: number) => {
       books.splice(index, 1);
@@ -81,10 +94,26 @@ const useBookAndFlatten = () => {
 
   /** 传入的book只有baseInfo，operatorInfo需要在这里插入 */
   const insertBook = useCallback(
-    (book: IBook) => {
-      book.latestRead = Date.now();
+    async (book: IBookX) => {
+      const sourceUrl = book.source[book.plantformId] ?? '';
 
-      books.unshift(book);
+      if (sourceUrl === '') {
+        Toast.fail('书源获取失败，疑似污染数据...');
+        return;
+      }
+      openLoading('请求数据中...');
+      const latestChapter = await getLatestChapter(sourceUrl);
+      closeLoading();
+
+      const newBook: IBook = {
+        ...book,
+        latestChapter,
+        latestRead: Date.now(),
+        updateNum: 0,
+        isUpdate: false,
+      };
+
+      books.unshift(newBook);
       setBooks([...books]);
     },
     [books]
@@ -120,6 +149,7 @@ const useBookAndFlatten = () => {
     moveToBooks,
     moveToFlattens,
     clickBookToRead,
+    isExistBook,
   };
 
   return { flattens, books, api };

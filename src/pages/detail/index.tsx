@@ -7,15 +7,39 @@ import { IBookX } from '@/defination';
 import styles from './index.m.scss';
 import { Button } from 'antd-mobile';
 import { useHistory } from 'react-router-dom';
+import { useBook } from '@/hooks/use-book';
 
 const DetailPage = props => {
   const bookInfo: IBookX = props?.location?.state ?? {};
   const { push } = useHistory();
+  const {
+    api: { isExistBook, insertBook },
+  } = useBook();
 
   const { img, bookName, author, desc } = bookInfo;
 
   const readBook = () => {
     push('/read', bookInfo);
+  };
+
+  const addBook = () => {
+    insertBook(bookInfo);
+  };
+
+  const renderAddBtn = () => {
+    const isExist = isExistBook(bookInfo);
+    if (!isExist) {
+      return (
+        <Button type="ghost" className={styles.btn} onClick={addBook}>
+          追书
+        </Button>
+      );
+    }
+    return (
+      <Button className={styles.btn} disabled>
+        已存在
+      </Button>
+    );
   };
 
   return (
@@ -29,9 +53,7 @@ const DetailPage = props => {
         </div>
       </div>
       <div className={styles.btns}>
-        <Button type="ghost" className={styles.btn}>
-          追书
-        </Button>
+        {renderAddBtn()}
         <Button type="primary" className={styles.btn} onClick={readBook}>
           开始阅读
         </Button>
