@@ -23,7 +23,7 @@ const useSwitch = (initVal: boolean): [boolean, () => void] => {
 
 const NavBlock = () => {
   const { goBack } = useHistory();
-  const { changeSunny } = useTheme();
+  const { changeSunny, sunny } = useTheme();
   const {
     api: { changeMenu },
     showMenu,
@@ -49,12 +49,12 @@ const NavBlock = () => {
         click: () => console.log('123'),
       },
       {
-        title: '夜间',
-        icon: ICON_FONT_MAP.MOON,
-        click: () => changeSunny(),
+        title: sunny ? '夜间' : '日间',
+        icon: sunny ? ICON_FONT_MAP.MOON : ICON_FONT_MAP.SUN,
+        click: changeSunny,
       },
     ];
-  }, []);
+  }, [sunny]);
 
   return (
     <div className={cx(styles.container, { [styles.hidden]: !showMenu })}>
