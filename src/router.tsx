@@ -5,6 +5,8 @@ import ThemeWrapper, { ContextWrapper } from './layout/theme-wrapper';
 
 import Read from './pages/read';
 import Shelf from './pages/shelf';
+import Search from './pages/search';
+import Detail from './pages/detail';
 
 const Wrapper: React.FC = ({ children }) => (
   <ContextWrapper>
@@ -20,6 +22,8 @@ const routes = () => (
       <Switch>
         <Route path="/shelf" exact component={Shelf} />
         <Route path="/read" exact component={Read} />
+        <Route path="/search" exact component={Search} />
+        <Route path="/detail" exact component={Detail} />
 
         <Redirect from="/*" exact to="/shelf" />
       </Switch>

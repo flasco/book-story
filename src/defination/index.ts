@@ -1,3 +1,12 @@
+export interface IBookX {
+  bookName: string;
+  author: string;
+  desc: string;
+  img: string;
+  plantformId: number;
+  source: { [plantformId: string]: string };
+}
+
 interface IBookBase {
   /** 书名 */
   bookName: string;

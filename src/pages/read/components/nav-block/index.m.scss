@@ -15,13 +15,14 @@
 
 .header {
   background: var(--read-nav);
-  height: 44px;
+  height: 45px;
   display: flex;
   align-items: center;
 
   .back {
     color: #fff;
     padding: 11px;
+    padding-left: 15px;
   }
 }
 

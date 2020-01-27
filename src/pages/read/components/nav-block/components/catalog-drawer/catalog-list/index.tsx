@@ -1,9 +1,8 @@
 import React, { useMemo, useEffect, useCallback } from 'react';
-import { FixedSizeList as ListView } from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
 import cx from 'classnames';
 
 import TouchableHighlight from '@/components/touchable';
+import VirtualList from '@/components/virtual-list';
 
 import { useReaderContext } from '@/pages/read/context';
 
@@ -46,22 +45,7 @@ const BookList = ({ changeOpen, open, changeMenu }) => {
   );
 
   return (
-    <AutoSizer>
-      {({ height, width }) => (
-        <ListView
-          ref={listx}
-          className="needScroll"
-          height={height - 44}
-          itemData={data}
-          itemSize={40}
-          width={width}
-          overscanCount={4}
-          itemCount={data.length}
-        >
-          {renderItem}
-        </ListView>
-      )}
-    </AutoSizer>
+    <VirtualList ref={listx} data={data} itemSize={40} preLength={44} renderItem={renderItem} />
   );
 };
 

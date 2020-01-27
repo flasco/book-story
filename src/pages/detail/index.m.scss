@@ -1,0 +1,80 @@
+.contianer {
+  background: #f6f7f9;
+}
+
+.img {
+  width: 5.25rem;
+  height: 7rem;
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.info {
+  display: flex;
+  padding: 1rem;
+
+  .right {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    .title {
+      font-size: 18px;
+      line-height: 1.4;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .sub {
+      color: #808080;
+      font-size: 14px;
+    }
+  }
+}
+
+.btns {
+  display: flex;
+  padding: 0 1rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  .btn {
+    width: 10rem;
+  }
+}
+
+.desc {
+  font-size: .875rem;
+  line-height: 1.5rem;
+  text-align: justify;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  overflow: hidden;
+  border-top: 1rem solid transparent;
+  border-bottom: 1rem solid transparent;
+  box-shadow: 0 1px #f0f1f2, 0 -1px #f0f1f2;
+
+  p {
+    margin: .1em 0;
+  }
+}
+
+:global {
+  .am-button-primary {
+    background-color: var(--read-current);
+
+    &::before {
+      border-color: var(--read-current) !important; // sass-lint:disable-line no-important
+    }
+  }
+
+  .am-button-ghost {
+    color: var(--read-current);
+
+    &::before {
+      border-color: var(--read-current) !important; // sass-lint:disable-line no-important
+    }
+  }
+}

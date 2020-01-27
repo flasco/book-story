@@ -5,10 +5,11 @@ Create by react 16.12 and webpack 4.x
 ## TODO
 
 - [ ] 书架 [WIP]
-- [ ] 阅读页 [WIP]
+- [x] 阅读页 [WIP]
 - [x] 目录页
+- [x] 搜索页
+- [x] 详情页
 - [ ] 排行页
-- [ ] 详情页
 - [ ] 用户权限
 - [x] 主题方案
 - [x] 应用存储方案设计（localstorage）

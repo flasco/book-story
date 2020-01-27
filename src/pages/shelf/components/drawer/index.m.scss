@@ -1,6 +1,18 @@
 .sider {
   width: 60vw;
   height: 100%;
+  padding: 10px;
   background-color: var(--black-color);
   color: #fff;
+}
+
+.item {
+  height: 40px;
+  padding-left: 10px;
+  line-height: 40px;
+  background: rgba(255, 255, 255, .2);
+}
+
+.item + .item {
+  margin-top: 10px;
 }
