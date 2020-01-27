@@ -1,5 +1,7 @@
 :root {
   --black-color: #000;
+  --read-list: #fff;
+  --read-current: #db0019;
 }
 
 .sunny {
@@ -8,7 +10,7 @@
   --read-title: rgba(0, 0, 0, .7);
   --read-text: rgba(0, 0, 0, .85);
   --read-footer: rgba(0, 0, 0, .85);
-  --read-nav: #000;
+  --read-nav: rgba(0, 0, 0, .8);
 
   --shelf-container: #e6e6e6;
   --shelf-separator: rgba(255, 255, 255, .2);

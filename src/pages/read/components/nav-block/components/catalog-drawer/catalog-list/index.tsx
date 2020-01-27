@@ -53,7 +53,7 @@ const BookList = ({ changeOpen, open, changeMenu }) => {
           className="needScroll"
           height={height - 44}
           itemData={data}
-          itemSize={35}
+          itemSize={40}
           width={width}
           overscanCount={4}
           itemCount={data.length}

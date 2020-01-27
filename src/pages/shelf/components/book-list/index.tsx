@@ -10,8 +10,8 @@ const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
 });
 
-const renderSeparator = () => {
-  return <div className={styles.separator} />;
+const renderSeparator = (_, id) => {
+  return <div className={styles.separator} key={id} />;
 };
 
 const BookList = () => {

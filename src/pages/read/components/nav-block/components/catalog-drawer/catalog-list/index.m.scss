@@ -1,7 +1,7 @@
 .item {
   display: flex;
   align-items: center;
-  background: #565656;
+  color: #33373d;
 
   span {
     padding-left: 10px;
@@ -9,9 +9,9 @@
 }
 
 .current {
-  color: #db0019;
+  color: var(--read-current);
 }
 
 .item + .item {
-  border-top: 1px solid #969696;
+  border-top: 1px solid #f0f1f2;
 }
