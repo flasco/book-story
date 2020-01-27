@@ -52,7 +52,12 @@ const SearchPage = () => {
 
   return (
     <Container showBar title="搜索" back>
-      <SearchBar placeholder="输入关键字" onSubmit={searchOpe} onCancel={cancelSearch} />
+      <SearchBar
+        placeholder="输入关键字"
+        onSubmit={searchOpe}
+        onCancel={cancelSearch}
+        className={styles.search}
+      />
       <div className={styles.hint}>{hint}</div>
       <VirtualList data={list} itemSize={40} preLength={119} renderItem={renderItem} />
     </Container>

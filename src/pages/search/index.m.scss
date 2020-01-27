@@ -13,6 +13,12 @@
   }
 }
 
+.search {
+  input {
+    -webkit-user-select: auto; // sass-lint:disable-line no-vendor-prefixes
+  }
+}
+
 .item + .item {
   border-top: 1px solid #f0f1f2;
 }
