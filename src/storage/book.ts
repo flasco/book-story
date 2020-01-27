@@ -1,5 +1,18 @@
 import { setItem, getItem, STORE_LEVEL } from './base';
-import { IChapter, IContent } from '@/defination';
+import { IChapter, IContent, IBook } from '@/defination';
+
+type bookType = 'books' | 'flattens';
+export function getBooksWithType(type: bookType) {
+  const key = 'book-story@' + type;
+
+  return getItem(key) as IBook[];
+}
+
+export function setBooksWithType(type: bookType, books: IBook[]) {
+  const key = 'book-story@' + type;
+
+  return setItem(key, books, STORE_LEVEL.STORE);
+}
 
 export function getChapterList(sourceUrl: string) {
   const key = 'list@' + sourceUrl;

@@ -33,7 +33,7 @@ export async function getAsBuffer(url: string, payload?: object) {
   return data;
 }
 
-export async function post(url: string, payload?: object) {
+export async function post<T>(url: string, payload?: object) {
   url = getIp() + url;
 
   const {
@@ -42,5 +42,5 @@ export async function post(url: string, payload?: object) {
   } = await axios.post(url, payload);
   if (err) throw err.message || err;
   if (code !== 0 && code !== 200) throw msg;
-  return data;
+  return data as T;
 }

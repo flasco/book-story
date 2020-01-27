@@ -4,7 +4,7 @@ Create by react 16.12 and webpack 4.x
 
 ## TODO
 
-- [ ] 书架 [WIP]
+- [x] 书架 [WIP]
 - [x] 阅读页 [WIP]
 - [x] 目录页
 - [x] 搜索页
@@ -38,7 +38,7 @@ Create by react 16.12 and webpack 4.x
 - [x] 书架样式
 - [x] 书籍数据结构设计
 - [x] 与阅读页串联
-- [ ] 下拉刷新
-- [ ] 书籍持久化
-- [ ] 点击排序
+- [x] 下拉刷新
+- [x] 书籍持久化
+- [x] 点击排序
 - [ ] 养肥区

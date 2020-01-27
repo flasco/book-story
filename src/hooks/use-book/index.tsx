@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useMemo, useContext } from 'react';
 
-import { getLatestChapter } from '@/api';
+import { getLatestChapter, fetchAllLatest } from '@/api';
 import { IBook, IBookX } from '@/defination';
+import CacheBooks from '@/cache/books';
 import { openLoading, closeLoading } from '@/utils';
 import { Toast } from 'antd-mobile';
 
@@ -16,43 +17,25 @@ interface Context {
     moveToFlattens: (index: number) => void;
     clickBookToRead: (index: number) => void;
     isExistBook: (book: IBookX) => boolean;
+    updateLists: () => Promise<any>;
   };
 }
 const BookContext = React.createContext<Context>({} as Context);
 
+const getUpdateNum = (list, latestChapter) => {
+  const length = list.length;
+  for (let i = length - 1; i >= 0; i--) {
+    if (list[i].title === latestChapter) {
+      return length - i - 1;
+    }
+  }
+  return 0;
+};
+
 const useBookAndFlatten = () => {
-  const [books, setBooks] = useState<IBook[]>([
-    {
-      bookName: '天醒之路',
-      author: '蝴蝶蓝',
-      img: 'https://www.xinxs.la/BookFiles/BookImages/64.jpg',
-      desc:
-        '“路平，起床上课。”\n“再睡五分钟。”\n“给我起来！”\n哗！阳光洒下，照遍路平全身。\n“啊！！！”惊叫声顿时响彻云霄，将路平的睡意彻底击碎，之后已是苏唐摔门而出的怒吼：“什么条件啊你玩裸睡？！”\n......',
-      latestChapter: '上架感言!',
-      plantformId: 1,
-      latestRead: 0,
-      isUpdate: false,
-      updateNum: 0,
-      source: {
-        '1': 'https://www.xinxs.la/0_64/',
-        '2': 'http://www.kanshuzhong.com/book/36456/',
-      },
-    },
-    {
-      bookName: '玩家凶猛',
-      author: '黑灯夏火',
-      latestChapter: '上架感言!',
-      desc:
-        '这是超越维度的真实游戏，\n　　这是诸天万界的激烈竞争，\n　　波澜壮阔的史诗神话，\n　　离奇曲折的异界幻想，\n　　玩家凶猛！',
-      img: 'https://www.xinxs.la/BookFiles/BookImages/wanjiaxiongmeng.jpg',
-      plantformId: 1,
-      latestRead: 0,
-      isUpdate: false,
-      updateNum: 0,
-      source: { '1': 'https://www.xinxs.la/465_465129/' },
-    },
-  ] as any);
-  const [flattens, setFlattens] = useState<IBook[]>([]);
+  const bookCache = useMemo(() => new CacheBooks(), []);
+  const [books, setBooks] = useState<IBook[]>(bookCache.books);
+  const [flattens, setFlattens] = useState<IBook[]>(bookCache.flattens);
 
   const isExistBook = useCallback(
     (book: IBookX) => {
@@ -66,6 +49,7 @@ const useBookAndFlatten = () => {
     (index: number) => {
       books.splice(index, 1);
       setBooks([...books]);
+      bookCache.update({ books });
     },
     [books]
   );
@@ -74,8 +58,9 @@ const useBookAndFlatten = () => {
     (index: number) => {
       const book = books.splice(index, 1)[0];
       flattens.unshift(book);
-      setBooks(books);
-      setFlattens(flattens);
+      setBooks([...books]);
+      setFlattens([...flattens]);
+      bookCache.update({ books, flattens });
     },
     [books, flattens]
   );
@@ -86,8 +71,9 @@ const useBookAndFlatten = () => {
       book.latestRead = Date.now();
 
       books.unshift(book);
-      setBooks(books);
-      setFlattens(flattens);
+      setBooks([...books]);
+      setFlattens([...flattens]);
+      bookCache.update({ books, flattens });
     },
     [books, flattens]
   );
@@ -115,6 +101,7 @@ const useBookAndFlatten = () => {
 
       books.unshift(newBook);
       setBooks([...books]);
+      bookCache.update({ books });
     },
     [books]
   );
@@ -122,7 +109,9 @@ const useBookAndFlatten = () => {
   const clickBookToRead = useCallback(
     (index: number) => {
       books[index].latestRead = Date.now();
-      setBooks(books);
+      books[index].isUpdate = false;
+      books[index].updateNum = 0;
+      setBooks([...books]);
     },
     [books]
   );
@@ -140,7 +129,42 @@ const useBookAndFlatten = () => {
       arr[preIndex + 1] = current;
     }
     setBooks(arr);
+    bookCache.update({ books });
   }, [books]);
+
+  const updateLists = useCallback(async () => {
+    const func = (i: IBook) => ({ title: i.latestChapter, url: i.source[i.plantformId] });
+    const task1 = books.map(func);
+    const task2 = flattens.map(func);
+    const [t1, t2] = await Promise.all([fetchAllLatest(task1), fetchAllLatest(task2)]);
+
+    let cnt = 0;
+    let flattened = 0;
+    t1.forEach((item, index) => {
+      if (item !== '-1') {
+        cnt++;
+        books[index].latestChapter = item.title;
+        const num = getUpdateNum(item.list, books[index].latestChapter);
+        books[index].isUpdate = true;
+        books[index].updateNum += num;
+      }
+    });
+
+    t2.forEach((item, index) => {
+      if (item !== '-1') {
+        flattens[index].latestChapter = item.title;
+        const num = getUpdateNum(item.list, flattens[index].latestChapter);
+        flattens[index].isUpdate = true;
+        flattens[index].updateNum += num;
+      }
+      if (flattens[index].updateNum > 30) flattened++;
+    });
+
+    setBooks([...books]);
+    setFlattens([...flattens]);
+    bookCache.update({ books, flattens });
+    return { cnt, flattened };
+  }, [books, flattens]);
 
   const api = {
     insertBook,
@@ -150,6 +174,7 @@ const useBookAndFlatten = () => {
     moveToFlattens,
     clickBookToRead,
     isExistBook,
+    updateLists,
   };
 
   return { flattens, books, api };
