@@ -8,7 +8,7 @@ function main() {
     'dist',
     {
       branch: 'gh-pages',
-      repo: 'https://gitee.com/flasco/book-story.git'
+      repo: 'https://gitee.com/flasco/book-story.git',
     },
     () => spinner.succeed()
   );
