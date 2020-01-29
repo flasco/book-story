@@ -6,6 +6,9 @@
 
 .title {
   position: absolute;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   top: 0;
   left: 16px;
   line-height: 44px;
