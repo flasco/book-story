@@ -59,18 +59,23 @@ const BookList = () => {
   const refresh = useMemo(() => <PullRefresh refreshing={pull} onRefresh={onPull} />, [pull]);
 
   const renderItem = (item: IBook, _, index: any) => {
+    const { bookName, author, plantformId, img, isUpdate } = item;
     const onClick = () => {
       push('/read', item);
       clickBookToRead(+index);
       setTimeout(() => sortBookWithStamp(), 600);
     };
     return (
-      <Touchable className={styles.item} onClick={onClick}>
-        <ImageShow src={item.img} className={styles.img} />
+      <Touchable
+        key={`${bookName}-${author}-${plantformId}`}
+        className={styles.item}
+        onClick={onClick}
+      >
+        <ImageShow src={img} className={styles.img} />
         <div className={styles.info}>
           <div className={styles.first}>
-            <div className={styles.title}>{item.bookName}</div>
-            {item.isUpdate && <CustomBadge text="更新" />}
+            <div className={styles.title}>{bookName}</div>
+            {isUpdate && <CustomBadge text="更新" />}
           </div>
           <div className={styles.sub}>{getSubTitle(item)}</div>
         </div>
