@@ -4,13 +4,13 @@ Create by react 16.12 and webpack 4.x
 
 ## TODO
 
-- [x] 书架 [WIP]
-- [x] 阅读页 [WIP]
+- [ ] 排行页
+- [ ] 用户权限
+- [x] 书架
+- [x] 阅读页
 - [x] 目录页
 - [x] 搜索页
 - [x] 详情页
-- [ ] 排行页
-- [ ] 用户权限
 - [x] 主题方案
 - [x] 应用存储方案设计（localstorage）
 
@@ -41,4 +41,5 @@ Create by react 16.12 and webpack 4.x
 - [x] 下拉刷新
 - [x] 书籍持久化
 - [x] 点击排序
+- [ ] 操作按钮(删除，养肥)
 - [ ] 养肥区
