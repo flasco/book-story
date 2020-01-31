@@ -5,9 +5,11 @@ import Touchable from '@/components/touchable';
 
 import styles from './index.m.scss';
 import { useHistory } from 'react-router-dom';
+import { useTheme } from '@/hooks/use-theme';
 
 const SiderBar = ({ push }) => {
   const onClick = () => push('/search');
+  const { changeSunny } = useTheme();
 
   return (
     <div className={styles.sider}>
@@ -16,6 +18,9 @@ const SiderBar = ({ push }) => {
       </Touchable>
       <Touchable needStop className={styles.item}>
         排行
+      </Touchable>
+      <Touchable needStop className={styles.item} onClick={changeSunny}>
+        日夜切换
       </Touchable>
     </div>
   );

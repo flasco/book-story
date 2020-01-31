@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react';
-import { ListView, PullToRefresh, Toast } from 'antd-mobile';
+import { ListView, PullToRefresh, Toast, SwipeAction } from 'antd-mobile';
 import { useHistory } from 'react-router-dom';
 import cx from 'classnames';
 
@@ -13,8 +13,6 @@ import { IBook } from '@/defination';
 import styles from './index.m.scss';
 
 const PullRefresh: any = PullToRefresh;
-
-let isFirstLoad = true;
 
 const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
@@ -36,17 +34,15 @@ const getSubTitle = item => {
 const BookList = () => {
   const {
     books,
-    api: { updateLists, clickBookToRead, sortBookWithStamp },
+    api: { updateLists, clickBookToRead, sortBookWithStamp, deleteBook },
   } = useBook();
   const { push } = useHistory();
   const [pull, setPull] = useState(true);
-  const datasets = useMemo(() => ds.cloneWithRows(books), []);
+  const datasets = useMemo(() => ds.cloneWithRows(books), [books]);
 
   useEffect(() => {
-    if (isFirstLoad) {
-      setPull(false);
-      isFirstLoad = false;
-    }
+    setPull(true);
+    setPull(false);
   }, []);
 
   const onPull = useCallback(async () => {
@@ -66,20 +62,34 @@ const BookList = () => {
       sortBookWithStamp();
     };
     return (
-      <Touchable
+      <SwipeAction
         key={`${bookName}-${author}-${plantformId}`}
-        className={styles.item}
-        onClick={onClick}
+        style={{ background: 'var(--shelf-row)' }}
+        autoClose
+        right={[
+          // {
+          //   text: '养肥',
+          //   onPress: () => console.log('cancel'),
+          //   style: { color: 'black' },
+          // },
+          {
+            text: '删除',
+            onPress: () => deleteBook(+index),
+            style: { color: '#F4333C' },
+          },
+        ]}
       >
-        <ImageShow src={img} className={styles.img} />
-        <div className={styles.info}>
-          <div className={styles.first}>
-            <div className={styles.title}>{bookName}</div>
-            {isUpdate && <CustomBadge text="更新" />}
+        <Touchable className={styles.item} onClick={onClick}>
+          <ImageShow src={img} className={styles.img} />
+          <div className={styles.info}>
+            <div className={styles.first}>
+              <div className={styles.title}>{bookName}</div>
+              {isUpdate && <CustomBadge text="更新" />}
+            </div>
+            <div className={styles.sub}>{getSubTitle(item)}</div>
           </div>
-          <div className={styles.sub}>{getSubTitle(item)}</div>
-        </div>
-      </Touchable>
+        </Touchable>
+      </SwipeAction>
     );
   };
 
