@@ -15,7 +15,8 @@ const ImageShow: React.FC<any> = ({ src, ...otherProps }) => {
       })
       .catch(() => {
         (ref.current as any).src = defaultImage;
-      });
+      })
+      .catch(() => null);
   }, []);
 
   return <img {...otherProps} ref={ref} />;

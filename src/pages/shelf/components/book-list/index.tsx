@@ -39,12 +39,12 @@ const BookList = () => {
     api: { updateLists, clickBookToRead, sortBookWithStamp },
   } = useBook();
   const { push } = useHistory();
-  const [pull, setPull] = useState(false);
+  const [pull, setPull] = useState(true);
   const datasets = useMemo(() => ds.cloneWithRows(books), []);
 
   useEffect(() => {
     if (isFirstLoad) {
-      onPull();
+      setPull(false);
       isFirstLoad = false;
     }
   }, []);
@@ -63,7 +63,7 @@ const BookList = () => {
     const onClick = () => {
       push('/read', item);
       clickBookToRead(+index);
-      setTimeout(() => sortBookWithStamp(), 600);
+      sortBookWithStamp();
     };
     return (
       <Touchable

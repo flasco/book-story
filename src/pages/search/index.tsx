@@ -29,12 +29,15 @@ const SearchPage = () => {
         return;
       }
       openLoading('加载中...');
-      const result = await search(keyword);
-      setList(result);
-      const len = result?.length ?? 0;
-      setHint(len > 0 ? HINT_TIPS.RESULT(len) : HINT_TIPS.EMPTY);
-
-      closeLoading();
+      try {
+        const result = await search(keyword);
+        setList(result);
+        const len = result?.length ?? 0;
+        setHint(len > 0 ? HINT_TIPS.RESULT(len) : HINT_TIPS.EMPTY);
+        closeLoading();
+      } catch (error) {
+        Toast.show('未知错误，请稍后重试...');
+      }
     },
     [setList]
   );
