@@ -30,12 +30,14 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   // console.log('fetch:', e.request.url);
-  if (e.request.url.includes('/api/')) {
+  if (e.request.url.includes('/v2/')) {
     e.respondWith(
       caches.open(DATA_CACHE_NAME).then(cache => {
         return fetch(e.request)
-          .then(res => {
-            if (res.status === 200) {
+          .then(async res => {
+            const result = await res.json();
+            const isNormal = result.code === 200 || result.code === 0;
+            if (res.status === 200 && isNormal) {
               cache.put(e.request.url, res.clone());
             }
             return res;
