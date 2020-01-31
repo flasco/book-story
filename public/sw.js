@@ -35,9 +35,7 @@ self.addEventListener('fetch', e => {
       caches.open(DATA_CACHE_NAME).then(cache => {
         return fetch(e.request)
           .then(async res => {
-            const result = await res.json();
-            const isNormal = result.code === 200 || result.code === 0;
-            if (res.status === 200 && isNormal) {
+            if (res.status === 200) {
               cache.put(e.request.url, res.clone());
             }
             return res;
