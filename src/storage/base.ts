@@ -1,3 +1,4 @@
+import localforage from 'localforage';
 import { ee } from '@/main';
 
 export enum STORE_LEVEL {
@@ -9,8 +10,13 @@ export enum STORE_LEVEL {
 const SAFE_KEY = 'book-story@safe';
 const TEMP_KEY = 'book-story@temp';
 
-const safeKey: Set<any> = new Set(getItem(SAFE_KEY)) ?? new Set();
-const tempKey: Set<any> = new Set(getItem(TEMP_KEY)) ?? new Set();
+let safeKey: Set<any>;
+let tempKey: Set<any>;
+
+(async () => {
+  safeKey = new Set(await getItem(SAFE_KEY)) ?? new Set();
+  tempKey = new Set(await getItem(TEMP_KEY)) ?? new Set();
+})();
 
 setTimeout(() => {
   ee.on('app-state', (isActive: boolean) => {
@@ -21,37 +27,35 @@ setTimeout(() => {
   });
 }, 4000);
 
-export function getItem(key: string) {
-  const value = localStorage.getItem(key);
-  if (value != null) return JSON.parse(value).content;
+export async function getItem(key: string): Promise<any> {
+  const value = await localforage.getItem(key);
+  if (value != null) return value;
   return null;
 }
 
-export function setItem(key: string, value: any, level?: STORE_LEVEL) {
+export async function setItem(key: string, value: any, level?: STORE_LEVEL) {
   if (level === STORE_LEVEL.SAFE) {
     safeKey.add(key);
   } else if (level !== STORE_LEVEL.STORE) {
     tempKey.add(key);
   }
 
-  const payload = { content: value };
-  localStorage.setItem(
-    key,
-    JSON.stringify(payload, (_, value) => (value instanceof Set ? [...value] : value))
-  );
+  await localforage.setItem(key, value);
 }
 
-export function removeItem(key: string) {
-  localStorage.removeItem(key);
+export async function removeItem(key: string) {
+  await localforage.removeItem(key);
 }
 
-export function clearTemp() {
-  tempKey.forEach(key => removeItem(key));
+export async function clearTemp() {
+  const workArr: any[] = [];
+  tempKey.forEach(key => workArr.push(removeItem(key)));
+  await Promise.all(workArr);
   tempKey.clear();
 }
 
-export function clearAll() {
-  localStorage.clear();
+export async function clearAll() {
+  await localforage.clear();
   safeKey.clear();
   tempKey.clear();
 }

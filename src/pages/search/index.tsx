@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { SearchBar, Toast, Icon } from 'antd-mobile';
 
 import Container from '@/layout/container';
@@ -29,7 +29,11 @@ const SearchPage = () => {
   const { push, go } = useHistory();
   const [list, setList] = useState<IBookX[]>([]);
   const [hint, setHint] = useState(HINT_TIPS.INIT);
-  const sites = useMemo(() => getSearchSetting(), []);
+  const [sites, setSites] = useState([] as string[]);
+
+  useEffect(() => {
+    getSearchSetting().then(val => setSites(val));
+  }, []);
 
   const searchOpe = useCallback(
     async (keyword: string) => {
@@ -48,7 +52,7 @@ const SearchPage = () => {
         Toast.show('未知错误，请稍后重试...');
       }
     },
-    [setList]
+    [setList, sites]
   );
 
   const right = useMemo(() => <RightIcon onClick={() => push('/search-setting')} />, [push]);

@@ -12,12 +12,15 @@ interface IRecordS {
 
 class RecordCache {
   key: string;
-  record: IRecord;
+  record: IRecord = {} as IRecord;
 
   constructor(key: string) {
     this.key = key;
-    this.record = getBookRecord(key);
   }
+
+  init = async () => {
+    this.record = await getBookRecord(this.key);
+  };
 
   getWatchedPage = () => this.record.recordPage;
 

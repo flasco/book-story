@@ -7,8 +7,13 @@ interface IUpdate {
 }
 
 class ListCache {
-  books: IBook[] = getBooksWithType('books') ?? [];
-  flattens: IBook[] = getBooksWithType('flattens') ?? [];
+  books: IBook[] = [];
+  flattens: IBook[] = [];
+
+  init = async () => {
+    this.books = (await getBooksWithType('books')) ?? [];
+    this.flattens = (await getBooksWithType('flattens')) ?? [];
+  };
 
   update = ({ books, flattens }: IUpdate) => {
     if (flattens != null) {

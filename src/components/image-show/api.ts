@@ -4,12 +4,11 @@ import { getItem, setItem, STORE_LEVEL } from '@/storage/base';
 import { buffer2Base64 } from '@/utils';
 
 export async function getImage(url: string) {
-  let image = getItem(url);
+  let image = await getItem(url);
   if (image == null) {
     image = await getAsBuffer('/v2/utils/get-image', { img: url });
-
-    image = buffer2Base64(image);
-    setItem(url, image, STORE_LEVEL.SAFE);
+    await setItem(url, image, STORE_LEVEL.SAFE);
   }
+  image = buffer2Base64(image);
   return image;
 }

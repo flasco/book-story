@@ -8,8 +8,8 @@ class ListCache {
     this.key = key;
   }
 
-  checkIsExist = () => {
-    const list = getChapterList(this.key);
+  checkIsExist = async () => {
+    const list = await getChapterList(this.key);
     if (list != null) this.list = list;
     return list != null;
   };

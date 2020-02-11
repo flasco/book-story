@@ -1,15 +1,20 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import SXider from '@/components/drawer';
+import { clearTemp } from '@/storage/base';
+import { useTheme } from '@/hooks/use-theme';
 import Touchable from '@/components/touchable';
 
 import styles from './index.m.scss';
-import { useHistory } from 'react-router-dom';
-import { useTheme } from '@/hooks/use-theme';
 
 const SiderBar = ({ push }) => {
   const onClick = () => push('/search');
   const { changeSunny } = useTheme();
+  const onClear = useCallback(async () => {
+    await clearTemp();
+    alert('缓存清理成功');
+  }, []);
 
   return (
     <div className={styles.sider}>
@@ -21,6 +26,9 @@ const SiderBar = ({ push }) => {
       </Touchable>
       <Touchable needStop className={styles.item} onClick={changeSunny}>
         日夜切换
+      </Touchable>
+      <Touchable needStop className={styles.item} onClick={onClear}>
+        缓存清理
       </Touchable>
     </div>
   );

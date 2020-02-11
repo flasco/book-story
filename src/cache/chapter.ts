@@ -4,12 +4,16 @@ import { getChapter } from '@/pages/read/api';
 
 class ChapterCache {
   key: string;
-  chapters: { [url: string]: IContent };
+  chapters: { [url: string]: IContent } = {};
 
   constructor(key: string) {
     this.key = key;
-    this.chapters = getBookChapters(key);
+    this.init();
   }
+
+  init = async () => {
+    this.chapters = await getBookChapters(this.key);
+  };
 
   getContent = async (chapterUrl: string, retryCnt = 0): Promise<IContent> => {
     try {

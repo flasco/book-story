@@ -17,11 +17,12 @@ const SearchPage = () => {
 
   useEffect(() => {
     getSites().then(val => setData(val));
-    const searched = getSearchSetting();
-    searched.forEach(key => {
-      checkMap[key] = true;
+    getSearchSetting().then(searched => {
+      searched.forEach(key => {
+        checkMap[key] = true;
+      });
+      setCheckMap({ ...checkMap });
     });
-    setCheckMap({ ...checkMap });
   }, []);
 
   const onCheck = (key, checked) => {

@@ -1,7 +1,7 @@
 import { getItem, setItem, STORE_LEVEL } from '@/storage/base';
 
-export function getSearchSetting(): string[] {
-  return getItem('book-story@search-setting') ?? [];
+export async function getSearchSetting(): Promise<string[]> {
+  return (await getItem('book-story@search-setting')) ?? [];
 }
 
 export function setSearchSetting(value) {

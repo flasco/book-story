@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import defaultImage from '@/assets/noImg.jpg';
 
@@ -6,20 +6,19 @@ import { getImage } from './api';
 
 // 考虑做个图片本地缓存
 const ImageShow: React.FC<any> = ({ src, ...otherProps }) => {
-  const ref = React.createRef<HTMLImageElement>();
+  const [origin, setSrc] = useState(null);
 
   useEffect(() => {
     getImage(src)
       .then(image => {
-        (ref.current as any).src = image;
+        setSrc(image);
       })
       .catch(() => {
-        (ref.current as any).src = defaultImage;
-      })
-      .catch(() => null);
-  }, []);
+        setSrc(defaultImage);
+      });
+  }, [src]);
 
-  return <img {...otherProps} ref={ref} />;
+  return React.createElement('img', { ...otherProps, src: origin });
 };
 
 export default ImageShow;

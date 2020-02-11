@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useContext } from 'react';
+import React, { useState, useCallback, useMemo, useContext, useEffect } from 'react';
 
 import { getLatestChapter, fetchAllLatest } from '@/api';
 import { IBook, IBookX } from '@/defination';
@@ -34,8 +34,15 @@ const getUpdateNum = (list, latestChapter) => {
 
 const useBookAndFlatten = () => {
   const bookCache = useMemo(() => new CacheBooks(), []);
-  const [books, setBooks] = useState<IBook[]>(bookCache.books);
-  const [flattens, setFlattens] = useState<IBook[]>(bookCache.flattens);
+  const [books, setBooks] = useState<IBook[]>([]);
+  const [flattens, setFlattens] = useState<IBook[]>([]);
+
+  useEffect(() => {
+    bookCache.init().then(() => {
+      setBooks(bookCache.books);
+      setFlattens(bookCache.flattens);
+    });
+  }, []);
 
   const isExistBook = useCallback(
     (book: IBookX) => {

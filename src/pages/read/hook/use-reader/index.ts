@@ -85,10 +85,11 @@ function useReader(bookInfo?: IBook) {
     try {
       openLoading('数据加载中...');
       if (sourceUrl == null) throw '书源记录获取失败...';
+      await cachedRecord.init();
 
       setWatched(cachedRecord.getWatchedPage());
 
-      if (!cachedList.checkIsExist()) {
+      if (!(await cachedList.checkIsExist())) {
         const list = await getList(sourceUrl);
         cachedList.updateList(list);
       }
