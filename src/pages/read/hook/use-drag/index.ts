@@ -16,7 +16,7 @@ function useDrag() {
   const { prevChapter, nextChapter, changeMenu, saveRecord } = params.api;
 
   const ref = createRef<HTMLDivElement>();
-  const [page, setPage] = useState(initPage - 1);
+  const [page, setPage] = useState(Math.round(initPage - 1));
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function useDrag() {
   /** cur 从1开始 */
   const goTo = useCallback(
     (cur: number, needAnimate = true) => {
-      cur = cur - 1;
+      cur = Math.round(cur - 1);
       const current = ref.current as HTMLDivElement;
       setPage(cur);
       saveRecord(cur);
@@ -119,7 +119,7 @@ function useDrag() {
         }
         return;
       }
-      page !== currentPage && setPage(currentPage);
+      page !== currentPage && setPage(Math.round(currentPage));
       goTo(currentPage + 1, needAnimate);
     },
     [ref, page, total]

@@ -68,6 +68,10 @@
     &::before {
       border-color: var(--read-current) !important; // sass-lint:disable-line no-important
     }
+
+    &:hover {
+      background-color: var(--read-current);
+    }
   }
 
   .am-button-ghost {
@@ -75,6 +79,11 @@
 
     &::before {
       border-color: var(--read-current) !important; // sass-lint:disable-line no-important
+    }
+
+    &.am-button-active {
+      color: var(--read-current);
+      opacity: .6;
     }
   }
 }
