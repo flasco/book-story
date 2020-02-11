@@ -1,22 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Button } from 'antd-mobile';
+import { useHistory } from 'react-router-dom';
 
 import Container from '@/layout/container';
 import ImageShow from '@/components/image-show';
 import { IBookX } from '@/defination';
-
-import styles from './index.m.scss';
-import { Button } from 'antd-mobile';
-import { useHistory } from 'react-router-dom';
 import { useBook } from '@/hooks/use-book';
 
+import { getDetail } from './api';
+
+import styles from './index.m.scss';
+
 const DetailPage = props => {
-  const bookInfo: IBookX = props?.location?.state ?? {};
   const { push } = useHistory();
   const {
     api: { isExistBook, insertBook },
   } = useBook();
 
-  const { img, bookName, author, desc } = bookInfo;
+  const [bookInfo, setInfo] = useState<IBookX>(props?.location?.state ?? {});
+  const { img, bookName, author, desc, source, plantformId } = bookInfo;
+
+  const sourceUrl = source[plantformId];
+
+  useEffect(() => {
+    if (img == null) {
+      getDetail(sourceUrl).then(val => {
+        setInfo({
+          ...bookInfo,
+          desc: val.desc,
+          img: val.image,
+        });
+      });
+    }
+  }, []);
+
+  if (desc == null) return null;
+
+  const plantform = new URL(sourceUrl).host;
 
   const readBook = () => {
     push('/read', bookInfo);
@@ -49,7 +69,7 @@ const DetailPage = props => {
         <div className={styles.right}>
           <div className={styles.title}>{bookName}</div>
           <div className={styles.sub}>{author}</div>
-          <div className={styles.sub}>plantForm</div>
+          <div className={styles.sub}>{plantform}</div>
         </div>
       </div>
       <div className={styles.btns}>

@@ -10,7 +10,7 @@ export interface IBookX {
   /** 选中的源 */
   plantformId: number;
   /** 源 */
-  source: { [plantformId: string]: string };
+  source: string[];
 }
 
 interface IBookOperator {

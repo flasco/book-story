@@ -73,17 +73,18 @@ const BookList = () => {
           //   style: { color: 'black' },
           // },
           {
+            text: '详情',
+            onPress: () => push('/detail', item),
+            style: { color: '#000' },
+          },
+          {
             text: '删除',
             onPress: () => deleteBook(+index),
             style: { color: '#F4333C' },
           },
         ]}
       >
-        <Touchable
-          className={styles.item}
-          onClick={onClick}
-          onLongPress={() => push('/detail', item)}
-        >
+        <Touchable className={styles.item} onClick={onClick}>
           <ImageShow src={img} className={styles.img} />
           <div className={styles.info}>
             <div className={styles.first}>

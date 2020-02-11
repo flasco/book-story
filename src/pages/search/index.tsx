@@ -1,16 +1,17 @@
-import React, { useCallback, useState } from 'react';
-import { SearchBar, Toast } from 'antd-mobile';
+import React, { useCallback, useState, useMemo } from 'react';
+import { SearchBar, Toast, Icon } from 'antd-mobile';
 
 import Container from '@/layout/container';
 import VirtualList from '@/components/virtual-list';
 import { IBookX } from '@/defination';
 
-import { search } from './api';
+import { newSearch } from './api';
 import { openLoading, closeLoading } from '@/utils';
 
 import styles from './index.m.scss';
 import Touchable from '@/components/touchable';
 import { useHistory } from 'react-router-dom';
+import { getSearchSetting } from '@/storage/search-setting';
 
 const HINT_TIPS = {
   INIT: '输入后点击 done 即可搜索书籍。',
@@ -18,10 +19,18 @@ const HINT_TIPS = {
   RESULT: (cnt: number) => `搜索到${cnt}条相关数据。`,
 };
 
+const RightIcon = ({ onClick }) => (
+  <div onClick={onClick}>
+    <Icon type="ellipsis" size="md" color="#fff" />
+  </div>
+);
+
 const SearchPage = () => {
+  const { push, go } = useHistory();
   const [list, setList] = useState<IBookX[]>([]);
   const [hint, setHint] = useState(HINT_TIPS.INIT);
-  const { push, go } = useHistory();
+  const sites = useMemo(() => getSearchSetting(), []);
+
   const searchOpe = useCallback(
     async (keyword: string) => {
       if (keyword.length < 1) {
@@ -30,7 +39,7 @@ const SearchPage = () => {
       }
       openLoading('加载中...');
       try {
-        const result = await search(keyword);
+        const result = await newSearch(keyword, sites);
         setList(result);
         const len = result?.length ?? 0;
         setHint(len > 0 ? HINT_TIPS.RESULT(len) : HINT_TIPS.EMPTY);
@@ -41,6 +50,8 @@ const SearchPage = () => {
     },
     [setList]
   );
+
+  const right = useMemo(() => <RightIcon onClick={() => push('/search-setting')} />, [push]);
 
   const cancelSearch = useCallback(() => go(-1), [go]);
 
@@ -54,7 +65,7 @@ const SearchPage = () => {
   };
 
   return (
-    <Container showBar title="搜索" back>
+    <Container showBar title="搜索" back topRight={right}>
       <SearchBar
         placeholder="输入关键字"
         onSubmit={searchOpe}

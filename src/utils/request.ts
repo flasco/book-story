@@ -33,7 +33,7 @@ export async function getAsBuffer(url: string, payload?: object) {
   return data;
 }
 
-export async function post<T>(url: string, payload?: object) {
+export async function post<T = any>(url: string, payload?: object) {
   url = getIp() + url;
 
   const {
