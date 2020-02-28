@@ -31,6 +31,8 @@ const getSubTitle = item => {
   return spliceLine(item.latestChapter, 15);
 };
 
+let isInit = false;
+
 const BookList = () => {
   const {
     books,
@@ -40,17 +42,25 @@ const BookList = () => {
   const [pull, setPull] = useState(true);
   const datasets = useMemo(() => ds.cloneWithRows(books), [books]);
 
+  const flag = books.length > 0 ? true : isInit ? true : false;
   useEffect(() => {
-    setPull(true);
-    setPull(false);
-  }, []);
+    if (books.length > 0) {
+      isInit = true;
+      onPull(true);
+    }
+  }, [flag]);
 
-  const onPull = useCallback(async () => {
-    setPull(true);
-    const { cnt, flattened } = await updateLists();
-    setPull(false);
-    Toast.info(`更新完毕，${cnt} 本有更新，养肥区 ${flattened} 本待看`);
-  }, [setPull]);
+  const onPull = useCallback(
+    async (slience = false) => {
+      setPull(true);
+      if (books.length > 0) {
+        const { cnt, flattened } = await updateLists();
+        !slience && Toast.info(`更新完毕，${cnt} 本有更新，养肥区 ${flattened} 本待看`);
+      }
+      setPull(false);
+    },
+    [setPull, books, updateLists]
+  );
 
   const refresh = useMemo(() => <PullRefresh refreshing={pull} onRefresh={onPull} />, [pull]);
 

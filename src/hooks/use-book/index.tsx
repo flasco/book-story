@@ -5,6 +5,7 @@ import { IBook, IBookX } from '@/defination';
 import CacheBooks from '@/cache/books';
 import { openLoading, closeLoading } from '@/utils';
 import { Toast } from 'antd-mobile';
+import ListCache from '@/cache/list';
 
 interface Context {
   books: IBook[];
@@ -149,6 +150,9 @@ const useBookAndFlatten = () => {
     let flattened = 0;
     t1.forEach((item, index) => {
       if (item !== '-1') {
+        const sourceUrl = books[index].source[books[index].plantformId];
+        const cacheList = new ListCache(sourceUrl);
+        cacheList.updateList(item.list);
         cnt++;
         books[index].latestChapter = item.title;
         const num = getUpdateNum(item.list, books[index].latestChapter);
@@ -159,6 +163,9 @@ const useBookAndFlatten = () => {
 
     t2.forEach((item, index) => {
       if (item !== '-1') {
+        const sourceUrl = flattens[index].source[flattens[index].plantformId];
+        const cacheList = new ListCache(sourceUrl);
+        cacheList.updateList(item.list);
         flattens[index].latestChapter = item.title;
         const num = getUpdateNum(item.list, flattens[index].latestChapter);
         flattens[index].isUpdate = true;
