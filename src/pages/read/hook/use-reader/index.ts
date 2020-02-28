@@ -111,7 +111,7 @@ function useReader(bookInfo?: IBook) {
   const goToChapter = useCallback(
     async (position: number, ctrlPos: number) => {
       if (sourceUrl == null) throw '书源记录获取失败...';
-      if (position > cachedList.getLength() || position < 0) return false;
+      if (position >= cachedList.getLength() || position < 0) return false;
       openLoading('数据加载中...');
       changeCtrlPos(ctrlPos);
 
