@@ -45,6 +45,7 @@ const BookList = () => {
   const flag = books.length > 0 ? true : isInit ? true : false;
   useEffect(() => {
     if (books.length > 0) {
+      if (isInit) return;
       isInit = true;
       onPull(true);
     }
