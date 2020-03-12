@@ -1,4 +1,4 @@
-import { createRef, useState, useCallback, useEffect } from 'react';
+import { createRef, useState, useCallback, useLayoutEffect } from 'react';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
 import { Toast } from 'antd-mobile';
@@ -19,7 +19,7 @@ function useDrag() {
   const [page, setPage] = useState(Math.round(initPage - 1));
   const [total, setTotal] = useState(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (pages.length > 0) {
       const totalWidth = ref.current?.scrollWidth as number;
       const totalPage = (totalWidth + 16) / pageWidth;
@@ -30,7 +30,7 @@ function useDrag() {
     }
   }, [pages]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (initPage > 1) goTo(initPage, false);
   }, [initPage]);
 
