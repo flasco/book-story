@@ -6,8 +6,8 @@ import useDrag from '../../hook/use-drag';
 import styles from './index.m.scss';
 
 const NewReader: React.FC = () => {
-  const { title, pages } = useReaderContext();
-  const { ref, page, touchEvent, total } = useDrag();
+  const { title } = useReaderContext();
+  const { ref, page, pages, touchEvent, total } = useDrag();
 
   const footer = useMemo(() => {
     if (total < 1) return null;

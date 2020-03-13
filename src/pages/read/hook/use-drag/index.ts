@@ -127,6 +127,7 @@ function useDrag() {
 
   return {
     page,
+    pages,
     total,
     ref,
     goTo,
