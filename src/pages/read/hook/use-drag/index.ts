@@ -16,6 +16,7 @@ function useDrag() {
   const { prevChapter, nextChapter, changeMenu, saveRecord } = params.api;
 
   const ref = createRef<HTMLDivElement>();
+  const [datasets, setDataset] = useState(pages);
   const [page, setPage] = useState(Math.round(initPage - 1));
   const [total, setTotal] = useState(0);
 
@@ -24,6 +25,7 @@ function useDrag() {
       const totalWidth = ref.current?.scrollWidth as number;
       const totalPage = (totalWidth + 16) / pageWidth;
       setTotal(totalPage);
+      setDataset(pages);
       const ctrlPos = getCtrlPos();
       if (ctrlPos < 0) goTo(totalPage, false);
       else if (ctrlPos > 0) goTo(1, false);
@@ -127,7 +129,7 @@ function useDrag() {
 
   return {
     page,
-    pages,
+    pages: datasets,
     total,
     ref,
     goTo,
