@@ -11,11 +11,7 @@ const NewReader: React.FC = () => {
 
   const footer = useMemo(() => {
     if (total < 1) return null;
-    return (
-      <div className={styles.footer}>
-        {page + 1}/{total}
-      </div>
-    );
+    return <div className={styles.footer}>{`${page + 1}/${total}`}</div>;
   }, [total, page]);
 
   return (
