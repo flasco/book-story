@@ -31,7 +31,7 @@ function useDrag() {
   }, [pages]);
 
   useEffect(() => {
-    if (initPage > 1) goTo(initPage, false);
+    if (initPage > 1) goTo(Math.round(initPage), false);
   }, [initPage]);
 
   /** cur 从1开始 */
