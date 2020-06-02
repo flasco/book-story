@@ -27,7 +27,7 @@ const TouchableHighlight: React.FC<IProps> = ({
   needStop = false,
 }) => {
   const [timeStamp, setStamp] = useState(0);
-  const [timer, setTimer] = useState();
+  const [timer, setTimer] = useState(null as any);
 
   const onStart = useCallback(e => {
     needStop && e.preventDefault();
