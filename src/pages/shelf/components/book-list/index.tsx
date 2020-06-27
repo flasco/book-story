@@ -95,7 +95,7 @@ const BookList = () => {
           },
         ]}
       >
-        <Touchable className={styles.item} onClick={onClick}>
+        <Touchable className={cx('needScroll', styles.item)} onClick={onClick}>
           <ImageShow src={img} className={styles.img} />
           <div className={styles.info}>
             <div className={styles.first}>

@@ -12,10 +12,11 @@ setConfig({
 });
 
 function checkNeedScroll(target) {
-  for (let i = 0; i <= 4; i++) {
+  for (let i = 0; i <= 6; i++) {
     const className = target?.className ?? '';
     if (className.includes('needScroll')) return true;
-    target = target?.parentElement ?? {};
+    target = target?.parentElement ?? null;
+    if (target == null) return false;
   }
   return false;
 }
