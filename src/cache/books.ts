@@ -19,9 +19,11 @@ class ListCache {
 
   deleteBook = (book: IBook) => {
     const listKey = 'list@' + book.catalogUrl;
+    const chaptersKey = 'chapter@' + book.catalogUrl;
     const imgKey = book.img;
     removeItem(imgKey);
     removeItem(listKey);
+    removeItem(chaptersKey);
   };
 
   update = ({ books, flattens }: IUpdate) => {
