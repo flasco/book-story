@@ -9,7 +9,7 @@ export function closeLoading() {
 }
 
 export function spliceLine(str: string, count: number) {
-  return str?.length ?? 0 > count ? str.substr(0, count) + '...' : str;
+  return (str?.length ?? 0) > count ? str.substr(0, count) + '...' : str;
 }
 
 export function buffer2Base64(buffer: any) {

@@ -95,7 +95,7 @@ const BookList = () => {
           },
         ]}
       >
-        <Touchable className={styles.item} onClick={onClick}>
+        <Touchable className={cx('needScroll', styles.item)} onClick={onClick}>
           <ImageShow src={img} className={styles.img} />
           <div className={styles.info}>
             <div className={styles.first}>
@@ -113,8 +113,9 @@ const BookList = () => {
     <ListView
       dataSource={datasets}
       renderRow={renderItem}
+      renderFooter={() => <div style={{ height: '30vh' }} />}
       renderSeparator={renderSeparator}
-      initialListSize={10}
+      initialListSize={18}
       pageSize={10}
       className={cx(styles.list, 'needScroll')}
       pullToRefresh={refresh}
