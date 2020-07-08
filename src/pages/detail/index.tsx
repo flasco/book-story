@@ -34,6 +34,7 @@ const DetailPage = props => {
           ...bookInfo,
           desc: val.desc,
           img: val.image,
+          catalogUrl: val.catalogUrl,
         });
       });
     }
@@ -44,6 +45,7 @@ const DetailPage = props => {
   const readBook = () => {
     push('/read', bookInfo);
   };
+  console.log(bookInfo);
 
   const addBook = () => {
     insertBook(bookInfo);

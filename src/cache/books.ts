@@ -1,4 +1,6 @@
 import { getBooksWithType, setBooksWithType } from '@/storage/book';
+import { removeItem } from '@/storage/base';
+
 import { IBook } from '@/defination';
 
 interface IUpdate {
@@ -13,6 +15,13 @@ class ListCache {
   init = async () => {
     this.books = (await getBooksWithType('books')) ?? [];
     this.flattens = (await getBooksWithType('flattens')) ?? [];
+  };
+
+  deleteBook = (book: IBook) => {
+    const listKey = 'list@' + book.catalogUrl;
+    const imgKey = book.img;
+    removeItem(imgKey);
+    removeItem(listKey);
   };
 
   update = ({ books, flattens }: IUpdate) => {

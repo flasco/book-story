@@ -45,3 +45,11 @@ Create by react 16.12 and webpack 4.x
   - [x] 删除
   - [ ] 养肥
 - [ ] 养肥区
+
+## 数据结构说明
+
+原来：book 有 plantFormId + source，通过`source[plantFormId]`的方式来判断当前的目录页
+
+不足：有的小说网站是简介页一个 url，全的列表页在另一个 url，原先的写法已经无法满足
+
+现在：新增了一个 catalogUrl，`source[plantFormId]`拿到的是简介页，用来获取小说的详细信息，比如封面，名称，作者，最新章节之类的，全列表从 catalogUrl 里去取

@@ -9,6 +9,8 @@ export interface IBookX {
   desc: string;
   /** 选中的源 */
   plantformId: number;
+  /** 当前书源的目录url */
+  catalogUrl: string;
   /** 源 */
   source: string[];
 }

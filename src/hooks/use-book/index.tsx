@@ -40,6 +40,11 @@ const useBookAndFlatten = () => {
 
   useEffect(() => {
     bookCache.init().then(() => {
+      const setCatalogUrl = i => {
+        if (i.catalogUrl == null) i.catalogUrl = i.source[i.plantformId];
+      };
+      bookCache.books.forEach(setCatalogUrl);
+      bookCache.flattens.forEach(setCatalogUrl);
       setBooks(bookCache.books);
       setFlattens(bookCache.flattens);
     });
@@ -55,6 +60,8 @@ const useBookAndFlatten = () => {
 
   const deleteBook = useCallback(
     (index: number) => {
+      const book = books[index];
+      bookCache.deleteBook(book);
       books.splice(index, 1);
       setBooks([...books]);
       bookCache.update({ books });
@@ -141,7 +148,11 @@ const useBookAndFlatten = () => {
   }, [books]);
 
   const updateLists = useCallback(async () => {
-    const func = (i: IBook) => ({ title: i.latestChapter, url: i.source[i.plantformId] });
+    const func = (i: IBook) => ({
+      title: i.latestChapter,
+      url: i.source[i.plantformId],
+      fullUrl: i.catalogUrl,
+    });
     const task1 = books.map(func);
     const task2 = flattens.map(func);
     const [t1, t2] = await Promise.all([fetchAllLatest(task1), fetchAllLatest(task2)]);
