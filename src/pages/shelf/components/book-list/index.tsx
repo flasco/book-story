@@ -7,6 +7,7 @@ import { useBook } from '@/hooks/use-book';
 
 import ImageShow from '@/components/image-show';
 import Touchable from '@/components/touchable';
+import CustomBadge from '@/components/custom-badge';
 import { spliceLine } from '@/utils';
 import { IBook } from '@/defination';
 
@@ -20,10 +21,6 @@ const ds = new ListView.DataSource({
 
 const renderSeparator = (_, id) => {
   return <div className={styles.separator} key={id} />;
-};
-
-const CustomBadge = ({ text }) => {
-  return <div className={styles['list-badge']}>{text}</div>;
 };
 
 const getSubTitle = item => {
@@ -100,7 +97,7 @@ const BookList = () => {
           <div className={styles.info}>
             <div className={styles.first}>
               <div className={styles.title}>{bookName}</div>
-              {isUpdate && <CustomBadge text="更新" />}
+              {isUpdate && <CustomBadge text="更新" background="#e80000" />}
             </div>
             <div className={styles.sub}>{getSubTitle(item)}</div>
           </div>

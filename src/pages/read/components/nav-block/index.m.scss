@@ -18,11 +18,17 @@
   height: 45px;
   display: flex;
   align-items: center;
+  color: #fff;
+  justify-content: space-between;
 
   .back {
-    color: #fff;
     padding: 11px;
     padding-left: 15px;
+  }
+
+  span {
+    line-height: 44px;
+    padding: 0 15px;
   }
 }
 

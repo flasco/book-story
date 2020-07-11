@@ -22,11 +22,12 @@ const useSwitch = (initVal: boolean): [boolean, () => void] => {
 };
 
 const NavBlock = () => {
-  const { goBack } = useHistory();
+  const { goBack, push } = useHistory();
   const { changeSunny, sunny } = useTheme();
   const {
     api: { changeMenu },
     showMenu,
+    bookInfo,
   } = useReaderContext();
 
   const [progress, changeProgress] = useSwitch(false);
@@ -56,12 +57,17 @@ const NavBlock = () => {
     ];
   }, [sunny]);
 
+  const onChangeOrigin = () => {
+    push('/origin', { bookInfo });
+  };
+
   return (
     <div className={cx(styles.container, { [styles.hidden]: !showMenu })}>
       <CatalogDrawer open={catalog} changeOpen={changeCatalog} changeMenu={changeMenu}>
         <div className={styles.container}>
           <div className={styles.header}>
             <Icon type="left" className={styles.back} onClick={goBack} />
+            <span onClick={onChangeOrigin}>换源</span>
           </div>
           <Touchable needStop className={styles.content} onClick={() => changeMenu()} />
           {/**TODO: 状态机，同一时间内只有一个面板展示 */}

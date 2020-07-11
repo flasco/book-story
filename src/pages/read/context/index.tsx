@@ -9,6 +9,7 @@ interface ContextValue {
   pages: string[];
   watched: number;
   showMenu: boolean;
+  bookInfo: any;
   cache: {
     list: ListCache;
     record: RecordCache;
@@ -27,7 +28,7 @@ const ReaderContext = React.createContext({} as ContextValue);
 const ContextWrapper: React.FC<any> = ({ children, bookInfo }) => {
   const { api, cache, ...states } = useReader(bookInfo);
 
-  const value = useMemo(() => ({ api, cache, ...states }), [
+  const value = useMemo(() => ({ api, cache, bookInfo, ...states }), [
     states.pages,
     states.title,
     states.showMenu,
