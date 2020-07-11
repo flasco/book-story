@@ -8,7 +8,7 @@ export function closeLoading() {
   Toast.hide();
 }
 
-export function spliceLine(str: string, count: number) {
+export function spliceLine(str: string, count = 15) {
   return (str?.length ?? 0) > count ? str.substr(0, count) + '...' : str;
 }
 

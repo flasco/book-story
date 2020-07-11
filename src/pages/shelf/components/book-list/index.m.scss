@@ -61,18 +61,7 @@
   font-weight: 100;
 }
 
-$list-badge: #e80000;
 $flatten-badge: #49c6f1;
-
-.list-badge {
-  padding: 2px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  background: $list-badge;
-  font-size: 11px;
-  color: #fff;
-}
 
 .flatten-badge {
   padding: 2px;

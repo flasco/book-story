@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Container from '@/layout/container';
 import TouchableHighlight from '@/components/touchable';
 import CustomBadge from '@/components/custom-badge';
+import { spliceLine } from '@/utils';
+import { useBook } from '@/hooks/use-book';
+
 import { getOriginLatest } from './api';
 
 import styles from './index.m.scss';
-import { spliceLine } from '@/utils';
-import { useHistory } from 'react-router-dom';
-import { useBook } from '@/hooks/use-book';
 
 const OriginPage = () => {
   const { currentBook: bookInfo } = useBook();

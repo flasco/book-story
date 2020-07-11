@@ -8,7 +8,6 @@ import Shelf from './pages/shelf';
 import Search from './pages/search';
 import Detail from './pages/detail';
 import Origin from './pages/origin';
-import SearchSetting from './pages/search-setting';
 
 const Wrapper: React.FC = ({ children }) => (
   <ContextWrapper>
@@ -25,7 +24,7 @@ const routes = () => (
         <Route path="/shelf" exact component={Shelf} />
         <Route path="/read" exact component={Read} />
         <Route path="/search" exact component={Search} />
-        <Route path="/search-setting" exact component={SearchSetting} />
+        <Route path="/origin" exact component={Origin} />
         <Route path="/detail" exact component={Detail} />
         <Route path="/origin" exact component={Origin} />
 
