@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 
 import { useReaderContext } from '../../context';
 import useDrag from '../../hook/use-drag';
@@ -6,8 +6,13 @@ import useDrag from '../../hook/use-drag';
 import styles from './index.m.scss';
 
 const NewReader: React.FC = () => {
-  const { title } = useReaderContext();
+  const { title, cache } = useReaderContext();
   const { ref, page, pages, touchEvent, total } = useDrag();
+  useEffect(() => {
+    return () => {
+      cache.record.updateRecord({}, true);
+    };
+  }, []);
 
   const footer = useMemo(() => {
     if (total < 1) return null;

@@ -51,6 +51,8 @@ const useWorker = (sourceUrl: string) => {
   return { worker: workArr, cachedChapters };
 };
 
+export type TReader = ReturnType<typeof useReader>;
+
 function useReader(sourceUrl: string) {
   const bookInfo = useSingleBook(sourceUrl);
   const [pages, setPages] = useState<any[]>([]);
@@ -78,7 +80,6 @@ function useReader(sourceUrl: string) {
   useEffect(() => {
     ee.on('app-state', updateStates);
     return () => {
-      updateStates(false);
       ee.off('app-state', updateStates);
     };
   }, [updateStates]);

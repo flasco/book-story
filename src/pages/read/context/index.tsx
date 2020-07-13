@@ -1,29 +1,9 @@
 import React, { useMemo, useContext } from 'react';
 
-import useReader from '../hook/use-reader';
-import ListCache from '@/cache/list';
-import RecordCache from '@/cache/record';
+import useReader, { TReader } from '../hook/use-reader';
 import { createModel } from 'hox';
 
-interface ContextValue {
-  title: string;
-  pages: string[];
-  watched: number;
-  showMenu: boolean;
-  cache: {
-    list: ListCache;
-    record: RecordCache;
-  };
-  api: {
-    changeMenu: () => void;
-    goToChapter: (position: number, ctrlPos: number) => Promise<boolean>;
-    nextChapter: () => Promise<boolean>;
-    prevChapter: () => Promise<boolean>;
-    saveRecord: (page: number) => void;
-  };
-}
-
-const ReaderContext = React.createContext({} as ContextValue);
+const ReaderContext = React.createContext({} as TReader);
 
 const ContextWrapper: React.FC<any> = ({ children, catalogUrl }) => {
   const useSlefReader = useMemo(() => createModel(useReader, catalogUrl), [catalogUrl]);
