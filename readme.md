@@ -60,5 +60,5 @@ Create by react 16.12 and webpack 4.x
 - [ ] 换源（查询最新章节的时候接口也要带回 catalogUrl，方便选择的时候 fetch）  **TOP** 
 - [ ] 下载
 - [ ] 设置
-- [ ] hox 优化翻页性能，书架代码结构
+- [ ] hox 优化翻页性能，书架代码结构 - useDrag 用 useReducer 去优化一遍
 - [ ] 添加用户统计模块，增加 api 限制，防止有不认识的人白嫖，顺便加一个字数统计之类的
