@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from 'antd-mobile';
+import { Button, Toast } from 'antd-mobile';
 import { useHistory } from 'react-router-dom';
 
 import Container from '@/layout/container';
 import ImageShow from '@/components/image-show';
 import { IBookX } from '@/defination';
-import { useBook } from '@/hooks/use-book';
+import useBook from '@/hooks/use-book';
 
 import { getDetail } from './api';
 
@@ -27,16 +27,22 @@ const DetailPage = props => {
   useEffect(() => {
     if (img == null) {
       openLoading();
-      getDetail(sourceUrl).then(val => {
-        setLoading(false);
-        closeLoading();
-        setInfo({
-          ...bookInfo,
-          desc: val.desc,
-          img: val.image,
-          catalogUrl: val.catalogUrl,
+      getDetail(sourceUrl)
+        .then(val => {
+          setLoading(false);
+          closeLoading();
+          setInfo({
+            ...bookInfo,
+            desc: val.desc,
+            img: val.image,
+            catalogUrl: val.catalogUrl,
+          });
+        })
+        .catch(() => {
+          setLoading(false);
+          closeLoading();
+          Toast.fail('数据加载失败');
         });
-      });
     }
   }, []);
 

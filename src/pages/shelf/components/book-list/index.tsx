@@ -3,7 +3,7 @@ import { ListView, PullToRefresh, Toast, SwipeAction } from 'antd-mobile';
 import { useHistory } from 'react-router-dom';
 import cx from 'classnames';
 
-import { useBook } from '@/hooks/use-book';
+import useBook from '@/hooks/use-book';
 
 import ImageShow from '@/components/image-show';
 import Touchable from '@/components/touchable';
@@ -66,10 +66,10 @@ const BookList = () => {
   const refresh = useMemo(() => <PullRefresh refreshing={pull} onRefresh={onPull} />, [pull]);
 
   const renderItem = (item: IBook, _, index: any) => {
-    const { bookName, author, plantformId, img, isUpdate } = item;
+    const { bookName, author, plantformId, img, isUpdate, catalogUrl } = item;
     const onClick = () => {
-      push('/read', item);
-      clickBookToRead(+index);
+      push('/read', { catalogUrl });
+      clickBookToRead(catalogUrl);
       sortBookWithStamp();
     };
     return (

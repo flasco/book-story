@@ -3,6 +3,7 @@ import React, { useMemo, useContext } from 'react';
 import useReader from '../hook/use-reader';
 import ListCache from '@/cache/list';
 import RecordCache from '@/cache/record';
+import { createModel } from 'hox';
 
 interface ContextValue {
   title: string;
@@ -24,14 +25,9 @@ interface ContextValue {
 
 const ReaderContext = React.createContext({} as ContextValue);
 
-const ContextWrapper: React.FC<any> = ({ children, bookInfo }) => {
-  const { api, cache, ...states } = useReader(bookInfo);
-
-  const value = useMemo(() => ({ api, cache, ...states }), [
-    states.pages,
-    states.title,
-    states.showMenu,
-  ]);
+const ContextWrapper: React.FC<any> = ({ children, catalogUrl }) => {
+  const useSlefReader = useMemo(() => createModel(useReader, catalogUrl), [catalogUrl]);
+  const value = useSlefReader();
 
   return <ReaderContext.Provider value={value}>{children}</ReaderContext.Provider>;
 };

@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useMemo, useContext, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
+import { createModel } from 'hox';
 
 import { getLatestChapter, fetchAllLatest } from '@/api';
 import { IBook, IBookX } from '@/defination';
@@ -6,22 +7,6 @@ import CacheBooks from '@/cache/books';
 import { openLoading, closeLoading } from '@/utils';
 import { Toast } from 'antd-mobile';
 import ListCache from '@/cache/list';
-
-interface Context {
-  books: IBook[];
-  flattens: IBook[];
-  api: {
-    insertBook: (data: IBookX) => void;
-    deleteBook: (index: number) => void;
-    sortBookWithStamp: () => void;
-    moveToBooks: (index: number) => void;
-    moveToFlattens: (index: number) => void;
-    clickBookToRead: (index: number) => void;
-    isExistBook: (book: IBookX) => boolean;
-    updateLists: () => Promise<any>;
-  };
-}
-const BookContext = React.createContext<Context>({} as Context);
 
 const getUpdateNum = (list, latestChapter) => {
   const length = list.length;
@@ -122,7 +107,8 @@ const useBookAndFlatten = () => {
   );
 
   const clickBookToRead = useCallback(
-    (index: number) => {
+    (catalogUrl: string) => {
+      const index = books.findIndex(i => i.catalogUrl === catalogUrl);
       books[index].latestRead = Date.now();
       books[index].isUpdate = false;
       books[index].updateNum = 0;
@@ -205,20 +191,4 @@ const useBookAndFlatten = () => {
   return { flattens, books, api };
 };
 
-export const BookProvider: React.FC = ({ children }) => {
-  const { flattens, books, api } = useBookAndFlatten();
-
-  const value = useMemo(
-    () => ({
-      books,
-      flattens,
-      api,
-    }),
-    [books, flattens]
-  );
-  return <BookContext.Provider value={value}>{children}</BookContext.Provider>;
-};
-
-export const useBook = () => {
-  return useContext(BookContext);
-};
+export default createModel(useBookAndFlatten);

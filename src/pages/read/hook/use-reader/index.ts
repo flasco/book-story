@@ -10,7 +10,7 @@ import { openLoading, closeLoading } from '@/utils';
 import { newGetP } from '@/utils/text';
 
 import { getList } from '@/pages/read/api';
-import { IBook } from '@/defination';
+import useBook from '@/hooks/use-book';
 
 /**
  * 书籍进度存储key约定 record@${sourceUrl}
@@ -24,19 +24,16 @@ let ctrlPos = 0;
 export const getCtrlPos = () => ctrlPos;
 export const changeCtrlPos = (res: number) => (ctrlPos = res);
 
-function useReader(bookInfo?: IBook) {
-  const [pages, setPages] = useState<any[]>([]);
-  const [title, setTitle] = useState('');
-  const [watched, setWatched] = useState(1);
-  const [showMenu, setShow] = useState(false);
+const useSingleBook = (catalogUrl: string) => {
+  console.log(catalogUrl);
+  const { books } = useBook(params => params.books);
+  const book = books.find(i => i.catalogUrl === catalogUrl);
+  return book;
+};
 
-  const changeMenu = useCallback(() => setShow(val => !val), [setShow]);
-
-  const sourceUrl = useMemo(() => (bookInfo?.catalogUrl ?? null) as string, [bookInfo]);
-
-  const cachedList = useMemo(() => new ListCache(sourceUrl), [sourceUrl]);
-  const cachedRecord = useMemo(() => new RecordCache(sourceUrl), [sourceUrl]);
+const useWorker = (sourceUrl: string) => {
   const cachedChapters = useMemo(() => new ChaptersCache(sourceUrl), [sourceUrl]);
+
   const workArr = useMemo(() => {
     const queue = new Queue<string>(3);
     queue.drain = () => null;
@@ -50,6 +47,22 @@ function useReader(bookInfo?: IBook) {
       await cachedChapters.getContent(item, 3);
     };
   }, [cachedChapters]);
+
+  return { worker: workArr, cachedChapters };
+};
+
+function useReader(sourceUrl: string) {
+  const bookInfo = useSingleBook(sourceUrl);
+  const [pages, setPages] = useState<any[]>([]);
+  const [title, setTitle] = useState('');
+  const [watched, setWatched] = useState(1);
+  const [showMenu, setShow] = useState(false);
+
+  const changeMenu = useCallback(() => setShow(val => !val), [setShow]);
+
+  const cachedList = useMemo(() => new ListCache(sourceUrl), [sourceUrl]);
+  const cachedRecord = useMemo(() => new RecordCache(sourceUrl), [sourceUrl]);
+  const { cachedChapters, worker } = useWorker(sourceUrl);
 
   useEffect(() => {
     init();
@@ -68,12 +81,12 @@ function useReader(bookInfo?: IBook) {
       updateStates(false);
       ee.off('app-state', updateStates);
     };
-  }, []);
+  }, [updateStates]);
 
   const prefetchChapter = useCallback(
     async (position, prefetch = true) => {
       const currentChapter = cachedList.getChapterUrl(position);
-      if (prefetch) workArr.push(cachedList.getChapterUrl(position + 1));
+      if (prefetch) worker.push(cachedList.getChapterUrl(position + 1));
       return await cachedChapters.getContent(currentChapter);
     },
     [cachedList, cachedChapters]

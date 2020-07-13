@@ -10,11 +10,11 @@ import NewReader from './components/new-reader';
 import styles from './index.m.scss';
 
 const Home = props => {
-  const bookInfo = props?.location?.state ?? null;
+  const catalogUrl = props?.location?.state?.catalogUrl ?? null;
 
   return (
     <Container className={styles.container}>
-      <Provider bookInfo={bookInfo}>
+      <Provider catalogUrl={catalogUrl}>
         <NavBlock />
         <NewReader />
       </Provider>

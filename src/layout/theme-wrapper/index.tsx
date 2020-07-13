@@ -1,15 +1,10 @@
 import React, { useMemo } from 'react';
 
-import { BookProvider } from '@/hooks/use-book';
 import { ThemeProvider, useTheme } from '@/hooks/use-theme';
 import styles from './index.m.scss';
 
 export const ContextWrapper: React.FC = ({ children }) => {
-  return (
-    <BookProvider>
-      <ThemeProvider>{children}</ThemeProvider>
-    </BookProvider>
-  );
+  return <ThemeProvider>{children}</ThemeProvider>;
 };
 
 const ThemeWrapper = ({ children }) => {
