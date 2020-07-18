@@ -40,7 +40,7 @@
     "axios": "^0.19.0",
     "classnames": "^2.2.6",
     "localforage": "^1.7.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "onfire.js": "^2.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
