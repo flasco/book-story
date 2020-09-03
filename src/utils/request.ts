@@ -54,7 +54,7 @@ export async function post<T = any>(url: string, payload?: object) {
       err,
       data: { data, code, msg },
     } = await axios.post(url, payload, {
-      cancelToken: getSource(8000),
+      cancelToken: getSource(),
     });
     if (err) throw err.message || err;
     if (code !== 0 && code !== 200) throw msg;
