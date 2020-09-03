@@ -3,9 +3,9 @@ import axios from 'axios';
 import { getIp } from '@/config';
 import { transformURL, delay } from '@/utils';
 
-axios.defaults.timeout = 8000; // 设置超时时间为 8s
+axios.defaults.timeout = 12000; // 设置超时时间为 8s
 
-const getSource = (timeout = 8000) => {
+const getSource = (timeout = 12000) => {
   const source = axios.CancelToken.source();
   setTimeout(() => {
     source.cancel();
@@ -21,7 +21,7 @@ export async function get<T = any>(url: string, payload?: object, retryCnt = 0):
         err,
         data: { data, code, msg },
       } = await axios.get(url, {
-        cancelToken: getSource(8000),
+        cancelToken: getSource(),
       });
 
       if (err) throw err.message || err;
@@ -39,7 +39,7 @@ export async function getAsBuffer(url: string, payload?: object) {
   url = transformURL(getIp() + url, payload);
   const { err, data } = await axios.get(url, {
     responseType: 'arraybuffer',
-    cancelToken: getSource(8000),
+    cancelToken: getSource(),
   });
 
   if (err) throw err.message || err;
