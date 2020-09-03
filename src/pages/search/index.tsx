@@ -49,7 +49,7 @@ const SearchPage = () => {
         setHint(len > 0 ? HINT_TIPS.RESULT(len) : HINT_TIPS.EMPTY);
         closeLoading();
       } catch (error) {
-        Toast.show('未知错误，请稍后重试...');
+        Toast.show('未知错误，请稍后重试...', 2);
       }
     },
     [setList, sites]

@@ -107,14 +107,14 @@ function useDrag() {
       if (currentPage < 0) {
         const isEdge = !(await prevChapter());
         if (isEdge) {
-          Toast.info('已经是第一章');
+          Toast.info('已经是第一章', 2, undefined, false);
           currentPage = page;
         }
         return;
       } else if (currentPage >= total) {
         const isEdge = !(await nextChapter());
         if (isEdge) {
-          Toast.info('已经是到底了');
+          Toast.info('已经是到底了', 2, undefined, false);
           currentPage = page;
         }
         return;
