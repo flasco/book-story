@@ -61,7 +61,9 @@ const NavBlock = () => {
       <CatalogDrawer open={catalog} changeOpen={changeCatalog} changeMenu={changeMenu}>
         <div className={styles.container}>
           <div className={styles.header}>
-            <Icon type="left" className={styles.back} onClick={goBack} />
+            <div className={styles.back} onClick={() => goBack()}>
+              <Icon type="left" />
+            </div>
           </div>
           <Touchable needStop className={styles.content} onClick={() => changeMenu()} />
           {/**TODO: 状态机，同一时间内只有一个面板展示 */}
