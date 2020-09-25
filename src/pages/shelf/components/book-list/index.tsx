@@ -56,7 +56,8 @@ const BookList = () => {
       setPull(true);
       if (books.length > 0) {
         const { cnt, flattened } = await updateLists();
-        !slience && Toast.info(`更新完毕，${cnt} 本有更新，养肥区 ${flattened} 本待看`);
+        !slience &&
+          Toast.info(`更新完毕，${cnt} 本有更新，养肥区 ${flattened} 本待看`, 2, undefined, false);
       }
       setPull(false);
     },

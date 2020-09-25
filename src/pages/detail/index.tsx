@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from 'antd-mobile';
+import { Button, Toast } from 'antd-mobile';
 import { useHistory } from 'react-router-dom';
 
 import Container from '@/layout/container';
@@ -27,16 +27,22 @@ const DetailPage = props => {
   useEffect(() => {
     if (img == null) {
       openLoading();
-      getDetail(sourceUrl).then(val => {
-        setLoading(false);
-        closeLoading();
-        setInfo({
-          ...bookInfo,
-          desc: val.desc,
-          img: val.image,
-          catalogUrl: val.catalogUrl,
+      getDetail(sourceUrl)
+        .then(val => {
+          setLoading(false);
+          closeLoading();
+          setInfo({
+            ...bookInfo,
+            desc: val.desc,
+            img: val.image,
+            catalogUrl: val.catalogUrl,
+          });
+        })
+        .catch(() => {
+          setLoading(false);
+          closeLoading();
+          Toast.fail('网络请求失败，请稍后重试', 2, undefined, false);
         });
-      });
     }
   }, []);
 

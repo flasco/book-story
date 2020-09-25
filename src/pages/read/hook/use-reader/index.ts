@@ -98,7 +98,7 @@ function useReader(bookInfo?: IBook) {
       setTitle(chapter.title);
       setPages(newGetP(chapter.content));
     } catch (error) {
-      Toast.fail(error.message || error);
+      Toast.fail(error.message || error, 2, undefined, false);
       setTitle('加载失败');
       setPages(['书籍列表信息加载失败']);
     } finally {
