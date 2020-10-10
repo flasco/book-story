@@ -16,7 +16,7 @@ const ProgressBlock = () => {
   } = useReaderContext();
   const { list, record } = cache;
   const [curTitle, setCurTitle] = useState(title);
-  const [position, setPosition] = useState(record.getChapterPosition() + 1);
+  const [position, setPosition] = useState(() => record.getChapterPosition() + 1);
   const total = useMemo(() => list.getLength(), [cache]);
 
   useEffect(() => {

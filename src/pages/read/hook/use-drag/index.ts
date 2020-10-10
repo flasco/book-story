@@ -16,7 +16,7 @@ function useDrag() {
   const { prevChapter, nextChapter, changeMenu, saveRecord, closeLoading } = params.api;
 
   const ref = createRef<HTMLDivElement>();
-  const [page, setPage] = useState(Math.round(initPage - 1));
+  const [page, setPage] = useState(() => Math.round(initPage - 1));
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
