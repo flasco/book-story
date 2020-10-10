@@ -170,7 +170,7 @@ function useReader(bookInfo?: IBook) {
       saveRecord,
       goToChapter,
       changeMenu,
-      closeLoading: () => setLoading(false),
+      closeLoading: () => setTimeout(() => setLoading(false), 600),
     },
   };
 }
