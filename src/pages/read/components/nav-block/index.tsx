@@ -22,7 +22,7 @@ const useSwitch = (initVal: boolean): [boolean, () => void] => {
 };
 
 const NavBlock = () => {
-  const { goBack } = useHistory();
+  const { push } = useHistory();
   const { changeSunny, sunny } = useTheme();
   const {
     api: { changeMenu },
@@ -61,7 +61,7 @@ const NavBlock = () => {
       <CatalogDrawer open={catalog} changeOpen={changeCatalog} changeMenu={changeMenu}>
         <div className={styles.container}>
           <div className={styles.header}>
-            <Touchable className={styles.back} onClick={() => goBack()}>
+            <Touchable className={styles.back} onClick={() => push('/')}>
               <Icon type="left" />
             </Touchable>
           </div>
