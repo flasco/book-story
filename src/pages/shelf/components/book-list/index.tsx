@@ -34,10 +34,8 @@ const getSubTitle = item => {
 let isInit = false;
 
 const BookList = () => {
-  const {
-    books,
-    api: { updateLists, clickBookToRead, sortBookWithStamp, deleteBook },
-  } = useBook();
+  const { books, api } = useBook();
+  const { updateLists, clickBookToRead, sortBookWithStamp, deleteBook } = api;
   const { push } = useHistory();
   const [pull, setPull] = useState(true);
   const datasets = useMemo(() => ds.cloneWithRows(books), [books]);
@@ -69,7 +67,7 @@ const BookList = () => {
   const renderItem = (item: IBook, _, index: any) => {
     const { bookName, author, plantformId, img, isUpdate } = item;
     const onClick = () => {
-      push('/read', item);
+      push('/read');
       clickBookToRead(+index);
       sortBookWithStamp();
     };

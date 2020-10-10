@@ -51,7 +51,6 @@ const DetailPage = props => {
   const readBook = () => {
     push('/read', bookInfo);
   };
-  console.log(bookInfo);
 
   const addBook = () => {
     insertBook(bookInfo);

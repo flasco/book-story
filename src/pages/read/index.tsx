@@ -8,9 +8,11 @@ import NavBlock from './components/nav-block';
 import NewReader from './components/new-reader';
 
 import styles from './index.m.scss';
+import { useBook } from '@/hooks/use-book';
 
-const Home = props => {
-  const bookInfo = props?.location?.state ?? null;
+const Home = () => {
+  const { currentBook } = useBook();
+  const bookInfo = currentBook ?? null;
 
   return (
     <Container className={styles.container}>

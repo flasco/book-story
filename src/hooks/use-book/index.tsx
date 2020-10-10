@@ -7,20 +7,8 @@ import { openLoading, closeLoading } from '@/utils';
 import { Toast } from 'antd-mobile';
 import ListCache from '@/cache/list';
 
-interface Context {
-  books: IBook[];
-  flattens: IBook[];
-  api: {
-    insertBook: (data: IBookX) => void;
-    deleteBook: (index: number) => void;
-    sortBookWithStamp: () => void;
-    moveToBooks: (index: number) => void;
-    moveToFlattens: (index: number) => void;
-    clickBookToRead: (index: number) => void;
-    isExistBook: (book: IBookX) => boolean;
-    updateLists: () => Promise<any>;
-  };
-}
+type Context = ReturnType<typeof useBookAndFlatten>;
+
 const BookContext = React.createContext<Context>({} as Context);
 
 const getUpdateNum = (list, latestChapter) => {
@@ -37,6 +25,8 @@ const useBookAndFlatten = () => {
   const bookCache = useMemo(() => new CacheBooks(), []);
   const [books, setBooks] = useState<IBook[]>([]);
   const [flattens, setFlattens] = useState<IBook[]>([]);
+  /** 记录当前正在阅读的书籍 */
+  const [ptr, setPtr] = useState('');
 
   useEffect(() => {
     bookCache.init().then(() => {
@@ -121,11 +111,21 @@ const useBookAndFlatten = () => {
     [books]
   );
 
+  /** 移动指针到特定的书籍 */
+  const movePtrToWatch = useCallback(
+    (index: number, isBook = true) => {
+      const book = isBook ? books[index] : flattens[index];
+      setPtr(book.catalogUrl);
+    },
+    [books, flattens]
+  );
+
   const clickBookToRead = useCallback(
     (index: number) => {
       books[index].latestRead = Date.now();
       books[index].isUpdate = false;
       books[index].updateNum = 0;
+      movePtrToWatch(index);
       setBooks([...books]);
     },
     [books]
@@ -198,24 +198,19 @@ const useBookAndFlatten = () => {
     moveToBooks,
     moveToFlattens,
     clickBookToRead,
+    movePtrToWatch,
     isExistBook,
     updateLists,
   };
 
-  return { flattens, books, api };
+  const currentBook = useMemo(() => books.find(book => book.catalogUrl === ptr), [ptr]);
+
+  return { flattens, books, api, currentBook };
 };
 
 export const BookProvider: React.FC = ({ children }) => {
-  const { flattens, books, api } = useBookAndFlatten();
+  const value = useBookAndFlatten();
 
-  const value = useMemo(
-    () => ({
-      books,
-      flattens,
-      api,
-    }),
-    [books, flattens]
-  );
   return <BookContext.Provider value={value}>{children}</BookContext.Provider>;
 };
 
