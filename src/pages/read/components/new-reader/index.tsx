@@ -6,8 +6,8 @@ import useDrag from '../../hook/use-drag';
 import styles from './index.m.scss';
 
 const NewReader: React.FC = () => {
-  const { title } = useReaderContext();
-  const { ref, page, pages, touchEvent, total } = useDrag();
+  const { title, pages, loading } = useReaderContext();
+  const { ref, page, touchEvent, total } = useDrag();
 
   const footer = useMemo(() => {
     if (total < 1) return null;
@@ -15,19 +15,22 @@ const NewReader: React.FC = () => {
   }, [total, page]);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.title}>{title}</div>
-      <div className={styles.wrapper}>
-        <div className={styles.inner} {...touchEvent}>
-          <div ref={ref} className={styles.main}>
-            {pages.map((i: string, ind: number) => (
-              <p key={'asd_x' + ind}>{i}</p>
-            ))}
+    <>
+      {loading && <div className={styles.mask} />}
+      <div className={styles.container}>
+        <div className={styles.title}>{title}</div>
+        <div className={styles.wrapper}>
+          <div className={styles.inner} {...touchEvent}>
+            <div ref={ref} className={styles.main}>
+              {pages.map((i: string, ind: number) => (
+                <p key={'asd_x' + ind}>{i}</p>
+              ))}
+            </div>
           </div>
         </div>
+        {footer}
       </div>
-      {footer}
-    </div>
+    </>
   );
 };
 

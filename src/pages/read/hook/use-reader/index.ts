@@ -29,6 +29,7 @@ function useReader(bookInfo?: IBook) {
   const [title, setTitle] = useState('');
   const [watched, setWatched] = useState(1);
   const [showMenu, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const changeMenu = useCallback(() => setShow(val => !val), [setShow]);
 
@@ -111,6 +112,7 @@ function useReader(bookInfo?: IBook) {
       if (sourceUrl == null) throw '书源记录获取失败...';
       if (position >= cachedList.getLength() || position < 0) return false;
       openLoading('数据加载中...');
+      setLoading(true);
       changeCtrlPos(ctrlPos);
 
       const chapter = await prefetchChapter(position);
@@ -122,7 +124,6 @@ function useReader(bookInfo?: IBook) {
       setTitle(chapter.title);
       setPages(newGetP(chapter.content));
       closeLoading();
-
       return true;
     },
     [sourceUrl]
@@ -157,6 +158,7 @@ function useReader(bookInfo?: IBook) {
     title,
     pages,
     watched,
+    loading,
     showMenu,
     cache: {
       list: cachedList,
@@ -168,6 +170,7 @@ function useReader(bookInfo?: IBook) {
       saveRecord,
       goToChapter,
       changeMenu,
+      closeLoading: () => setLoading(false),
     },
   };
 }
