@@ -16,7 +16,7 @@ interface IContainerProps extends INavBarProps {
   topRight?: any;
 }
 
-const LeftIcon = <Icon type="left" />;
+const LeftIcon = <Icon type="left" className={styles.icon} />;
 
 const Container: React.FC<IContainerProps> = props => {
   const { children = null, className } = props;
