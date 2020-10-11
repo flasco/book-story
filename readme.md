@@ -29,7 +29,7 @@ Create by react 16.12 and webpack 4.x
   - [x] 目录
   - [x] 夜间
   - [ ] 下载
-  - [ ] 换源
+  - [x] 换源
   - [ ] 设置
 
 ### 书架页
@@ -56,7 +56,7 @@ Create by react 16.12 and webpack 4.x
 
 ## 后续维护计划
 
-- [ ] 换源 **TOP**
+- [x] 换源 **TOP**
 - [ ] 排行 **TOP**
 - [ ] 下载
 - [ ] 设置
