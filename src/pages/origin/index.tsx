@@ -21,15 +21,15 @@ const OriginPage = () => {
   const [originList, setOriginList] = useState<any[]>([]);
 
   useEffect(() => {
-    if (!origins) Toast.fail('书籍信息读取失败，请返回书架重试');
+    if (!origins) Toast.fail('书籍信息读取失败，请返回书架重试', 2, undefined, false);
     else {
       openLoading('数据请求中');
       getOriginLatest(origins)
         .then(val => {
           setOriginList(val);
+          closeLoading();
         })
-        .catch(() => Toast.fail('请求失败，请稍后重试'))
-        .finally(() => closeLoading());
+        .catch(() => Toast.fail('请求失败，请稍后重试', 2, undefined, false));
     }
   }, []);
 

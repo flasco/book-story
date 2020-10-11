@@ -26,7 +26,7 @@ const SearchPage = () => {
   const searchOpe = useCallback(
     async (keyword: string) => {
       if (keyword.length < 1) {
-        Toast.fail('请输入关键字');
+        Toast.fail('请输入关键字', 2, undefined, false);
         return;
       }
       openLoading('加载中...');
