@@ -7,6 +7,7 @@ import Read from './pages/read';
 import Shelf from './pages/shelf';
 import Search from './pages/search';
 import Detail from './pages/detail';
+import Origin from './pages/origin';
 import SearchSetting from './pages/search-setting';
 
 const Wrapper: React.FC = ({ children }) => (
@@ -26,6 +27,7 @@ const routes = () => (
         <Route path="/search" exact component={Search} />
         <Route path="/search-setting" exact component={SearchSetting} />
         <Route path="/detail" exact component={Detail} />
+        <Route path="/origin" exact component={Origin} />
 
         <Redirect from="/*" exact to="/shelf" />
       </Switch>

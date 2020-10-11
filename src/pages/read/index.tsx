@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Container from '@/layout/container';
+import { useBook } from '@/hooks/use-book';
 
 import Provider from './context';
 
@@ -8,7 +9,6 @@ import NavBlock from './components/nav-block';
 import NewReader from './components/new-reader';
 
 import styles from './index.m.scss';
-import { useBook } from '@/hooks/use-book';
 
 const Home = () => {
   const { currentBook } = useBook();

@@ -1,0 +1,35 @@
+.container {
+  background-color: #e6e6e6;
+}
+
+.item {
+  height: 61px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--origin-item); // '#282828'
+}
+
+.item + .item {
+  border-top: 1px solid #d5d5d5;
+}
+
+.title {
+  font-size: 15px;
+  margin-right: 4px;
+  font-weight: 400;
+  color: #000; // '#ddd'
+}
+
+.sub-title {
+  font-size: 12px;
+  color: #999; // '#646464',
+  font-weight: 100;
+}
+
+.first {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 12px;
+}
