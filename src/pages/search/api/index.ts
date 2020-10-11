@@ -7,10 +7,9 @@ export function search(name: string, author = '') {
   });
 }
 
-export function newSearch(keyword: string, sites: string[]) {
+export function newSearch(keyword: string) {
   return post('/v2/new-search', {
     keyword,
-    sites,
   });
 }
 

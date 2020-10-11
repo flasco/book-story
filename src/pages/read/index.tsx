@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Container from '@/layout/container';
+import { useBook } from '@/hooks/use-book';
 
 import Provider from './context';
 
@@ -9,8 +10,9 @@ import NewReader from './components/new-reader';
 
 import styles from './index.m.scss';
 
-const Home = props => {
-  const bookInfo = props?.location?.state ?? null;
+const Home = () => {
+  const { currentBook } = useBook();
+  const bookInfo = currentBook ?? null;
 
   return (
     <Container className={styles.container}>

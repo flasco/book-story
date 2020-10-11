@@ -7,21 +7,18 @@ import { openLoading, closeLoading } from '@/utils';
 import { Toast } from 'antd-mobile';
 import ListCache from '@/cache/list';
 
-interface Context {
-  books: IBook[];
-  flattens: IBook[];
-  api: {
-    insertBook: (data: IBookX) => void;
-    deleteBook: (index: number) => void;
-    sortBookWithStamp: () => void;
-    moveToBooks: (index: number) => void;
-    moveToFlattens: (index: number) => void;
-    clickBookToRead: (index: number) => void;
-    isExistBook: (book: IBookX) => boolean;
-    updateLists: () => Promise<any>;
-  };
-}
+type Context = ReturnType<typeof useBookAndFlatten>;
+
 const BookContext = React.createContext<Context>({} as Context);
+
+interface IChanged {
+  /** 章节目录url */
+  catalogUrl: string;
+  /** 书籍信息url，大部分情况下等于章节目录url */
+  url: string;
+  /** 最新章节 */
+  latestChapter: string;
+}
 
 const getUpdateNum = (list, latestChapter) => {
   const length = list.length;
@@ -37,6 +34,8 @@ const useBookAndFlatten = () => {
   const bookCache = useMemo(() => new CacheBooks(), []);
   const [books, setBooks] = useState<IBook[]>([]);
   const [flattens, setFlattens] = useState<IBook[]>([]);
+  /** 记录当前正在阅读的书籍 */
+  const [ptr, setPtr] = useState('');
 
   useEffect(() => {
     bookCache.init().then(() => {
@@ -121,11 +120,33 @@ const useBookAndFlatten = () => {
     [books]
   );
 
+  const changeOrigin = (changed: IChanged) => {
+    const { catalogUrl, url: latestUrl } = changed;
+    const curPtr = books.findIndex(i => i.catalogUrl === ptr);
+    const book = books[curPtr];
+    book.catalogUrl = catalogUrl;
+    const plantformId = book.source.findIndex(i => i === latestUrl);
+    book.plantformId = plantformId;
+    setBooks([...books]);
+    setPtr(catalogUrl);
+    bookCache.update({ books: [...books] });
+  };
+
+  /** 移动指针到特定的书籍 */
+  const movePtrToWatch = useCallback(
+    (index: number, isBook = true) => {
+      const book = isBook ? books[index] : flattens[index];
+      setPtr(book.catalogUrl);
+    },
+    [books, flattens]
+  );
+
   const clickBookToRead = useCallback(
     (index: number) => {
       books[index].latestRead = Date.now();
       books[index].isUpdate = false;
       books[index].updateNum = 0;
+      movePtrToWatch(index);
       setBooks([...books]);
     },
     [books]
@@ -161,7 +182,7 @@ const useBookAndFlatten = () => {
     let flattened = 0;
     t1.forEach((item, index) => {
       if (item !== '-1') {
-        const sourceUrl = books[index].source[books[index].plantformId];
+        const sourceUrl = books[index].catalogUrl;
         const cacheList = new ListCache(sourceUrl);
         cacheList.updateList(item.list);
         cnt++;
@@ -174,7 +195,7 @@ const useBookAndFlatten = () => {
 
     t2.forEach((item, index) => {
       if (item !== '-1') {
-        const sourceUrl = flattens[index].source[flattens[index].plantformId];
+        const sourceUrl = flattens[index].catalogUrl;
         const cacheList = new ListCache(sourceUrl);
         cacheList.updateList(item.list);
         flattens[index].latestChapter = item.title;
@@ -198,24 +219,20 @@ const useBookAndFlatten = () => {
     moveToBooks,
     moveToFlattens,
     clickBookToRead,
+    movePtrToWatch,
     isExistBook,
     updateLists,
+    changeOrigin,
   };
 
-  return { flattens, books, api };
+  const currentBook = useMemo(() => books.find(book => book.catalogUrl === ptr), [ptr]);
+
+  return { flattens, books, api, currentBook };
 };
 
 export const BookProvider: React.FC = ({ children }) => {
-  const { flattens, books, api } = useBookAndFlatten();
+  const value = useBookAndFlatten();
 
-  const value = useMemo(
-    () => ({
-      books,
-      flattens,
-      api,
-    }),
-    [books, flattens]
-  );
   return <BookContext.Provider value={value}>{children}</BookContext.Provider>;
 };
 

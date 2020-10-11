@@ -7,6 +7,7 @@ import { useBook } from '@/hooks/use-book';
 
 import ImageShow from '@/components/image-show';
 import Touchable from '@/components/touchable';
+import CustomBadge from '@/components/custom-badge';
 import { spliceLine } from '@/utils';
 import { IBook } from '@/defination';
 
@@ -22,10 +23,6 @@ const renderSeparator = (_, id) => {
   return <div className={styles.separator} key={id} />;
 };
 
-const CustomBadge = ({ text }) => {
-  return <div className={styles['list-badge']}>{text}</div>;
-};
-
 const getSubTitle = item => {
   if (item.updateNum > 10) return `距上次点击已更新${item.updateNum}章`;
   return spliceLine(item.latestChapter, 15);
@@ -34,10 +31,8 @@ const getSubTitle = item => {
 let isInit = false;
 
 const BookList = () => {
-  const {
-    books,
-    api: { updateLists, clickBookToRead, sortBookWithStamp, deleteBook },
-  } = useBook();
+  const { books, api } = useBook();
+  const { updateLists, clickBookToRead, sortBookWithStamp, deleteBook } = api;
   const { push } = useHistory();
   const [pull, setPull] = useState(true);
   const datasets = useMemo(() => ds.cloneWithRows(books), [books]);
@@ -69,7 +64,7 @@ const BookList = () => {
   const renderItem = (item: IBook, _, index: any) => {
     const { bookName, author, plantformId, img, isUpdate } = item;
     const onClick = () => {
-      push('/read', item);
+      push('/read');
       clickBookToRead(+index);
       sortBookWithStamp();
     };
@@ -101,7 +96,7 @@ const BookList = () => {
           <div className={styles.info}>
             <div className={styles.first}>
               <div className={styles.title}>{bookName}</div>
-              {isUpdate && <CustomBadge text="更新" />}
+              {isUpdate && <CustomBadge text="更新" background="#e80000" />}
             </div>
             <div className={styles.sub}>{getSubTitle(item)}</div>
           </div>

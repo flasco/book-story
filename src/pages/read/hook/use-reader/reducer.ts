@@ -1,5 +1,5 @@
 import { ee } from '@/main';
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useEffect, useMemo, useCallback, useReducer } from 'react';
 import { Toast } from 'antd-mobile';
 
 import ListCache from '@/cache/list';
@@ -24,14 +24,35 @@ let ctrlPos = 0;
 export const getCtrlPos = () => ctrlPos;
 export const changeCtrlPos = (res: number) => (ctrlPos = res);
 
-function useReader(bookInfo?: IBook) {
-  const [pages, setPages] = useState<any[]>([]);
-  const [title, setTitle] = useState('');
-  const [watched, setWatched] = useState(1);
-  const [showMenu, setShow] = useState(false);
-  const [loading, setLoading] = useState(false);
+const initialState = {
+  pages: [] as any[],
+  title: '',
+  watched: 1,
+  showMenu: false,
+};
 
-  const changeMenu = useCallback(() => setShow(val => !val), [setShow]);
+type InitialState = typeof initialState;
+
+type ActionMap = 'setState' | 'changeMenu';
+
+interface IAction {
+  type: ActionMap;
+  payload?: Partial<InitialState>;
+}
+
+function reducer(state: InitialState, action: IAction) {
+  switch (action.type) {
+    case 'changeMenu':
+      return { ...state, showMenu: !state.showMenu };
+    case 'setState':
+      return { ...state, ...action.payload };
+    default:
+      throw new Error();
+  }
+}
+
+function useReader(bookInfo?: IBook) {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const sourceUrl = useMemo(() => (bookInfo?.catalogUrl ?? null) as string, [bookInfo]);
   const cachedList = useMemo(() => new ListCache(sourceUrl), [sourceUrl]);
@@ -85,8 +106,6 @@ function useReader(bookInfo?: IBook) {
       if (sourceUrl == null) throw '书源记录获取失败...';
       await cachedRecord.init();
 
-      setWatched(cachedRecord.getWatchedPage());
-
       if (!(await cachedList.checkIsExist())) {
         const list = await getList(sourceUrl);
         cachedList.updateList(list);
@@ -95,12 +114,24 @@ function useReader(bookInfo?: IBook) {
       const position = cachedRecord.getChapterPosition();
       const chapter = await prefetchChapter(position);
 
-      setTitle(chapter.title);
-      setPages(newGetP(chapter.content));
+      dispatch({
+        type: 'setState',
+        payload: {
+          watched: cachedRecord.getWatchedPage(),
+          title: chapter.title,
+          pages: newGetP(chapter.content),
+        },
+      });
     } catch (error) {
       Toast.fail(error.message || error, 2, undefined, false);
-      setTitle('加载失败');
-      setPages(['书籍列表信息加载失败']);
+      dispatch({
+        type: 'setState',
+        payload: {
+          watched: cachedRecord.getWatchedPage(),
+          title: '加载失败',
+          pages: ['书籍列表信息加载失败'],
+        },
+      });
     } finally {
       closeLoading();
     }
@@ -111,7 +142,6 @@ function useReader(bookInfo?: IBook) {
       if (sourceUrl == null) throw '书源记录获取失败...';
       if (position >= cachedList.getLength() || position < 0) return false;
       openLoading('数据加载中...');
-      setLoading(true);
       changeCtrlPos(ctrlPos);
 
       const chapter = await prefetchChapter(position);
@@ -119,10 +149,15 @@ function useReader(bookInfo?: IBook) {
       cachedRecord.updateRecord({
         recordChapterNum: position,
       });
-
-      setTitle(chapter.title);
-      setPages(newGetP(chapter.content));
+      dispatch({
+        type: 'setState',
+        payload: {
+          title: chapter.title,
+          pages: newGetP(chapter.content),
+        },
+      });
       closeLoading();
+
       return true;
     },
     [sourceUrl]
@@ -154,11 +189,7 @@ function useReader(bookInfo?: IBook) {
   );
 
   return {
-    title,
-    pages,
-    watched,
-    loading,
-    showMenu,
+    ...state,
     cache: {
       list: cachedList,
       record: cachedRecord,
@@ -168,8 +199,7 @@ function useReader(bookInfo?: IBook) {
       prevChapter,
       saveRecord,
       goToChapter,
-      changeMenu,
-      closeLoading: () => setTimeout(() => setLoading(false), 100),
+      changeMenu: () => dispatch({ type: 'changeMenu' }),
     },
   };
 }

@@ -11,7 +11,7 @@ export interface IBookX {
   plantformId: number;
   /** 当前书源的目录url */
   catalogUrl: string;
-  /** 源 */
+  /** 源，这里的url不一定是目录url */
   source: string[];
 }
 
