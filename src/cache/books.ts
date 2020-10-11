@@ -8,7 +8,7 @@ interface IUpdate {
   flattens?: IBook[];
 }
 
-class ListCache {
+class BookCache {
   books: IBook[] = [];
   flattens: IBook[] = [];
 
@@ -43,4 +43,4 @@ class ListCache {
   });
 }
 
-export default ListCache;
+export default BookCache;

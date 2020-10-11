@@ -34,7 +34,6 @@ function useReader(bookInfo?: IBook) {
   const changeMenu = useCallback(() => setShow(val => !val), [setShow]);
 
   const sourceUrl = useMemo(() => (bookInfo?.catalogUrl ?? null) as string, [bookInfo]);
-
   const cachedList = useMemo(() => new ListCache(sourceUrl), [sourceUrl]);
   const cachedRecord = useMemo(() => new RecordCache(sourceUrl), [sourceUrl]);
   const cachedChapters = useMemo(() => new ChaptersCache(sourceUrl), [sourceUrl]);

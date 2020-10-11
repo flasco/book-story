@@ -11,6 +11,15 @@ type Context = ReturnType<typeof useBookAndFlatten>;
 
 const BookContext = React.createContext<Context>({} as Context);
 
+interface IChanged {
+  /** 章节目录url */
+  catalogUrl: string;
+  /** 书籍信息url，大部分情况下等于章节目录url */
+  url: string;
+  /** 最新章节 */
+  latestChapter: string;
+}
+
 const getUpdateNum = (list, latestChapter) => {
   const length = list.length;
   for (let i = length - 1; i >= 0; i--) {
@@ -111,6 +120,18 @@ const useBookAndFlatten = () => {
     [books]
   );
 
+  const changeOrigin = (changed: IChanged) => {
+    const { catalogUrl, url: latestUrl } = changed;
+    const curPtr = books.findIndex(i => i.catalogUrl === ptr);
+    const book = books[curPtr];
+    book.catalogUrl = catalogUrl;
+    const plantformId = book.source.findIndex(i => i === latestUrl);
+    book.plantformId = plantformId;
+    setBooks([...books]);
+    setPtr(catalogUrl);
+    bookCache.update({ books: [...books] });
+  };
+
   /** 移动指针到特定的书籍 */
   const movePtrToWatch = useCallback(
     (index: number, isBook = true) => {
@@ -161,7 +182,7 @@ const useBookAndFlatten = () => {
     let flattened = 0;
     t1.forEach((item, index) => {
       if (item !== '-1') {
-        const sourceUrl = books[index].source[books[index].plantformId];
+        const sourceUrl = books[index].catalogUrl;
         const cacheList = new ListCache(sourceUrl);
         cacheList.updateList(item.list);
         cnt++;
@@ -174,7 +195,7 @@ const useBookAndFlatten = () => {
 
     t2.forEach((item, index) => {
       if (item !== '-1') {
-        const sourceUrl = flattens[index].source[flattens[index].plantformId];
+        const sourceUrl = flattens[index].catalogUrl;
         const cacheList = new ListCache(sourceUrl);
         cacheList.updateList(item.list);
         flattens[index].latestChapter = item.title;
@@ -201,6 +222,7 @@ const useBookAndFlatten = () => {
     movePtrToWatch,
     isExistBook,
     updateLists,
+    changeOrigin,
   };
 
   const currentBook = useMemo(() => books.find(book => book.catalogUrl === ptr), [ptr]);
