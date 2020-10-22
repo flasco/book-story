@@ -22,7 +22,15 @@ module.exports = () => {
       require.resolve('@babel/plugin-transform-runtime'),
       require.resolve('@babel/plugin-syntax-dynamic-import'),
     ],
-    presets: [require.resolve('@babel/preset-env'), require.resolve('@babel/preset-react')],
+    presets: [
+      require.resolve('@babel/preset-env'),
+      [
+        require.resolve('@babel/preset-react'),
+        {
+          runtime: 'automatic',
+        },
+      ],
+    ],
   };
 
   const postCssLoader = {

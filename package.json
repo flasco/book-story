@@ -33,7 +33,7 @@
     "prettier": "^1.18.2",
     "react-hot-loader": "^4.12.18",
     "sass-lint": "^1.13.1",
-    "typescript": "^3.7.3"
+    "typescript": "^4.0.3"
   },
   "dependencies": {
     "antd-mobile": "^2.3.1",
@@ -42,11 +42,11 @@
     "localforage": "^1.7.3",
     "lodash": "^4.17.15",
     "onfire.js": "^2.0.0",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "react-router-dom": "^5.1.2",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.5",
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.3"
   }
 }
