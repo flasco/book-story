@@ -18,13 +18,11 @@ export async function get<T = any>(url: string, payload?: object, retryCnt = 0):
   for (let i = 0; i <= retryCnt; i++) {
     try {
       const {
-        err,
         data: { data, code, msg },
       } = await axios.get(url, {
         cancelToken: getSource(),
       });
 
-      if (err) throw err.message || err;
       if (code !== 0 && code !== 200) throw msg;
       return data;
     } catch (error) {
@@ -37,12 +35,11 @@ export async function get<T = any>(url: string, payload?: object, retryCnt = 0):
 
 export async function getAsBuffer(url: string, payload?: object) {
   url = transformURL(getIp() + url, payload);
-  const { err, data } = await axios.get(url, {
+  const { data } = await axios.get(url, {
     responseType: 'arraybuffer',
     cancelToken: getSource(),
   });
 
-  if (err) throw err.message || err;
   return data;
 }
 
@@ -51,12 +48,10 @@ export async function post<T = any>(url: string, payload?: object) {
 
   try {
     const {
-      err,
       data: { data, code, msg },
     } = await axios.post(url, payload, {
       cancelToken: getSource(),
     });
-    if (err) throw err.message || err;
     if (code !== 0 && code !== 200) throw msg;
     return data as T;
   } catch (error) {

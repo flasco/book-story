@@ -57,7 +57,10 @@ const DetailPage = props => {
   };
 
   const addBook = () => {
-    insertBook(bookInfo);
+    insertBook(bookInfo).catch(() => {
+      closeLoading();
+      toastFail({ text: '书籍添加失败，请稍后重试' });
+    });
   };
 
   const renderAddBtn = () => {
