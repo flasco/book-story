@@ -1,4 +1,3 @@
-import React from 'react';
 import { setConfig } from 'react-hot-loader';
 import { render } from 'react-dom';
 import EE from 'onfire.js';
@@ -23,7 +22,7 @@ function checkNeedScroll(target) {
 
 document.body.addEventListener(
   'touchmove',
-  function(e) {
+  function (e) {
     if (!checkNeedScroll(e.target)) {
       e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
     }
@@ -31,11 +30,11 @@ document.body.addEventListener(
   { passive: false }
 ); //passive 参数不能省略，用来兼容ios和android
 
-document.body.addEventListener('contextmenu', function(e) {
+document.body.addEventListener('contextmenu', function (e) {
   e.preventDefault();
 });
 
-document.addEventListener('visibilitychange', function() {
+document.addEventListener('visibilitychange', function () {
   ee.fire('app-state', !document.hidden);
 });
 

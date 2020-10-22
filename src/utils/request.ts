@@ -13,18 +13,16 @@ const getSource = (timeout = 12000) => {
   return source.token;
 };
 
-export async function get<T = any>(url: string, payload?: object, retryCnt = 0): Promise<T> {
+export async function get<T = any>(url: string, payload?: PureObject, retryCnt = 0): Promise<T> {
   url = transformURL(getIp() + url, payload);
   for (let i = 0; i <= retryCnt; i++) {
     try {
       const {
-        err,
         data: { data, code, msg },
       } = await axios.get(url, {
         cancelToken: getSource(),
       });
 
-      if (err) throw err.message || err;
       if (code !== 0 && code !== 200) throw msg;
       return data;
     } catch (error) {
@@ -35,28 +33,25 @@ export async function get<T = any>(url: string, payload?: object, retryCnt = 0):
   throw '请求失败';
 }
 
-export async function getAsBuffer(url: string, payload?: object) {
+export async function getAsBuffer(url: string, payload?: PureObject) {
   url = transformURL(getIp() + url, payload);
-  const { err, data } = await axios.get(url, {
+  const { data } = await axios.get(url, {
     responseType: 'arraybuffer',
     cancelToken: getSource(),
   });
 
-  if (err) throw err.message || err;
   return data;
 }
 
-export async function post<T = any>(url: string, payload?: object) {
+export async function post<T = any>(url: string, payload?: PureObject) {
   url = getIp() + url;
 
   try {
     const {
-      err,
       data: { data, code, msg },
     } = await axios.post(url, payload, {
       cancelToken: getSource(),
     });
-    if (err) throw err.message || err;
     if (code !== 0 && code !== 200) throw msg;
     return data as T;
   } catch (error) {

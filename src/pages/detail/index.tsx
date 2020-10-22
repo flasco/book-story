@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Toast } from 'antd-mobile';
 import { useHistory } from 'react-router-dom';
 

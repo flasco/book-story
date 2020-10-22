@@ -1,4 +1,4 @@
-import React from 'react';
+import { forwardRef } from 'react';
 import { FixedSizeList as ListView } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
@@ -23,4 +23,4 @@ const VirtualList = ({ renderItem, data, preLength = 0, itemSize }, ref) => {
   );
 };
 
-export default React.forwardRef(VirtualList);
+export default forwardRef(VirtualList);

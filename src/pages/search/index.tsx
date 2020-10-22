@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { SearchBar, Toast } from 'antd-mobile';
 
 import Container from '@/layout/container';

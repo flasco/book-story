@@ -1,5 +1,3 @@
-import React from 'react';
-
 import styles from './index.m.scss';
 
 const CustomBadge = ({ text, background = 'red', color = '#fff' }) => {
