@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Toast } from 'antd-mobile';
 
 import Container from '@/layout/container';
 import TouchableHighlight from '@/components/touchable';
 import CustomBadge from '@/components/custom-badge';
-import { closeLoading, openLoading, spliceLine } from '@/utils';
+import { closeLoading, openLoading, spliceLine, toastFail } from '@/utils';
 import { useBook } from '@/hooks/use-book';
 
 import { getOriginLatest } from './api';
@@ -21,7 +20,7 @@ const OriginPage = () => {
   const [originList, setOriginList] = useState<any[]>([]);
 
   useEffect(() => {
-    if (!origins) Toast.fail('书籍信息读取失败，请返回书架重试', 2, undefined, false);
+    if (!origins) toastFail({ text: '书籍信息读取失败，请返回书架重试' });
     else {
       openLoading('数据请求中');
       getOriginLatest(origins)
@@ -29,13 +28,14 @@ const OriginPage = () => {
           setOriginList(val);
           closeLoading();
         })
-        .catch(() => Toast.fail('请求失败，请稍后重试', 2, undefined, false));
+        .catch(() => toastFail({ text: '请求失败，请稍后重试' }));
     }
   }, []);
 
   const onClick = item => {
-    api.changeOrigin(item);
-    goBack();
+    const isSuccess = api.changeOrigin(item);
+    if (!isSuccess) toastFail({ text: '不在书架中，换源失败' });
+    else goBack();
   };
 
   return (

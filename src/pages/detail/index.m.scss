@@ -72,6 +72,10 @@
     &:hover {
       background-color: var(--read-current);
     }
+
+    &.am-button-active {
+      background-color: var(--read-current);
+    }
   }
 
   .am-button-ghost {

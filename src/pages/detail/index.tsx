@@ -1,55 +1,59 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Toast } from 'antd-mobile';
+import { Button } from 'antd-mobile';
 import { useHistory } from 'react-router-dom';
 
 import Container from '@/layout/container';
 import ImageShow from '@/components/image-show';
 import { IBookX } from '@/defination';
 import { useBook } from '@/hooks/use-book';
+import { openLoading, closeLoading, toastFail } from '@/utils';
 
 import { getDetail } from './api';
 
 import styles from './index.m.scss';
-import { openLoading, closeLoading } from '@/utils';
 
 const DetailPage = props => {
   const { push } = useHistory();
   const {
-    api: { isExistBook, insertBook },
+    api: { getExistBook, insertBook, setCurBook },
   } = useBook();
 
-  const [bookInfo, setInfo] = useState<IBookX>(props?.location?.state ?? {});
-  const { img, bookName, author, desc = '', source, plantformId } = bookInfo;
+  const initBook = props?.location?.state ?? {};
+  const existedBook = getExistBook(initBook);
+  const isExist = !!existedBook;
+
+  const [bookInfo, setInfo] = useState<IBookX>(existedBook ?? initBook);
+  const { img, bookName, author, desc = '', source } = bookInfo;
+  const [plantformId, setPlantformId] = useState(bookInfo.plantformId ?? 0);
   const [loading, setLoading] = useState(desc == null);
 
-  const sourceUrl = source[plantformId];
-
   useEffect(() => {
-    if (img == null) {
-      openLoading();
-      getDetail(sourceUrl)
-        .then(val => {
-          setLoading(false);
-          closeLoading();
-          setInfo({
-            ...bookInfo,
-            desc: val.desc,
-            img: val.image,
-            catalogUrl: val.catalogUrl,
-          });
-        })
-        .catch(() => {
-          setLoading(false);
-          closeLoading();
-          Toast.fail('网络请求失败，请稍后重试', 2, undefined, false);
+    if (isExist) return;
+    openLoading();
+    getDetail(source)
+      .then(results => {
+        setLoading(false);
+        closeLoading();
+        if (!results.length) throw new Error('error');
+        const bestResult = results[0];
+        setPlantformId(bestResult.plantformId);
+        setInfo({
+          ...bookInfo,
+          desc: bestResult.desc,
+          img: bestResult.image,
+          catalogUrl: bestResult.catalogUrl,
         });
-    }
+      })
+      .catch(() => {
+        setLoading(false);
+        closeLoading();
+        toastFail({ text: '网络请求失败，请稍后重试' });
+      });
   }, []);
 
-  const plantform = new URL(sourceUrl).host;
-
   const readBook = () => {
-    push('/read', bookInfo);
+    push('/read');
+    setCurBook(bookInfo);
   };
 
   const addBook = () => {
@@ -57,7 +61,6 @@ const DetailPage = props => {
   };
 
   const renderAddBtn = () => {
-    const isExist = isExistBook(bookInfo);
     if (!isExist) {
       return (
         <Button type="ghost" className={styles.btn} onClick={addBook}>
@@ -74,6 +77,8 @@ const DetailPage = props => {
 
   const renderContent = () => {
     if (loading) return null;
+    const plantform = new URL(source[plantformId]).host;
+
     return (
       <>
         <div className={styles.info}>

@@ -3,8 +3,7 @@ import React, { useState, useCallback, useMemo, useContext, useEffect } from 're
 import { getLatestChapter, fetchAllLatest } from '@/api';
 import { IBook, IBookX } from '@/defination';
 import CacheBooks from '@/cache/books';
-import { openLoading, closeLoading } from '@/utils';
-import { Toast } from 'antd-mobile';
+import { openLoading, closeLoading, toastFail } from '@/utils';
 import ListCache from '@/cache/list';
 
 type Context = ReturnType<typeof useBookAndFlatten>;
@@ -35,7 +34,7 @@ const useBookAndFlatten = () => {
   const [books, setBooks] = useState<IBook[]>([]);
   const [flattens, setFlattens] = useState<IBook[]>([]);
   /** 记录当前正在阅读的书籍 */
-  const [ptr, setPtr] = useState('');
+  const [currentBook, setCurrentBook] = useState(books?.[0] ?? {});
 
   useEffect(() => {
     bookCache.init().then(() => {
@@ -49,10 +48,14 @@ const useBookAndFlatten = () => {
     });
   }, []);
 
-  const isExistBook = useCallback(
+  const getExistBook = useCallback(
     (book: IBookX) => {
       const isEQ = x => x.author === book.author && x.bookName === book.bookName;
-      return books.some(isEQ) || flattens.some(isEQ);
+      let curBook = books.find(isEQ);
+      if (curBook) return curBook;
+      curBook = flattens.find(isEQ);
+      if (curBook) return curBook;
+      return null;
     },
     [books, flattens]
   );
@@ -98,7 +101,7 @@ const useBookAndFlatten = () => {
       const sourceUrl = book.source[book.plantformId] ?? '';
 
       if (sourceUrl === '') {
-        Toast.fail('书源获取失败，疑似污染数据...');
+        toastFail({ text: '书源获取失败，疑似污染数据...' });
         return;
       }
       openLoading('请求数据中...');
@@ -122,23 +125,26 @@ const useBookAndFlatten = () => {
 
   const changeOrigin = (changed: IChanged) => {
     const { catalogUrl, url: latestUrl } = changed;
-    const curPtr = books.findIndex(i => i.catalogUrl === ptr);
+    const curPtr = books.findIndex(i => i.catalogUrl === currentBook.catalogUrl);
+    console.log(curPtr);
+    if (curPtr < 0) return false;
     const book = books[curPtr];
     book.catalogUrl = catalogUrl;
     const plantformId = book.source.findIndex(i => i === latestUrl);
     book.plantformId = plantformId;
     setBooks([...books]);
-    setPtr(catalogUrl);
+
+    setCurBook(book);
+
     bookCache.update({ books: [...books] });
+    return true;
   };
 
-  /** 移动指针到特定的书籍 */
-  const movePtrToWatch = useCallback(
-    (index: number, isBook = true) => {
-      const book = isBook ? books[index] : flattens[index];
-      setPtr(book.catalogUrl);
+  const setCurBook = useCallback(
+    book => {
+      if (book) setCurrentBook({ ...book });
     },
-    [books, flattens]
+    [setCurrentBook]
   );
 
   const clickBookToRead = useCallback(
@@ -146,7 +152,7 @@ const useBookAndFlatten = () => {
       books[index].latestRead = Date.now();
       books[index].isUpdate = false;
       books[index].updateNum = 0;
-      movePtrToWatch(index);
+      setCurBook(books[index]);
       setBooks([...books]);
     },
     [books]
@@ -219,13 +225,11 @@ const useBookAndFlatten = () => {
     moveToBooks,
     moveToFlattens,
     clickBookToRead,
-    movePtrToWatch,
-    isExistBook,
+    setCurBook,
+    getExistBook,
     updateLists,
     changeOrigin,
   };
-
-  const currentBook = useMemo(() => books.find(book => book.catalogUrl === ptr), [ptr]);
 
   return { flattens, books, api, currentBook };
 };

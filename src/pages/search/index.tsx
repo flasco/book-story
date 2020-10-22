@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import { SearchBar, Toast } from 'antd-mobile';
+import { SearchBar } from 'antd-mobile';
 
 import Container from '@/layout/container';
 import VirtualList from '@/components/virtual-list';
 import { IBookX } from '@/defination';
 
 import { newSearch } from './api';
-import { openLoading, closeLoading } from '@/utils';
+import { openLoading, closeLoading, toastFail } from '@/utils';
 
 import styles from './index.m.scss';
 import Touchable from '@/components/touchable';
@@ -26,7 +26,7 @@ const SearchPage = () => {
   const searchOpe = useCallback(
     async (keyword: string) => {
       if (keyword.length < 1) {
-        Toast.fail('请输入关键字', 2, undefined, false);
+        toastFail({ text: '请输入关键字', sec: 2 });
         return;
       }
       openLoading('加载中...');
@@ -37,7 +37,7 @@ const SearchPage = () => {
         setHint(len > 0 ? HINT_TIPS.RESULT(len) : HINT_TIPS.EMPTY);
         closeLoading();
       } catch (error) {
-        Toast.show('未知错误，请稍后重试...', 2);
+        toastFail({ text: '未知错误，请稍后重试...' });
       }
     },
     [setList]

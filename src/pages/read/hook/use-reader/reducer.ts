@@ -1,12 +1,11 @@
 import { ee } from '@/main';
 import { useEffect, useMemo, useCallback, useReducer } from 'react';
-import { Toast } from 'antd-mobile';
 
 import ListCache from '@/cache/list';
 import RecordCache from '@/cache/record';
 import ChaptersCache from '@/cache/chapter';
 import Queue from '@/third-party/queue';
-import { openLoading, closeLoading } from '@/utils';
+import { openLoading, closeLoading, toastFail } from '@/utils';
 import { newGetP } from '@/utils/text';
 
 import { getList } from '@/pages/read/api';
@@ -123,7 +122,7 @@ function useReader(bookInfo?: IBook) {
         },
       });
     } catch (error) {
-      Toast.fail(error.message || error, 2, undefined, false);
+      toastFail(error.message || error);
       dispatch({
         type: 'setState',
         payload: {

@@ -4,6 +4,17 @@ export function openLoading(text?: string) {
   Toast.loading(text, 0);
 }
 
+interface IParams {
+  text: string;
+  sec?: number;
+  callback?: () => void;
+}
+
+export function toastFail(param: IParams) {
+  const { text, sec = 2, callback } = param;
+  Toast.fail(text, sec, callback, false);
+}
+
 export function closeLoading() {
   Toast.hide();
 }

@@ -1,5 +1,5 @@
-import { get } from '@/utils/request';
+import { post } from '@/utils/request';
 
-export async function getDetail(url: string) {
-  return get('/v2/analysis/info', { url });
+export async function getDetail(sources: string[]) {
+  return post<any[]>('/v2/analysis/infos', { sources });
 }
