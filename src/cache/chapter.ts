@@ -20,7 +20,7 @@ class ChapterCache {
       const cached = this.chapters[chapterUrl];
       if (cached == null) {
         const chapter = await getChapter(chapterUrl, retryCnt);
-        this.chapters[chapterUrl] = chapter;
+        if (chapter.content.length > 0) this.chapters[chapterUrl] = chapter;
         return chapter;
       }
       return cached;
