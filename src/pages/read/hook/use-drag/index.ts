@@ -2,38 +2,32 @@ import { createRef, useState, useCallback, useEffect } from 'react';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
 import { Toast } from 'antd-mobile';
-import { useReaderContext } from '../../context';
-import { getCtrlPos, changeCtrlPos } from '../use-reader';
+import { changeCtrlPos, getCtrlPos } from '../use-reader';
 
 let startX = 0;
 let inAnimate = false;
 
 const pageWidth = screenWidth - 16;
 
-function useDrag() {
-  const params = useReaderContext();
-  const { watched: initPage, pages } = params;
-  const { prevChapter, nextChapter, changeMenu, saveRecord, closeLoading } = params.api;
-
+function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRight }) {
   const ref = createRef<HTMLDivElement>();
-  const [page, setPage] = useState(() => Math.round(initPage - 1));
+  const [page, setPage] = useState(() => Math.round(initialPage - 1));
   const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (pages.length > 0) {
-      const totalWidth = ref.current!.scrollWidth;
-      const totalPage = (totalWidth + 16) / pageWidth;
-      setTotal(totalPage);
-      const ctrlPos = getCtrlPos();
-      if (ctrlPos < 0) goTo(totalPage, false);
-      else if (ctrlPos > 0) goTo(1, false);
-      closeLoading();
-    }
+    const totalWidth = ref.current!.scrollWidth;
+    const totalPage = (totalWidth + 16) / pageWidth;
+    setTotal(totalPage);
+    const ctrlPos = getCtrlPos();
+    if (ctrlPos < 0) goTo(totalPage, false);
+    else if (ctrlPos > 0) goTo(1, false);
+    setLoading(false);
   }, [pages]);
 
   useEffect(() => {
-    if (initPage > 1) goTo(Math.round(initPage), false);
-  }, [initPage]);
+    if (initialPage > 1) goTo(Math.round(initialPage), false);
+  }, [initialPage]);
 
   /** cur 从1开始 */
   const goTo = useCallback(
@@ -100,26 +94,25 @@ function useDrag() {
         } else if (endX > rightBoundary) {
           currentPage += 1;
         } else {
-          changeMenu();
+          await hookCenter?.();
           return;
         }
       }
 
-      if (currentPage < 0) {
-        const isEdge = !(await prevChapter());
-        if (isEdge) {
-          Toast.info('已经是第一章', 2, undefined, false);
-          currentPage = page;
-        }
-        return;
-      } else if (currentPage >= total) {
-        const isEdge = !(await nextChapter());
-        if (isEdge) {
-          Toast.info('已经是到底了', 2, undefined, false);
+      const isLeftEdge = currentPage < 0;
+      const isInEdge = isLeftEdge || currentPage >= total;
+      if (isInEdge) {
+        const curApi = isLeftEdge ? hookLeft : hookRight;
+        setLoading(true);
+        const isSucceed = (await curApi?.()) ?? false;
+        if (!isSucceed) {
+          setLoading(false);
+          Toast.info('已经临近边界', 2, undefined, false);
           currentPage = page;
         }
         return;
       }
+
       page !== currentPage && setPage(Math.round(currentPage));
       goTo(currentPage + 1, needAnimate);
     },
@@ -131,6 +124,7 @@ function useDrag() {
     total,
     ref,
     goTo,
+    loading,
     touchEvent: {
       onTouchStart,
       onTouchMove,
