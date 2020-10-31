@@ -22,7 +22,7 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
     const ctrlPos = getCtrlPos();
     if (ctrlPos < 0) goTo(totalPage, false);
     else if (ctrlPos > 0) goTo(1, false);
-    setLoading(false);
+    setTimeout(() => setLoading(false), 100);
   }, [pages]);
 
   useEffect(() => {
