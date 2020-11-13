@@ -54,11 +54,12 @@ class Queue<T = any> {
     console.log('empty...');
   }
 
-  push(item) {
-    this._preArr.push({
+  push(...item) {
+    const works = item.map(i => ({
       id: this._id++,
-      content: item,
-    });
+      content: i,
+    }));
+    this._preArr.push(...works);
     this._workArr.length < this._concurrent && this._workEMT.emit('start');
   }
 
