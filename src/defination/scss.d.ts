@@ -13,3 +13,5 @@ declare module '*.jpg' {
 interface PureObject {
   [key: string]: any;
 }
+
+type TObject = Record<string, unknown>;

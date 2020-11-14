@@ -13,7 +13,7 @@ const getSource = (timeout = 12000) => {
   return source.token;
 };
 
-export async function get<T = any>(url: string, payload?: object, retryCnt = 0): Promise<T> {
+export async function get<T = any>(url: string, payload?: TObject, retryCnt = 0): Promise<T> {
   url = transformURL(getIp() + url, payload);
   for (let i = 0; i <= retryCnt; i++) {
     try {
@@ -33,7 +33,7 @@ export async function get<T = any>(url: string, payload?: object, retryCnt = 0):
   throw '请求失败';
 }
 
-export async function getAsBuffer(url: string, payload?: object) {
+export async function getAsBuffer(url: string, payload?: TObject) {
   url = transformURL(getIp() + url, payload);
   const { data } = await axios.get(url, {
     responseType: 'arraybuffer',
@@ -43,7 +43,7 @@ export async function getAsBuffer(url: string, payload?: object) {
   return data;
 }
 
-export async function post<T = any>(url: string, payload?: object) {
+export async function post<T = any>(url: string, payload?: TObject) {
   url = getIp() + url;
 
   try {
