@@ -1,6 +1,6 @@
 .list {
-  height: 100%;
   width: 100%;
+  height: 100%;
   overflow: auto;
 
   .separator {
@@ -61,12 +61,10 @@
   font-weight: 100;
 }
 
-$flatten-badge: #49c6f1;
-
 .flatten-badge {
   padding: 2px;
   display: inline-flex;
-  background: $flatten-badge;
+  background: #49c6f1;
   font-size: 11px;
   color: #fff;
 }
