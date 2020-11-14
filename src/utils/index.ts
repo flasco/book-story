@@ -30,13 +30,13 @@ export function buffer2Base64(buffer: any) {
   );
 }
 
-export function formatObj2Str(obj: object) {
+export function formatObj2Str(obj: TObject) {
   return Object.keys(obj)
     .map(key => `${key}=${obj[key]}`)
     .join('&');
 }
 
-export function transformURL(url: string, obj?: object) {
+export function transformURL(url: string, obj?: TObject) {
   return url + (obj != null ? '?' + formatObj2Str(obj as any) : '');
 }
 

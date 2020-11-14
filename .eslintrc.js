@@ -45,6 +45,7 @@ module.exports = {
         'react/no-children-prop': 0,
         'react/prop-types': 0,
         '@typescript-eslint/indent': 0,
+        '@typescript-eslint/explicit-module-boundary-types': 0,
       },
     },
   ],

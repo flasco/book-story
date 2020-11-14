@@ -6,11 +6,13 @@
   "private": true,
   "scripts": {
     "inst": "yarn && cd webpack && yarn",
-    "dev": "node webpack/scripts/dev-koa.js",
+    "dev": "node webpack/scripts/dev-webpack.js",
     "build": "node webpack/scripts/build-render.js --re-dll",
     "build:doc": "node webpack/scripts/build-render.js  --re-dll && node webpack/scripts/gh-pages.js",
     "upgrade-dep": "yarn upgrade-interactive",
     "upgrade-latest-dep": "yarn upgrade-dep --latest",
+    "scss-lint": "stylelint src/**/*.scss",
+    "es-lint": "eslint 'src/**/*.{js,ts,tsx}'",
     "serve": "node webpack/scripts/serve.js"
   },
   "devDependencies": {
@@ -21,19 +23,21 @@
     "@types/react-dom": "^16.9.4",
     "@types/react-router-dom": "^5.1.3",
     "@types/react-window": "^1.8.1",
-    "@typescript-eslint/eslint-plugin": "^2.1.0",
-    "@typescript-eslint/parser": "^2.1.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.3.0",
-    "eslint-config-prettier": "^6.2.0",
-    "eslint-plugin-prettier": "^3.1.0",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.14.3",
     "husky": "^3.0.5",
     "lint-staged": "^9.4.3",
-    "prettier": "^1.18.2",
+    "prettier": "^2.1.2",
     "react-hot-loader": "^4.12.18",
-    "sass-lint": "^1.13.1",
-    "typescript": "^3.7.3"
+    "stylelint": "^13.7.2",
+    "stylelint-order": "^4.1.0",
+    "stylelint-scss": "^3.18.0",
+    "typescript": "^4.0.5"
   },
   "dependencies": {
     "antd-mobile": "^2.3.1",
@@ -47,6 +51,6 @@
     "react-router-dom": "^5.1.2",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.5",
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.3"
   }
 }
