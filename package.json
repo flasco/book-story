@@ -32,7 +32,9 @@
     "lint-staged": "^9.4.3",
     "prettier": "^2.1.2",
     "react-hot-loader": "^4.12.18",
-    "sass-lint": "^1.13.1",
+    "stylelint": "^13.7.2",
+    "stylelint-order": "^4.1.0",
+    "stylelint-scss": "^3.18.0",
     "typescript": "^4.0.5"
   },
   "dependencies": {
