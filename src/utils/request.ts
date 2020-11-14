@@ -33,7 +33,7 @@ export async function get<T = any>(url: string, payload?: TObject, retryCnt = 0)
   throw '请求失败';
 }
 
-export async function getAsBuffer(url: string, payload?: TObject) {
+export async function getAsBuffer(url: string, payload?: any) {
   url = transformURL(getIp() + url, payload);
   const { data } = await axios.get(url, {
     responseType: 'arraybuffer',
@@ -43,7 +43,7 @@ export async function getAsBuffer(url: string, payload?: TObject) {
   return data;
 }
 
-export async function post<T = any>(url: string, payload?: TObject) {
+export async function post<T = any>(url: string, payload?: any) {
   url = getIp() + url;
 
   try {

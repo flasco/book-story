@@ -1,11 +1,23 @@
 const path = require('path');
 const webpack = require('webpack');
+const fs = require('fs');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const { DIST_PATH } = require('./base');
 const alias = require('./alias');
+
+const manifestPath = path.join(__dirname, `${DIST_PATH}/vendor-manifest.json`);
+
+const getDllName = () => {
+  const isDev = process.env.PROJECT_ENV === 'development';
+  if (isDev) return 'vendor';
+  const file = fs.readFileSync(manifestPath);
+  const { name } = JSON.parse(file);
+  const [curName, hash] = name.split('_');
+  return `${curName}-${hash}.js`;
+};
 
 // 为了能取到不同配置里设置的环境变量，改成 function
 module.exports = () => {
@@ -162,7 +174,7 @@ module.exports = () => {
         template: './public/index-template.ejs',
         templateParameters: {
           IS_DEV: isDev,
-          VENDOR: './dll/vendor.dll.js', //manifest就是dll生成的json
+          VENDOR: `./dll/${getDllName()}`, //manifest就是dll生成的json
         },
         filename: 'index.html',
       }),
@@ -170,13 +182,13 @@ module.exports = () => {
   };
 
   if (!isDev) {
-    config.plugins.push(
+    config.plugins.unshift(
       new webpack.DllReferencePlugin({
         context: __dirname,
-        manifest: path.join(__dirname, `${DIST_PATH}/vendor-manifest.json`),
+        manifest: manifestPath,
       }),
       new MiniCssExtractPlugin({
-        filename: 'css/[name]-[hash:6].css',
+        filename: 'css/[name]-[chunkhash:6].css',
       }),
       new CompressionWebpackPlugin({
         test: /\.(js|css)/,

@@ -43,7 +43,7 @@ module.exports = merge.smart(getBaseConfig(), {
   },
   output: {
     path: path.join(__dirname, DIST_PATH),
-    filename: 'js/bundle-[hash:6].js',
+    filename: 'js/bundle-[chunkhash:6].js',
   },
   optimization: {
     minimizer: [new OptimizeCSSAssetsPlugin({}), new TerserPlugin()],

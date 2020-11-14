@@ -7,18 +7,19 @@ const { DIST_PATH, DLL_LIST } = require('./base');
 module.exports = {
   // 要打包的模块的数组
   context: __dirname,
+  mode: 'production',
   entry: {
     vendor: DLL_LIST,
   },
   output: {
     path: path.join(__dirname, DIST_PATH), // 打包后文件输出的位置
-    filename: 'dll/[name].dll.js', // vendor.dll.js中暴露出的全局变量名。
-    library: '[name]_library', // 与webpack.DllPlugin中的`name: '[name]_library',`保持一致。
+    filename: 'dll/[name]-[chunkhash:6].js', // vendor.dll.js中暴露出的全局变量名。
+    library: '[name]_[chunkhash:6]_library', // 与webpack.DllPlugin中的`name: '[name]_library',`保持一致。
   },
   plugins: [
     new webpack.DllPlugin({
       path: path.join(__dirname, DIST_PATH, '[name]-manifest.json'),
-      name: '[name]_library',
+      name: '[name]_[chunkhash:6]_library',
       context: __dirname,
     }),
     new CleanWebpackPlugin({
