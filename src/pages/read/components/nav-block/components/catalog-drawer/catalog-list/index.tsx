@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useCallback } from 'react';
+import { useRef, useMemo, useEffect, useCallback } from 'react';
 import cx from 'classnames';
 
 import TouchableHighlight from '@/components/touchable';
@@ -13,7 +13,7 @@ const BookList = ({ changeOpen, open, changeMenu }) => {
     cache: { list, record },
     api: { goToChapter },
   } = useReaderContext();
-  const listx = React.useRef<any>(null);
+  const listx = useRef<any>(null);
 
   const data = useMemo(() => list.list, [list.list]);
   const currentPos = useMemo(() => record.getChapterPosition(), [record.getChapterPosition()]);

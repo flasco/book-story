@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Container from '@/layout/container';
 import { useBook } from '@/hooks/use-book';
 

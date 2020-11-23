@@ -1,4 +1,3 @@
-import React from 'react';
 import { setConfig } from 'react-hot-loader';
 import { render } from 'react-dom';
 import EE from 'onfire.js';
