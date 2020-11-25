@@ -5,7 +5,7 @@ import { newGetP } from '@/utils/text';
 
 class ChapterCache {
   key: string;
-  chapters: { [url: string]: IContent } = {};
+  chapters: Map<string, IContent> = new Map();
 
   constructor(key: string) {
     this.key = key;
@@ -18,12 +18,12 @@ class ChapterCache {
 
   getContent = async (chapterUrl: string, retryCnt = 0): Promise<IContent> => {
     try {
-      const cached = this.chapters[chapterUrl];
+      const cached = this.chapters.get(chapterUrl);
       if (cached == null) {
         const chapter = await getChapter(chapterUrl, retryCnt);
         if (chapter.content.length > 0) {
           if (newGetP(chapter.content)[0] === '获取失败') throw '获取失败';
-          this.chapters[chapterUrl] = chapter;
+          this.chapters.set(chapterUrl, chapter);
         }
         return chapter;
       }

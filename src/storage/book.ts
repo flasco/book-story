@@ -41,15 +41,20 @@ export async function updateBookRecord(sourceUrl: string, record: IRecord) {
   return setItem(key, record, STORE_LEVEL.SAFE);
 }
 
-export async function getBookChapters(sourceUrl: string): Promise<{ [url: string]: IContent }> {
+export async function getBookChapters(sourceUrl: string): Promise<Map<string, IContent>> {
   const key = 'chapter@' + sourceUrl;
 
   const result = await getItem(key);
-  if (result == null || Array.isArray(result)) return {};
-  return result;
+  if (result == null) return new Map();
+  // 如果不是array，说明是老的使用object存储的方式，需要转一下
+  if (!Array.isArray(result)) {
+    return new Map(Object.entries(result));
+  }
+  return new Map(result);
 }
 
-export async function updateBookChapters(sourceUrl: string, chapter: { [url: string]: IContent }) {
+export async function updateBookChapters(sourceUrl: string, chapter: Map<string, IContent>) {
   const key = 'chapter@' + sourceUrl;
-  return setItem(key, chapter);
+  if (sourceUrl == null) return;
+  return setItem(key, [...chapter]);
 }
