@@ -1,6 +1,7 @@
 import { IContent } from '@/defination';
 import { getBookChapters, updateBookChapters } from '@/storage/book';
 import { getChapter } from '@/pages/read/api';
+import { newGetP } from '@/utils/text';
 
 class ChapterCache {
   key: string;
@@ -20,7 +21,10 @@ class ChapterCache {
       const cached = this.chapters[chapterUrl];
       if (cached == null) {
         const chapter = await getChapter(chapterUrl, retryCnt);
-        if (chapter.content.length > 0) this.chapters[chapterUrl] = chapter;
+        if (chapter.content.length > 0) {
+          if (newGetP(chapter.content)[0] === '获取失败') throw '获取失败';
+          this.chapters[chapterUrl] = chapter;
+        }
         return chapter;
       }
       return cached;
