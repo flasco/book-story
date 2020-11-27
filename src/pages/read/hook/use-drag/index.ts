@@ -1,33 +1,21 @@
-import { createRef, useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { fromEvent } from 'rxjs';
+import { concatAll, map, skipWhile, takeUntil } from 'rxjs/operators';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
 import { Toast } from 'antd-mobile';
 import { changeCtrlPos, getCtrlPos } from '../use-reader';
+import { useFuncRefCallback } from '@/hooks';
 
-let startX = 0;
 let inAnimate = false;
 
 const pageWidth = screenWidth - 16;
 
 function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRight }) {
-  const ref = createRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(() => Math.round(initialPage - 1));
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const totalWidth = ref.current!.scrollWidth;
-    const totalPage = (totalWidth + 16) / pageWidth;
-    setTotal(totalPage);
-    const ctrlPos = getCtrlPos();
-    if (ctrlPos < 0) goTo(totalPage, false);
-    else if (ctrlPos > 0) goTo(1, false);
-    setTimeout(() => setLoading(false), 100);
-  }, [pages]);
-
-  useEffect(() => {
-    if (initialPage > 1) goTo(Math.round(initialPage), false);
-  }, [initialPage]);
 
   /** cur 从1开始 */
   const goTo = useCallback(
@@ -47,42 +35,30 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
     [ref]
   );
 
-  const onTouchStart = useCallback(
-    e => {
-      if (inAnimate) return;
-      startX = e.touches[0].clientX;
+  useEffect(() => {
+    const totalWidth = ref.current!.scrollWidth;
+    const totalPage = (totalWidth + 16) / pageWidth;
+    setTotal(totalPage);
+    const ctrlPos = getCtrlPos();
+    if (ctrlPos < 0) goTo(totalPage, false);
+    else if (ctrlPos > 0) goTo(1, false);
+    setTimeout(() => setLoading(false), 100);
+  }, [pages]);
 
-      const current = ref.current;
+  const onMoverSubscribe = useFuncRefCallback(
+    prevX => {
+      console.log('ppp?', page);
       requestAnimationFrame(() => {
-        // 跟随手指移动的样式
-        current!.style.transition = 'none';
+        ref.current!.style.transform = `translateX(${0 - page * pageWidth + prevX}px)`;
       });
     },
-    [ref]
+    [page]
   );
 
-  /** 垃圾throttle，别用，用了就掉帧 */
-  const onTouchMove = useCallback(
-    (e: any) => {
-      e.preventDefault();
-      if (inAnimate) return;
-      const prevX = e.touches[0].clientX - startX;
-
-      const current = ref.current;
-      requestAnimationFrame(() => {
-        current!.style.transform = `translateX(${0 - page * pageWidth + prevX}px)`;
-      });
-    },
-    [page, ref]
-  );
-
-  const onTouchEnd = useCallback(
-    async e => {
-      e.preventDefault();
-      if (inAnimate) return;
-      const endX = e.changedTouches[0].clientX;
-      const diff = endX - startX;
-
+  const clickerSubscribe = useFuncRefCallback(
+    async ({ diff, endX } = {}) => {
+      if (diff == null) return;
+      console.log(diff);
       let currentPage = page;
       let needAnimate = false;
       if (Math.abs(diff) > 5) {
@@ -116,8 +92,64 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
       page !== currentPage && setPage(Math.round(currentPage));
       goTo(currentPage + 1, needAnimate);
     },
-    [ref, page, total]
+    [goTo, setLoading, page, total]
   );
+
+  useEffect(() => {
+    const current = ref.current!;
+    const touchStart = fromEvent<any>(current, 'touchstart');
+    const touchMove = fromEvent<any>(current, 'touchmove');
+    const touchEnd = fromEvent<any>(current, 'touchend');
+
+    const mover = touchStart.pipe(
+      map(e => {
+        requestAnimationFrame(() => {
+          // 跟随手指移动的样式
+          current.style.transition = 'none';
+        });
+        return e.touches[0].clientX;
+      }),
+      map(startX =>
+        touchMove.pipe(
+          takeUntil(touchEnd),
+          map(e => e.touches[0].clientX - startX)
+        )
+      ),
+      concatAll()
+    );
+
+    const mover$ = mover.subscribe(e => onMoverSubscribe.current(e));
+
+    const clicker = touchStart.pipe(
+      map(e => e.touches[0].clientX),
+      skipWhile(() => {
+        console.log('inAnimate', inAnimate);
+        return inAnimate;
+      }),
+      map(startX =>
+        touchEnd.pipe(
+          map(e => {
+            console.log('action???');
+            const endX = e.changedTouches[0].clientX;
+            console.log(startX, endX);
+            return { diff: endX - startX, endX };
+          })
+        )
+      ),
+      concatAll()
+    );
+
+    const clicker$ = clicker.subscribe(e => clickerSubscribe.current(e));
+
+    return () => {
+      clicker$.unsubscribe();
+      mover$.unsubscribe();
+    };
+  }, [ref, clickerSubscribe, onMoverSubscribe]);
+
+  useEffect(() => {
+    if (initialPage > 1) goTo(Math.round(initialPage), false);
+  }, [initialPage]);
 
   return {
     page,
@@ -125,11 +157,6 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
     ref,
     goTo,
     loading,
-    touchEvent: {
-      onTouchStart,
-      onTouchMove,
-      onTouchEnd,
-    },
   };
 }
 

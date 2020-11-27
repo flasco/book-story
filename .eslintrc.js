@@ -48,6 +48,7 @@ module.exports = {
         '@typescript-eslint/explicit-module-boundary-types': 0,
         'react/jsx-uses-react': 0,
         'react/react-in-jsx-scope': 0,
+        '@typescript-eslint/no-non-null-assertion': 0,
       },
     },
   ],

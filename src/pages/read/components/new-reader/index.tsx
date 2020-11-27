@@ -18,7 +18,7 @@ const NewReader: React.FC = () => {
     [watched, api]
   );
 
-  const { ref, page, touchEvent, loading, total } = useDrag(pages, param);
+  const { ref, page, loading, total } = useDrag(pages, param);
 
   const footer = useMemo(() => {
     if (total < 1) return null;
@@ -31,7 +31,7 @@ const NewReader: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.title}>{title}</div>
         <div className={styles.wrapper}>
-          <div className={styles.inner} {...touchEvent}>
+          <div className={styles.inner}>
             <div ref={ref} className={styles.main}>
               {pages.map((i: string, ind: number) => (
                 <p key={'asd_x' + ind}>{i}</p>
