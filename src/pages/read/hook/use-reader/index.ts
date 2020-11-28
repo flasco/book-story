@@ -73,7 +73,7 @@ function useReader(bookInfo?: IBook) {
       const currentChapter = cachedList.getChapterUrl(position);
 
       if (prefetch) {
-        const urlArr = new Array(5)
+        const urlArr = new Array(2)
           .fill(1)
           .map((_, ind) => cachedList.getChapterUrl(position + ind + 1));
         workArr.push(...urlArr);
