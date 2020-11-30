@@ -17,6 +17,20 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    if (initialPage > 1) goTo(Math.round(initialPage), false);
+  }, [initialPage]);
+
+  useEffect(() => {
+    const totalWidth = ref.current!.scrollWidth;
+    const totalPage = (totalWidth + 16) / pageWidth;
+    setTotal(totalPage);
+    const ctrlPos = getCtrlPos();
+    if (ctrlPos < 0) goTo(totalPage, false);
+    else if (ctrlPos > 0) goTo(1, false);
+    setTimeout(() => setLoading(false), 100);
+  }, [pages]);
+
   /** cur 从1开始 */
   const goTo = useCallback(
     (cur: number, needAnimate = true) => {
@@ -34,16 +48,6 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
     },
     [ref]
   );
-
-  useEffect(() => {
-    const totalWidth = ref.current!.scrollWidth;
-    const totalPage = (totalWidth + 16) / pageWidth;
-    setTotal(totalPage);
-    const ctrlPos = getCtrlPos();
-    if (ctrlPos < 0) goTo(totalPage, false);
-    else if (ctrlPos > 0) goTo(1, false);
-    setTimeout(() => setLoading(false), 100);
-  }, [pages]);
 
   const onMoverSubscribe = useFuncRefCallback(
     prevX => {
@@ -135,10 +139,6 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
       mover$.unsubscribe();
     };
   }, [ref, clickerSubscribe, onMoverSubscribe]);
-
-  useEffect(() => {
-    if (initialPage > 1) goTo(Math.round(initialPage), false);
-  }, [initialPage]);
 
   return {
     page,
