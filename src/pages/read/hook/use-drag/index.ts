@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { fromEvent } from 'rxjs';
-import { concatAll, filter, map, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { concatMap, filter, map, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
 import { Toast } from 'antd-mobile';
@@ -98,17 +98,12 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
   useEffect(() => {
     const current = ref.current!;
     const touchStart = fromEvent<any>(current, 'touchstart').pipe(
-      /** 如果在动画中就过滤掉请求 */
-      filter(e => !inAnimate || !e)
+      /** 如果在动画中就过滤掉请求，下同 */
+      filter(e => !inAnimate || !e),
+      map(e => e.touches[0].clientX)
     );
-    const touchMove = fromEvent<any>(current, 'touchmove').pipe(
-      /** 如果在动画中就过滤掉请求 */
-      filter(e => !inAnimate || !e)
-    );
-    const touchEnd = fromEvent<any>(current, 'touchend').pipe(
-      /** 如果在动画中就过滤掉请求 */
-      filter(e => !inAnimate || !e)
-    );
+    const touchMove = fromEvent<any>(current, 'touchmove').pipe(filter(e => !inAnimate || !e));
+    const touchEnd = fromEvent<any>(current, 'touchend').pipe(filter(e => !inAnimate || !e));
 
     const mover = touchStart.pipe(
       map(() => {
@@ -117,10 +112,8 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
           current.style.transition = 'none';
         });
       }),
-      map(() => touchMove.pipe(takeUntil(touchEnd))),
-      concatAll(),
-      withLatestFrom(touchStart, (move, start) => {
-        const startX = start.touches[0].clientX;
+      concatMap(() => touchMove.pipe(takeUntil(touchEnd))),
+      withLatestFrom(touchStart, (move, startX) => {
         return move.touches[0].clientX - startX;
       })
     );
@@ -128,11 +121,9 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
     const mover$ = mover.subscribe(e => onMoverSubscribe.current(e));
 
     const clicker = touchStart.pipe(
-      map(() => touchEnd),
-      concatAll(),
-      withLatestFrom(touchStart, (end, start) => {
+      concatMap(() => touchEnd),
+      withLatestFrom(touchStart, (end, startX) => {
         const endX = end.changedTouches[0].clientX;
-        const startX = start.touches[0].clientX;
         return { diff: endX - startX, endX };
       })
     );

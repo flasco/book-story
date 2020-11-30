@@ -1,4 +1,6 @@
 .box {
+  touch-action: none;
+
   &:active {
     opacity: .7;
   }

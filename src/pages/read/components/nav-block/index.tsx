@@ -64,12 +64,12 @@ const NavBlock = () => {
             <Icon type="left" className={styles.back} onClick={() => push('/')} />
             <span onClick={() => push('/origin')}>换源</span>
           </div>
-          <Touchable className={styles.content} onClick={() => changeMenu()} />
+          <Touchable needStop className={styles.content} onClick={() => changeMenu()} />
           {/**TODO: 状态机，同一时间内只有一个面板展示 */}
           {progress && <ProgressBlock />}
           <div className={styles.footer}>
             {operatorMap.map(item => (
-              <Touchable className={styles.item} key={item.title} onClick={item.click}>
+              <Touchable needStop className={styles.item} key={item.title} onClick={item.click}>
                 <i className="iconfont">{item.icon}</i>
                 {item.title}
               </Touchable>
