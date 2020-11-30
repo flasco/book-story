@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { fromEvent } from 'rxjs';
-import { concatAll, map, skipWhile, takeUntil } from 'rxjs/operators';
+import { concatAll, filter, map, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
 import { Toast } from 'antd-mobile';
@@ -47,9 +47,10 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
 
   const onMoverSubscribe = useFuncRefCallback(
     prevX => {
-      console.log('ppp?', page);
       requestAnimationFrame(() => {
-        ref.current!.style.transform = `translateX(${0 - page * pageWidth + prevX}px)`;
+        if (ref.current) {
+          ref.current.style.transform = `translateX(${0 - page * pageWidth + prevX}px)`;
+        }
       });
     },
     [page]
@@ -58,7 +59,6 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
   const clickerSubscribe = useFuncRefCallback(
     async ({ diff, endX } = {}) => {
       if (diff == null) return;
-      console.log(diff);
       let currentPage = page;
       let needAnimate = false;
       if (Math.abs(diff) > 5) {
@@ -80,7 +80,7 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
       if (isInEdge) {
         const curApi = isLeftEdge ? hookLeft : hookRight;
         setLoading(true);
-        const isSucceed = (await curApi?.()) ?? false;
+        const isSucceed = (await curApi?.()?.catch(() => false)) ?? false;
         if (!isSucceed) {
           setLoading(false);
           Toast.info('已经临近边界', 2, undefined, false);
@@ -97,46 +97,44 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
 
   useEffect(() => {
     const current = ref.current!;
-    const touchStart = fromEvent<any>(current, 'touchstart');
-    const touchMove = fromEvent<any>(current, 'touchmove');
-    const touchEnd = fromEvent<any>(current, 'touchend');
+    const touchStart = fromEvent<any>(current, 'touchstart').pipe(
+      /** 如果在动画中就过滤掉请求 */
+      filter(e => !inAnimate || !e)
+    );
+    const touchMove = fromEvent<any>(current, 'touchmove').pipe(
+      /** 如果在动画中就过滤掉请求 */
+      filter(e => !inAnimate || !e)
+    );
+    const touchEnd = fromEvent<any>(current, 'touchend').pipe(
+      /** 如果在动画中就过滤掉请求 */
+      filter(e => !inAnimate || !e)
+    );
 
     const mover = touchStart.pipe(
-      map(e => {
+      map(() => {
         requestAnimationFrame(() => {
           // 跟随手指移动的样式
           current.style.transition = 'none';
         });
-        return e.touches[0].clientX;
       }),
-      map(startX =>
-        touchMove.pipe(
-          takeUntil(touchEnd),
-          map(e => e.touches[0].clientX - startX)
-        )
-      ),
-      concatAll()
+      map(() => touchMove.pipe(takeUntil(touchEnd))),
+      concatAll(),
+      withLatestFrom(touchStart, (move, start) => {
+        const startX = start.touches[0].clientX;
+        return move.touches[0].clientX - startX;
+      })
     );
 
     const mover$ = mover.subscribe(e => onMoverSubscribe.current(e));
 
     const clicker = touchStart.pipe(
-      map(e => e.touches[0].clientX),
-      skipWhile(() => {
-        console.log('inAnimate', inAnimate);
-        return inAnimate;
-      }),
-      map(startX =>
-        touchEnd.pipe(
-          map(e => {
-            console.log('action???');
-            const endX = e.changedTouches[0].clientX;
-            console.log(startX, endX);
-            return { diff: endX - startX, endX };
-          })
-        )
-      ),
-      concatAll()
+      map(() => touchEnd),
+      concatAll(),
+      withLatestFrom(touchStart, (end, start) => {
+        const endX = end.changedTouches[0].clientX;
+        const startX = start.touches[0].clientX;
+        return { diff: endX - startX, endX };
+      })
     );
 
     const clicker$ = clicker.subscribe(e => clickerSubscribe.current(e));
