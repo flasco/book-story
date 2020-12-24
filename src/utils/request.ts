@@ -13,14 +13,38 @@ const getSource = (timeout = 12000) => {
   return source.token;
 };
 
-export async function get<T = any>(url: string, payload?: TObject, retryCnt = 0): Promise<T> {
+interface IOptions {
+  retryCnt?: number;
+  cache?: boolean;
+  timeout?: number;
+}
+
+const requestCache = new Map<string, Promise<any>>();
+
+/** 支持缓存，避免重复请求，特别针对 prefetch 场景下 */
+export async function get<T = any>(url: string, payload?: TObject, options?: IOptions): Promise<T> {
+  const { cache = false, ...others } = options ?? {};
   url = transformURL(getIp() + url, payload);
+
+  if (!cache) return _get(url, others);
+
+  let request = requestCache.get(url);
+  if (!request) {
+    request = _get(url, others).finally(() => requestCache.delete(url));
+    requestCache.set(url, request);
+  }
+
+  return request;
+}
+
+export async function _get<T = any>(url: string, options: Omit<IOptions, 'cache'>): Promise<T> {
+  const { retryCnt = 0, timeout } = options;
   for (let i = 0; i <= retryCnt; i++) {
     try {
       const {
         data: { data, code, msg },
       } = await axios.get(url, {
-        cancelToken: getSource(),
+        cancelToken: getSource(timeout),
       });
 
       if (code !== 0 && code !== 200) throw msg;

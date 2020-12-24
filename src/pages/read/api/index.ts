@@ -8,7 +8,7 @@ export function getChapter(url: string, retryCnt = 0) {
       action: 2,
       url,
     },
-    retryCnt
+    { retryCnt, cache: true }
   );
 }
 
