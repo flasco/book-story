@@ -78,7 +78,7 @@ function useReader(bookInfo?: IBook) {
           .map((_, ind) => cachedList.getChapterUrl(position + ind + 1));
         workArr.push(...urlArr);
       }
-      return await cachedChapters.getContent(currentChapter);
+      return cachedChapters.getContent(currentChapter);
     },
     [cachedList, cachedChapters]
   );
@@ -135,13 +135,13 @@ function useReader(bookInfo?: IBook) {
     if (sourceUrl == null) throw '书源记录获取失败...';
 
     const position = cachedRecord.getChapterPosition() + 1;
-    return await goToChapter(position, 1);
+    return goToChapter(position, 1);
   }, [sourceUrl]);
 
   const prevChapter = useCallback(async () => {
     if (sourceUrl == null) throw '书源记录获取失败...';
     const position = cachedRecord.getChapterPosition() - 1;
-    return await goToChapter(position, -1);
+    return goToChapter(position, -1);
   }, [sourceUrl]);
 
   /** 只存页数，章节在翻页的时候存 */
