@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
-import { fromEvent } from 'rxjs';
+import { useState, useCallback, useEffect } from 'react';
+import { fromEvent, BehaviorSubject } from 'rxjs';
 import { concatMap, filter, map, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
@@ -7,12 +7,11 @@ import { Toast } from 'antd-mobile';
 import { changeCtrlPos, getCtrlPos } from '../use-reader';
 import { useFuncRefCallback } from '@/hooks';
 
-let inAnimate = false;
+const inAnimate = new BehaviorSubject(false);
 
 const pageWidth = screenWidth - 16;
 
-function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRight }) {
-  const ref = useRef<HTMLDivElement>(null);
+function useDrag(pages, ref, { saveRecord, initialPage, hookCenter, hookLeft, hookRight }) {
   const [page, setPage] = useState(() => Math.round(initialPage - 1));
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -38,11 +37,11 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
       const current = ref.current;
       setPage(cur);
       saveRecord(cur);
-      inAnimate = true;
+      inAnimate.next(true);
       requestAnimationFrame(() => {
         current!.style.transition = needAnimate ? 'transform 150ms ease 0s' : 'none';
         current!.style.transform = `translateX(${0 - cur * pageWidth}px)`;
-        setTimeout(() => (inAnimate = false), needAnimate ? 160 : 30);
+        setTimeout(() => inAnimate.next(false), needAnimate ? 160 : 30);
       });
       changeCtrlPos(0);
     },
@@ -102,12 +101,20 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
   useEffect(() => {
     const current = ref.current!;
     const touchStart = fromEvent<any>(current, 'touchstart').pipe(
-      /** 如果在动画中就过滤掉请求，下同 */
-      filter(e => !inAnimate || !e),
-      map(e => e.touches[0].clientX)
+      withLatestFrom(inAnimate, (e, isAnimate) => ({ e, isAnimate })),
+      filter(({ e, isAnimate }) => !isAnimate || !e),
+      map(({ e }) => e.touches[0].clientX)
     );
-    const touchMove = fromEvent<any>(current, 'touchmove').pipe(filter(e => !inAnimate || !e));
-    const touchEnd = fromEvent<any>(current, 'touchend').pipe(filter(e => !inAnimate || !e));
+    const touchMove = fromEvent<any>(current, 'touchmove').pipe(
+      withLatestFrom(inAnimate, (e, isAnimate) => ({ e, isAnimate })),
+      filter(({ e, isAnimate }) => !isAnimate || !e),
+      map(({ e }) => e)
+    );
+    const touchEnd = fromEvent<any>(current, 'touchend').pipe(
+      withLatestFrom(inAnimate, (e, isAnimate) => ({ e, isAnimate })),
+      filter(({ e, isAnimate }) => !isAnimate || !e),
+      map(({ e }) => e)
+    );
 
     const mover = touchStart.pipe(
       map(() => {
@@ -143,7 +150,6 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
   return {
     page,
     total,
-    ref,
     goTo,
     loading,
   };

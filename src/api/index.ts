@@ -8,7 +8,7 @@ export function getLatestChapter(url: string, retryCnt = 0) {
       action: 3,
       url,
     },
-    retryCnt
+    { retryCnt }
   );
 }
 
