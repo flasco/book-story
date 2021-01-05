@@ -30,11 +30,11 @@ const NewReader: React.FC = () => {
   return (
     <>
       {loading && <div className={styles.mask} />}
-      <div className={styles.container}>
+      <div ref={ref} className={styles.container}>
         <div className={styles.title}>{title}</div>
         <div className={styles.wrapper}>
           <div className={styles.inner}>
-            <div ref={ref} className={styles.main}>
+            <div className={styles.main}>
               {pages.map((i: string, ind: number) => (
                 <p key={'asd_x' + ind}>{i}</p>
               ))}
