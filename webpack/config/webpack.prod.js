@@ -24,8 +24,8 @@ module.exports = merge.smart(getBaseConfig(), {
         {
           from: path.resolve(__dirname, STATIC_PATH),
           to: path.resolve(__dirname, DIST_PATH),
-          globOptions: {
-            ignore: ['index-template.ejs'],
+          filter: resourcePath => {
+            return !resourcePath.includes('index-template.ejs');
           },
         },
       ],
