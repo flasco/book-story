@@ -15,13 +15,13 @@ const devServerOptions = Object.assign({
    * （注释开了的话，生成的 dev bundle 又会影响到public，应该单独开一个local，存放临时文件）
    */
   // contentBase: path.resolve(__dirname, '../../public'),
-  stats: {
-    modules: false,
-    children: false,
-    performance: false,
-    entrypoints: false,
-    colors: true,
-  },
+  // stats: {
+  //   modules: false,
+  //   children: false,
+  //   performance: false,
+  //   entrypoints: false,
+  //   colors: true,
+  // },
 });
 
 const server = new Wds(compiler, devServerOptions);
