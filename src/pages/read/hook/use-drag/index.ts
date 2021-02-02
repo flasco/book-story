@@ -64,7 +64,6 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
   /** 垃圾throttle，别用，用了就掉帧 */
   const onTouchMove = useCallback(
     (e: any) => {
-      e.preventDefault();
       if (inAnimate) return;
       const prevX = e.touches[0].clientX - startX;
 
