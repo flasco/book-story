@@ -1,6 +1,6 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 const merge = require('webpack-merge');
@@ -19,13 +19,17 @@ module.exports = merge.smart(getBaseConfig(), {
       cleanOnceBeforeBuildPatterns: ['**/*', '!**/vendor*', '!**/dll*'],
       root: path.resolve(__dirname, DIST_PATH),
     }),
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, STATIC_PATH),
-        to: path.resolve(__dirname, DIST_PATH),
-        ignore: ['index-template.ejs'],
-      },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, STATIC_PATH),
+          to: path.resolve(__dirname, DIST_PATH),
+          filter: resourcePath => {
+            return !resourcePath.includes('index-template.ejs');
+          },
+        },
+      ],
+    }),
   ],
   module: {
     rules: [
@@ -46,6 +50,6 @@ module.exports = merge.smart(getBaseConfig(), {
     filename: 'js/bundle-[chunkhash:6].js',
   },
   optimization: {
-    minimizer: [new OptimizeCSSAssetsPlugin({}), new TerserPlugin()],
+    minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
   },
 });

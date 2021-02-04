@@ -7,8 +7,8 @@
   "scripts": {
     "inst": "yarn && cd webpack && yarn",
     "dev": "node webpack/scripts/dev-webpack.js",
-    "build": "node webpack/scripts/build-render.js --re-dll",
-    "build:doc": "node webpack/scripts/build-render.js  --re-dll && node webpack/scripts/gh-pages.js",
+    "build": "node webpack/scripts/build-render.js",
+    "build:doc": "node webpack/scripts/build-render.js && node webpack/scripts/gh-pages.js",
     "upgrade-dep": "yarn upgrade-interactive",
     "upgrade-latest-dep": "yarn upgrade-dep --latest",
     "scss-lint": "stylelint src/**/*.scss",
@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "antd-mobile": "^2.3.1",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "localforage": "^1.7.3",
     "lodash": "^4.17.15",

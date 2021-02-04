@@ -5,19 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const { DIST_PATH } = require('./base');
 const alias = require('./alias');
-
-const manifestPath = path.join(__dirname, `${DIST_PATH}/vendor-manifest.json`);
-
-const getDllName = () => {
-  const isDev = process.env.PROJECT_ENV === 'development';
-  if (isDev) return 'vendor';
-  const file = fs.readFileSync(manifestPath);
-  const { name } = JSON.parse(file);
-  const [curName, hash] = name.split('_');
-  return `${curName}-${hash}.js`;
-};
 
 // 为了能取到不同配置里设置的环境变量，改成 function
 module.exports = () => {
@@ -52,6 +40,9 @@ module.exports = () => {
 
   const config = {
     context: path.resolve(__dirname, '../../'),
+    cache: {
+      type: 'filesystem',
+    },
     module: {
       rules: [
         // 原生node
@@ -59,59 +50,30 @@ module.exports = () => {
           test: /\.node$/,
           use: 'node-loader',
         },
-        // WOFF Font
+        // Font
         {
-          test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-              mimetype: 'application/font-woff',
+          test: /\.(ttf|woff|woff2|eot|otf)$/,
+          type: 'asset',
+          generator: {
+            filename: 'assets/[hash:6][ext][query]',
+          },
+          parser: {
+            dataUrlCondition: {
+              maxSize: 8 * 1024, // 8kb
             },
           },
         },
-        // WOFF2 Font
         {
-          test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-              mimetype: 'application/font-woff',
+          test: /\.(png|jpg|svg|gif)$/,
+          type: 'asset',
+          generator: {
+            filename: 'assets/[hash:6][ext][query]',
+          },
+          parser: {
+            dataUrlCondition: {
+              maxSize: 8 * 1024, // 8kb
             },
           },
-        },
-        // TTF Font
-        {
-          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-              mimetype: 'application/octet-stream',
-            },
-          },
-        },
-        // EOT Font
-        {
-          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-          use: 'file-loader',
-        },
-        // SVG Font
-        {
-          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-              mimetype: 'image/svg+xml',
-            },
-          },
-        },
-        // Common Image Formats
-        {
-          test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-          use: 'url-loader',
         },
         {
           test: /\.tsx?$/,
@@ -175,10 +137,9 @@ module.exports = () => {
       }),
       new HtmlWebpackPlugin({
         template: './public/index-template.ejs',
-        templateParameters: {
-          IS_DEV: isDev,
-          VENDOR: `./dll/${getDllName()}`, //manifest就是dll生成的json
-        },
+        // templateParameters: {
+        //   IS_DEV: isDev,
+        // },
         filename: 'index.html',
       }),
     ],
@@ -186,10 +147,6 @@ module.exports = () => {
 
   if (!isDev) {
     config.plugins.unshift(
-      new webpack.DllReferencePlugin({
-        context: __dirname,
-        manifest: manifestPath,
-      }),
       new MiniCssExtractPlugin({
         filename: 'css/[name]-[chunkhash:6].css',
       }),
