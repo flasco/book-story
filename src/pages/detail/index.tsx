@@ -103,6 +103,14 @@ const DetailPage = props => {
             <p key={ind}>{i}</p>
           ))}
         </div>
+        <div className={styles.desc}>
+          书源：
+          <ul>
+            {Object.entries(source).map(([, value]) => (
+              <li key={value}>{new URL(value).host}</li>
+            ))}
+          </ul>
+        </div>
       </>
     );
   };
