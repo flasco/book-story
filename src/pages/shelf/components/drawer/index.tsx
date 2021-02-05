@@ -1,5 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Modal, Toast } from 'antd-mobile';
 
 import SXider from '@/components/drawer';
 import { clearTemp } from '@/storage/base';
@@ -16,6 +17,24 @@ const SiderBar = ({ push }) => {
     alert('缓存清理成功');
   }, []);
 
+  const onForceUpdate = useCallback(() => {
+    Modal.alert('警告', '确定清理应用以获取最新版本吗？', [
+      { text: '取消', onPress: () => console.log('cancel') },
+      {
+        text: '确定',
+        onPress: () =>
+          caches
+            .keys()
+            .then(keys => Promise.all(keys.map(key => caches.delete(key))))
+            .then(() =>
+              Toast.info('清理完成，即将重启应用', 2, () => {
+                window.location.reload();
+              })
+            ),
+      },
+    ]);
+  }, []);
+
   return (
     <div className={styles.sider}>
       <Touchable needStop className={styles.item} onClick={onClick}>
@@ -29,6 +48,9 @@ const SiderBar = ({ push }) => {
       </Touchable>
       <Touchable needStop className={styles.item} onClick={onClear}>
         缓存清理
+      </Touchable>
+      <Touchable needStop className={styles.item} onClick={onForceUpdate}>
+        强制更新
       </Touchable>
     </div>
   );
