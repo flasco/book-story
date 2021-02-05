@@ -58,6 +58,7 @@ Create by react 17+ and webpack 5.x
 - [x] 换源 **TOP**
 - [x] 模拟app跳页体验(keep-alive)
 - [x] 添加书籍时加入对已有书源的展示
+- [ ] services worker 逻辑梳理
 - [ ] 换源时展示全部书源结果，支持更新书源
 - [ ] 下载
 - [ ] 排行
