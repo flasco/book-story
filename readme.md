@@ -1,11 +1,10 @@
 # book-story
 
-Create by react 16.12 and webpack 4.x
+Create by react 17+ and webpack 5.x
 
 ## TODO
 
 - [ ] 排行页
-- [ ] 用户权限
 - [x] 书架
 - [x] 阅读页
 - [x] 目录页
@@ -58,6 +57,8 @@ Create by react 16.12 and webpack 4.x
 
 - [x] 换源 **TOP**
 - [ ] 排行 **TOP**
+- [ ] 添加书籍时加入对已有书源的展示
+- [ ] 换源时展示全部书源结果，支持更新书源
 - [ ] 下载
 - [ ] 设置
 - [ ] 添加用户统计模块，增加 api 限制
