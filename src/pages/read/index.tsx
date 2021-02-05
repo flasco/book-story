@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import Container from '@/layout/container';
 import { useBook } from '@/hooks/use-book';
 
@@ -10,7 +13,12 @@ import styles from './index.m.scss';
 
 const Home = () => {
   const { currentBook } = useBook();
+  const { replace } = useHistory();
   const bookInfo = currentBook ?? null;
+
+  useEffect(() => {
+    if (bookInfo == null || bookInfo.source == null) replace('/shelf');
+  }, [bookInfo]);
 
   return (
     <Container className={styles.container}>
