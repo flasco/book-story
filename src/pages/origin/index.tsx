@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import Container from '@/layout/container';
 import TouchableHighlight from '@/components/touchable';
@@ -14,7 +13,6 @@ import styles from './index.m.scss';
 const OriginPage = () => {
   const { currentBook: bookInfo, api } = useBook();
   const origins = bookInfo?.source;
-  const { goBack } = useHistory();
 
   const currentCatalog = bookInfo?.catalogUrl;
   const [originList, setOriginList] = useState<any[]>([]);
@@ -35,7 +33,7 @@ const OriginPage = () => {
   const onClick = item => {
     const isSuccess = api.changeOrigin(item);
     if (!isSuccess) toastFail({ text: '不在书架中，换源失败' });
-    else goBack();
+    else history.back();
   };
 
   return (
