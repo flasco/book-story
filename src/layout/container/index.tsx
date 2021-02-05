@@ -4,6 +4,8 @@ import cx from 'classnames';
 import styles from './index.m.scss';
 import { NavBar, Icon } from 'antd-mobile';
 
+import { goBack } from '@/utils';
+
 interface INavBarProps {
   title?: string;
   back?: boolean;
@@ -27,7 +29,7 @@ const Container: React.FC<IContainerProps> = props => {
     };
     if (back) {
       payload.icon = LeftIcon;
-      payload.onLeftClick = () => history.back();
+      payload.onLeftClick = () => goBack();
     }
     return payload;
   }, [topRight]);

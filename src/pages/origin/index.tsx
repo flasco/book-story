@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Container from '@/layout/container';
 import TouchableHighlight from '@/components/touchable';
 import CustomBadge from '@/components/custom-badge';
-import { closeLoading, openLoading, spliceLine, toastFail } from '@/utils';
+import { closeLoading, goBack, openLoading, spliceLine, toastFail } from '@/utils';
 import { useBook } from '@/hooks/use-book';
 
 import { getOriginLatest } from './api';
@@ -33,7 +33,7 @@ const OriginPage = () => {
   const onClick = item => {
     const isSuccess = api.changeOrigin(item);
     if (!isSuccess) toastFail({ text: '不在书架中，换源失败' });
-    else history.back();
+    else goBack();
   };
 
   return (

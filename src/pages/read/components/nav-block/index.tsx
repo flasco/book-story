@@ -3,6 +3,7 @@ import { Icon } from 'antd-mobile';
 import { useHistory } from 'react-router-dom';
 import cx from 'classnames';
 
+import { goBack } from '@/utils';
 import { ICON_FONT_MAP } from '@/constants';
 import { useTheme } from '@/hooks/use-theme';
 import Touchable from '@/components/touchable';
@@ -61,7 +62,7 @@ const NavBlock = () => {
       <CatalogDrawer open={catalog} changeOpen={changeCatalog} changeMenu={changeMenu}>
         <div className={styles.container}>
           <div className={styles.header}>
-            <Icon type="left" className={styles.back} onClick={() => history.back()} />
+            <Icon type="left" className={styles.back} onClick={() => goBack()} />
             <span onClick={() => push('/origin')}>换源</span>
           </div>
           <Touchable needStop className={styles.content} onClick={() => changeMenu()} />
