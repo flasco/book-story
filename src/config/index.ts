@@ -1,10 +1,10 @@
 const isDev = process.env.PROJECT_ENV === 'development';
 
 const serverIps = [
-  'https://tassel-1.avosapps.us',
-  'https://tassel-2.avosapps.us',
-  // 'https://cmdsh3b7eebg.cn-e1.leanapp.cn',
-  // 'https://mhbxymrllauo.cn-e1.leanapp.cn',
+  // 'https://tassel-1.avosapps.us',
+  // 'https://tassel-2.avosapps.us',
+  'https://cmdsh3b7eebg.cn-e1.leanapp.cn',
+  'https://mhbxymrllauo.cn-e1.leanapp.cn',
 ];
 
 export const getIp = (() => {
