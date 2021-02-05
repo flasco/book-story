@@ -41,18 +41,3 @@ export function transformURL(url: string, obj?: TObject) {
 }
 
 export const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-
-let timer;
-
-export const goBack = () => {
-  window.history.go(-1);
-  if (window.location.pathname === '/' || (window.history.state && window.history.state.key)) {
-    return;
-  }
-  if (timer) {
-    clearTimeout(timer);
-  }
-  timer = setTimeout(() => {
-    goBack();
-  }, 100);
-};

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Icon } from 'antd-mobile';
 
 import { appName } from '@/constants';
@@ -9,6 +9,7 @@ import Drawer from './components/drawer';
 import BookList from './components/book-list';
 
 import styles from './index.m.scss';
+import { useHistory } from 'react-router-dom';
 
 const RightIcon = ({ onClick }) => (
   <div onClick={onClick}>
@@ -16,10 +17,22 @@ const RightIcon = ({ onClick }) => (
   </div>
 );
 
+let pusher = 0;
+
 // 如果进入阅读页，会有个修改最近阅读时间戳的操作，这个时候会导致reflow?
 const Shelf = () => {
   const [open, changeOpen] = useSwitch();
+  const { push } = useHistory();
   const right = useMemo(() => <RightIcon onClick={changeOpen} />, [changeOpen]);
+
+  useEffect(() => {
+    // hack: 修复 safari 的 bug
+    // safari 的 bug：history 层级为 2 的时候，goBack 无效
+    if (pusher === 0) {
+      pusher += 1;
+      push('/');
+    }
+  }, [push]);
 
   return (
     <Container showBar title={appName} className={styles.container} topRight={right}>

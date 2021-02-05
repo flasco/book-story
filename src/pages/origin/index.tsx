@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Container from '@/layout/container';
 import TouchableHighlight from '@/components/touchable';
 import CustomBadge from '@/components/custom-badge';
-import { closeLoading, goBack, openLoading, spliceLine, toastFail } from '@/utils';
+import { closeLoading, openLoading, spliceLine, toastFail } from '@/utils';
 import { useBook } from '@/hooks/use-book';
 
 import { getOriginLatest } from './api';
@@ -13,6 +14,7 @@ import styles from './index.m.scss';
 const OriginPage = () => {
   const { currentBook: bookInfo, api } = useBook();
   const origins = bookInfo?.source;
+  const { goBack } = useHistory();
 
   const currentCatalog = bookInfo?.catalogUrl;
   const [originList, setOriginList] = useState<any[]>([]);

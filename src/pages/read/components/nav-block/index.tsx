@@ -3,7 +3,6 @@ import { Icon } from 'antd-mobile';
 import { useHistory } from 'react-router-dom';
 import cx from 'classnames';
 
-import { goBack } from '@/utils';
 import { ICON_FONT_MAP } from '@/constants';
 import { useTheme } from '@/hooks/use-theme';
 import Touchable from '@/components/touchable';
@@ -23,7 +22,7 @@ const useSwitch = (initVal: boolean): [boolean, () => void] => {
 };
 
 const NavBlock = () => {
-  const { push } = useHistory();
+  const { push, goBack } = useHistory();
   const { changeSunny, sunny } = useTheme();
   const {
     api: { changeMenu },
