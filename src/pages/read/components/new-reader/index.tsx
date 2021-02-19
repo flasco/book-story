@@ -25,6 +25,11 @@ const NewReader: React.FC = () => {
     return <div className={styles.footer}>{`${page + 1}/${total}`}</div>;
   }, [total, page]);
 
+  const pagesElement = useMemo(
+    () => pages.map((i: string, ind: number) => <p key={'' + ind}>{i}</p>),
+    [pages]
+  );
+
   return (
     <>
       {loading && <div className={styles.mask} />}
@@ -33,9 +38,7 @@ const NewReader: React.FC = () => {
         <div className={styles.wrapper}>
           <div className={styles.inner} {...touchEvent}>
             <div ref={ref} className={styles.main}>
-              {pages.map((i: string, ind: number) => (
-                <p key={'asd_x' + ind}>{i}</p>
-              ))}
+              {pagesElement}
             </div>
           </div>
         </div>
