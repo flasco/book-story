@@ -1,11 +1,15 @@
 const path = require('path');
+
 const webpack = require('webpack');
-const fs = require('fs');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const { getRandomId } = require('../utils');
 const alias = require('./alias');
+
+const randomId = getRandomId();
+console.log('version tag:', randomId);
 
 // 为了能取到不同配置里设置的环境变量，改成 function
 module.exports = () => {
@@ -133,6 +137,7 @@ module.exports = () => {
       new webpack.DefinePlugin({
         'process.env': {
           PROJECT_ENV: JSON.stringify(process.env.PROJECT_ENV),
+          PROJECT_VERSION_TAG: JSON.stringify(randomId),
         },
       }),
       new HtmlWebpackPlugin({

@@ -4,6 +4,7 @@
   padding: 10px;
   background-color: var(--black-color);
   color: #fff;
+  position: relative;
 }
 
 .item {
@@ -15,4 +16,11 @@
 
 .item + .item {
   margin-top: 10px;
+}
+
+.version {
+  color: #bbb;
+  position: absolute;
+  bottom: 73px;
+  left: 10px;
 }

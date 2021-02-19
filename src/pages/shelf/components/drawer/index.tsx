@@ -9,6 +9,8 @@ import Touchable from '@/components/touchable';
 
 import styles from './index.m.scss';
 
+const version = process.env.PROJECT_VERSION_TAG;
+
 const SiderBar = ({ push }) => {
   const onClick = () => push('/search');
   const { changeSunny } = useTheme();
@@ -52,6 +54,7 @@ const SiderBar = ({ push }) => {
       <Touchable needStop className={styles.item} onClick={onForceUpdate}>
         强制更新
       </Touchable>
+      <div className={styles.version}>Version: {version}</div>
     </div>
   );
 };
