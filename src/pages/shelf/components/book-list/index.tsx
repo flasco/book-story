@@ -64,9 +64,9 @@ const BookList = () => {
   const renderItem = (item: IBook, _, index: any) => {
     const { bookName, author, plantformId, img, isUpdate } = item;
     const onClick = () => {
-      push('/read');
       clickBookToRead(+index);
       sortBookWithStamp();
+      push('/read');
     };
     return (
       <SwipeAction
