@@ -1,8 +1,9 @@
-import { useMemo, useState, useCallback, useEffect } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { ListView, PullToRefresh, Toast, SwipeAction } from 'antd-mobile';
 import { useHistory } from 'react-router-dom';
 import cx from 'classnames';
 
+import { useCallbackRef } from '@/hooks';
 import { useBook } from '@/hooks/use-book';
 
 import ImageShow from '@/components/image-show';
@@ -38,15 +39,16 @@ const BookList = () => {
   const datasets = useMemo(() => ds.cloneWithRows(books), [books]);
 
   const flag = books.length > 0 ? true : isInit ? true : false;
+
   useEffect(() => {
     if (books.length > 0) {
       if (isInit) return;
       isInit = true;
-      onPull(true);
+      onPull.current(true);
     }
   }, [flag]);
 
-  const onPull = useCallback(
+  const onPull = useCallbackRef(
     async (slience = false) => {
       setPull(true);
       if (books.length > 0) {
@@ -56,17 +58,20 @@ const BookList = () => {
       }
       setPull(false);
     },
-    [setPull, books, updateLists]
+    [books]
   );
 
-  const refresh = useMemo(() => <PullRefresh refreshing={pull} onRefresh={onPull} />, [pull]);
+  const refresh = useMemo(
+    () => <PullRefresh refreshing={pull} onRefresh={() => onPull.current()} />,
+    [pull]
+  );
 
   const renderItem = (item: IBook, _, index: any) => {
     const { bookName, author, plantformId, img, isUpdate } = item;
     const onClick = () => {
+      push('/read');
       clickBookToRead(+index);
       sortBookWithStamp();
-      push('/read');
     };
     return (
       <SwipeAction
