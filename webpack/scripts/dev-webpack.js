@@ -13,13 +13,7 @@ const devServerOptions = Object.assign({
   compress: true,
   port,
   static: path.resolve(__dirname, '../../public'),
-  // stats: {
-  //   modules: false,
-  //   children: false,
-  //   performance: false,
-  //   entrypoints: false,
-  //   colors: true,
-  // },
+  // clientLogLevel: 'info',
 });
 
 const server = new Wds(compiler, devServerOptions);
