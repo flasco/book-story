@@ -75,7 +75,6 @@ const BookList = () => {
     };
     return (
       <SwipeAction
-        key={`${bookName}-${author}-${plantformId}`}
         style={{ background: 'var(--shelf-row)' }}
         autoClose
         right={[
@@ -96,7 +95,11 @@ const BookList = () => {
           },
         ]}
       >
-        <Touchable className={cx('needScroll', styles.item)} onClick={onClick}>
+        <Touchable
+          key={`${bookName}-${author}-${plantformId}`}
+          className={cx('needScroll', styles.item)}
+          onClick={onClick}
+        >
           <ImageShow src={img} className={styles.img} />
           <div className={styles.info}>
             <div className={styles.first}>
