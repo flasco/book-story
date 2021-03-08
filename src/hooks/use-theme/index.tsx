@@ -7,12 +7,12 @@ interface Context {
 
 const ThemeContext = React.createContext<Context>({} as any);
 
-const useSunny = (initVal: boolean): [boolean, () => void] => {
+const useSunny = (initVal: boolean) => {
   const [sunny, setSunny] = useState(initVal);
   const changeSunny = useCallback(() => {
     setSunny(val => !val);
   }, [setSunny]);
-  return [sunny, changeSunny];
+  return [sunny, changeSunny] as const;
 };
 
 export const ThemeProvider: React.FC = ({ children }) => {
