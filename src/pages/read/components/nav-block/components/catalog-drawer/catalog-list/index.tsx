@@ -10,7 +10,7 @@ import styles from './index.m.scss';
 
 const BookList = ({ changeOpen, open, changeMenu }) => {
   const {
-    cache: { list, record },
+    cache: { list, record, chapters },
     api: { goToChapter },
   } = useReaderContext();
   const listx = useRef<any>(null);
@@ -33,10 +33,16 @@ const BookList = ({ changeOpen, open, changeMenu }) => {
   const renderItem = useCallback(
     ({ index, data, style }) => {
       const click = () => onClick(index);
+      const curData = data[index];
       return (
         <TouchableHighlight style={style} className={styles.item} onClick={click}>
-          <span className={cx({ [styles.current]: index === currentPos })}>
-            {data[index].title}
+          <span
+            className={cx({
+              [styles.cached]: chapters.hasChapter(curData.url),
+              [styles.current]: index === currentPos,
+            })}
+          >
+            {curData.title}
           </span>
         </TouchableHighlight>
       );

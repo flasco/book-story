@@ -10,6 +10,7 @@ import { newGetP } from '@/utils/text';
 
 import { getList } from '@/pages/read/api';
 import { IBook } from '@/defination';
+import { Toast } from 'antd-mobile';
 
 /**
  * 书籍进度存储key约定 record@${sourceUrl}
@@ -81,6 +82,14 @@ function useReader(bookInfo?: IBook) {
       return cachedChapters.getContent(currentChapter);
     },
     [cachedList, cachedChapters]
+  );
+
+  const pretchWorker = useCallback(
+    (...urls: string[]) => {
+      Toast.info('开始后台缓存...');
+      workArr.push(...urls);
+    },
+    [workArr]
   );
 
   const init: any = async () => {
@@ -164,8 +173,10 @@ function useReader(bookInfo?: IBook) {
     cache: {
       list: cachedList,
       record: cachedRecord,
+      chapters: cachedChapters,
     },
     api: {
+      pretchWorker,
       nextChapter,
       prevChapter,
       saveRecord,

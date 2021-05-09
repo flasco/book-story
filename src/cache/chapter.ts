@@ -16,6 +16,10 @@ class ChapterCache {
     this.chapters = await getBookChapters(this.key);
   };
 
+  hasChapter = (chapterUrl: string): boolean => {
+    return this.chapters.has(chapterUrl);
+  };
+
   getContent = async (chapterUrl: string, retryCnt = 0): Promise<IContent> => {
     try {
       const cached = this.chapters.get(chapterUrl);
