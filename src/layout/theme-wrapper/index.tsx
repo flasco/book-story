@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { BookProvider } from '@/hooks/use-book';
 import { ThemeProvider, useTheme } from '@/hooks/use-theme';
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
 export const ContextWrapper: React.FC = ({ children }) => {
   return (

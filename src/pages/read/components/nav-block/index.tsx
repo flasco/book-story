@@ -12,7 +12,7 @@ import { useReaderContext } from '../../context';
 import ProgressBlock from './components/progress';
 import CatalogDrawer from './components/catalog-drawer';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
 const useSwitch = (initVal: boolean): [boolean, () => void] => {
   const [chx, setChx] = useState<boolean>(initVal);

@@ -1,4 +1,4 @@
-declare module '*.m.scss' {
+declare module '*.module.scss' {
   const content: {
     [key: string]: string;
   };

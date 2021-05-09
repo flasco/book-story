@@ -6,7 +6,7 @@ import VirtualList from '@/components/virtual-list';
 
 import { useReaderContext } from '@/pages/read/context';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
 const BookList = ({ changeOpen, open, changeMenu }) => {
   const {

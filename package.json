@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "inst": "yarn && cd webpack && yarn",
-    "dev": "node webpack/scripts/dev-webpack.js",
+    "dev": "vite",
     "build": "node webpack/scripts/build-render.js",
     "build:doc": "node webpack/scripts/build-render.js && node webpack/scripts/gh-pages.js",
     "upgrade-dep": "yarn upgrade-interactive",
@@ -24,6 +24,7 @@
     "@types/react-window": "^1.8.1",
     "@typescript-eslint/eslint-plugin": "^4.7.0",
     "@typescript-eslint/parser": "^4.7.0",
+    "@vitejs/plugin-react-refresh": "^1.3.3",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.13.0",
     "eslint-config-prettier": "^6.15.0",
@@ -31,12 +32,18 @@
     "eslint-plugin-react": "^7.14.3",
     "husky": "^3.0.5",
     "lint-staged": "^9.4.3",
+    "postcss-preset-env": "^6.7.0",
     "prettier": "^2.1.2",
     "react-hot-loader": "^4.12.18",
+    "sass": "^1.32.12",
     "stylelint": "^13.7.2",
     "stylelint-order": "^4.1.0",
     "stylelint-scss": "^3.18.0",
-    "typescript": "^4.0.5"
+    "typescript": "^4.0.5",
+    "vite": "^2.2.4",
+    "vite-aliases": "^0.6.3",
+    "vite-plugin-babel-import": "^2.0.2",
+    "vite-plugin-imp": "^2.0.7"
   },
   "dependencies": {
     "antd-mobile": "^2.3.1",

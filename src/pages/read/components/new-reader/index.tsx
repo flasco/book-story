@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { useReaderContext } from '../../context';
 import useDrag from '../../hook/use-drag';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
 const NewReader: React.FC = () => {
   const { title, pages, watched, api } = useReaderContext();

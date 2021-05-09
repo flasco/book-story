@@ -8,7 +8,7 @@ import { IBookX } from '@/defination';
 import { newSearch } from './api';
 import { openLoading, closeLoading, toastFail } from '@/utils';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 import Touchable from '@/components/touchable';
 import { useHistory } from 'react-router-dom';
 

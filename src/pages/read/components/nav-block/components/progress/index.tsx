@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Icon, Slider } from 'antd-mobile';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 import { useReaderContext } from '@/pages/read/context';
 
 const Slder: any = Slider;

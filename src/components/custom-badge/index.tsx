@@ -1,4 +1,4 @@
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
 const CustomBadge = ({ text, background = 'red', color = '#fff' }) => {
   return (

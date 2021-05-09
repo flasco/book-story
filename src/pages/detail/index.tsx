@@ -10,7 +10,7 @@ import { openLoading, closeLoading, toastFail } from '@/utils';
 
 import { getDetail } from './api';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
 const DetailPage = props => {
   const { push } = useHistory();

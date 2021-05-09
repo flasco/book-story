@@ -8,7 +8,7 @@ import useSwitch from '@/hooks/use-switch';
 import Drawer from './components/drawer';
 import BookList from './components/book-list';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 import { useHistory } from 'react-router-dom';
 
 const RightIcon = ({ onClick }) => (

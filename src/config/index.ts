@@ -1,4 +1,6 @@
-const isDev = process.env.PROJECT_ENV === 'development';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const isDev = ENV.PROJECT_ENV === 'development';
 
 const serverIps = [
   // 'https://tassel-1.avosapps.us',

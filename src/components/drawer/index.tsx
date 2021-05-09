@@ -1,7 +1,6 @@
-import React from 'react';
 import { Drawer } from 'antd-mobile';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
 interface IProps {
   open: boolean;

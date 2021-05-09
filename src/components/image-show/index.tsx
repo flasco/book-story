@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useRef } from 'react';
+import { useState, useLayoutEffect, useRef } from 'react';
 
 import defaultImage from '@/assets/noImg.jpg';
 
@@ -24,7 +24,7 @@ const ImageShow: React.FC<any> = ({ src, ...otherProps }) => {
     };
   }, [src]);
 
-  return React.createElement('img', { ...otherProps, src: origin });
+  return <img {...otherProps} src={origin} />;
 };
 
 export default ImageShow;

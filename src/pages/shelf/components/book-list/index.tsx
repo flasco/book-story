@@ -12,7 +12,9 @@ import CustomBadge from '@/components/custom-badge';
 import { spliceLine } from '@/utils';
 import { IBook } from '@/defination';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
+
+console.log(styles);
 
 const PullRefresh: any = PullToRefresh;
 

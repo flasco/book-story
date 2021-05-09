@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Modal, Toast } from 'antd-mobile';
 
@@ -7,9 +7,11 @@ import { clearTemp } from '@/storage/base';
 import { useTheme } from '@/hooks/use-theme';
 import Touchable from '@/components/touchable';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
-const version = process.env.PROJECT_VERSION_TAG;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const version = ENV.PROJECT_VERSION_TAG;
 
 const SiderBar = ({ push }) => {
   const onClick = () => push('/search');

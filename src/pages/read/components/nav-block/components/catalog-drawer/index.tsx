@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import SXider from '@/components/drawer';
 
 import CatalogList from './catalog-list';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
 interface IProps {
   open: boolean;
