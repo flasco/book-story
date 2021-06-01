@@ -10,11 +10,9 @@ import ImageShow from '@/components/image-show';
 import Touchable from '@/components/touchable';
 import CustomBadge from '@/components/custom-badge';
 import { spliceLine } from '@/utils';
-import { IBook } from '@/defination';
+import { IBook } from '@/definition';
 
 import styles from './index.module.scss';
-
-console.log(styles);
 
 const PullRefresh: any = PullToRefresh;
 

@@ -3,7 +3,7 @@ import { SearchBar } from 'antd-mobile';
 
 import Container from '@/layout/container';
 import VirtualList from '@/components/virtual-list';
-import { IBookX } from '@/defination';
+import { IBookX } from '@/definition';
 
 import { newSearch } from './api';
 import { openLoading, closeLoading, toastFail } from '@/utils';

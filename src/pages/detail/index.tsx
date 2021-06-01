@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import Container from '@/layout/container';
 import ImageShow from '@/components/image-show';
-import { IBookX } from '@/defination';
+import { IBookX } from '@/definition';
 import { useBook } from '@/hooks/use-book';
 import { openLoading, closeLoading, toastFail } from '@/utils';
 

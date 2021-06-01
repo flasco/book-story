@@ -18,6 +18,7 @@ export default defineConfig({
   define: {
     ENV: JSON.stringify({
       PROJECT_VERSION_TAG: '123',
+      PROJECT_ENV: 'development',
     }),
   },
   esbuild: {

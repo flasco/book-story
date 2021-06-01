@@ -9,17 +9,18 @@ module.exports = {
       },
     ],
   },
-  settings: {
-    react: {
-      version: '16.8.0', // React version, default to the latest React stable release
-    },
+  env: {
+    node: true,
+    browser: true,
+  },
+  parserOptions: {
+    ecmaVersion: 7,
+    sourceType: 'module',
   },
   overrides: [
     {
       files: ['*.js', '*.jsx'],
-      parser: 'babel-eslint',
-      extends: ['plugin:prettier/recommended', 'plugin:react/recommended'],
-      plugins: ['react'],
+      extends: ['eslint:recommended', 'plugin:prettier/recommended'],
     },
     {
       files: ['*.ts', '*.tsx'],
@@ -28,6 +29,7 @@ module.exports = {
         'prettier/react',
         'prettier/@typescript-eslint',
         'plugin:@typescript-eslint/recommended',
+        'eslint:recommended',
         'plugin:react/recommended',
       ],
       parser: '@typescript-eslint/parser',
@@ -44,7 +46,6 @@ module.exports = {
         '@typescript-eslint/no-use-before-define': 0,
         'react/no-children-prop': 0,
         'react/prop-types': 0,
-        '@typescript-eslint/indent': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0,
         'react/jsx-uses-react': 0,
         'react/react-in-jsx-scope': 0,

@@ -1,7 +1,7 @@
-import { useState, useCallback, useMemo, useContext, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useContext, useEffect } from 'react';
 
 import { getLatestChapter, fetchAllLatest } from '@/api';
-import { IBook, IBookX } from '@/defination';
+import { IBook, IBookX } from '@/definition';
 import CacheBooks from '@/cache/books';
 import { openLoading, closeLoading, toastFail } from '@/utils';
 import ListCache from '@/cache/list';

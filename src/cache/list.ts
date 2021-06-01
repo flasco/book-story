@@ -1,5 +1,5 @@
 import { getChapterList, updateChapterList } from '@/storage/book';
-import { IChapter } from '@/defination';
+import { IChapter } from '@/definition';
 
 class ListCache {
   key: string;

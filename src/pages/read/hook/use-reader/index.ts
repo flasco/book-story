@@ -1,4 +1,4 @@
-import { ee } from '@/main';
+import { ee } from '@/event';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 
 import ListCache from '@/cache/list';
@@ -9,7 +9,7 @@ import { openLoading, closeLoading, toastFail } from '@/utils';
 import { newGetP } from '@/utils/text';
 
 import { getList } from '@/pages/read/api';
-import { IBook } from '@/defination';
+import { IBook } from '@/definition';
 import { Toast } from 'antd-mobile';
 
 /**
