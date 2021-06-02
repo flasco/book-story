@@ -9,6 +9,11 @@ module.exports = {
       },
     ],
   },
+  settings: {
+    react: {
+      version: 'detect', // use which you installed
+    },
+  },
   env: {
     node: true,
     browser: true,
@@ -29,7 +34,6 @@ module.exports = {
         'prettier/react',
         'prettier/@typescript-eslint',
         'plugin:@typescript-eslint/recommended',
-        'eslint:recommended',
         'plugin:react/recommended',
       ],
       parser: '@typescript-eslint/parser',
@@ -47,8 +51,8 @@ module.exports = {
         'react/no-children-prop': 0,
         'react/prop-types': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0,
-        'react/jsx-uses-react': 0,
-        'react/react-in-jsx-scope': 0,
+        // 'react/jsx-uses-react': 0,
+        // 'react/react-in-jsx-scope': 0,
       },
     },
   ],

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Icon, Slider } from 'antd-mobile';
 
 import styles from './index.module.scss';

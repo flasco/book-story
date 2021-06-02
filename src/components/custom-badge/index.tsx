@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from './index.module.scss';
 
 const CustomBadge = ({ text, background = 'red', color = '#fff' }) => {

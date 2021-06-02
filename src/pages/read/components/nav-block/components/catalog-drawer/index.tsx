@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import SXider from '@/components/drawer';
 
 import CatalogList from './catalog-list';

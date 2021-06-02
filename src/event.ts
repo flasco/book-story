@@ -1,6 +1,6 @@
 type fnType = (...args: any[]) => void;
 
-class Eventer {
+export class Eventer {
   events = new Map<string, Map<fnType, fnType>>();
 
   emit = (name: string, ...args: any[]) => {

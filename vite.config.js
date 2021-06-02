@@ -21,9 +21,9 @@ export default defineConfig({
       PROJECT_ENV: 'development',
     }),
   },
-  esbuild: {
-    jsxInject: `import React from 'react'`,
-  },
+  // esbuild: {
+  //   jsxInject: `import React from 'react'`,
+  // },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),

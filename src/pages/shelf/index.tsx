@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Icon } from 'antd-mobile';
 
 import { appName } from '@/constants';

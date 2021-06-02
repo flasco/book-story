@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { useReaderContext } from '../../context';
 import useDrag from '../../hook/use-drag';

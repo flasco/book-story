@@ -1,4 +1,4 @@
-import EE from 'onfire.js';
+import { Eventer as EE } from '@/event';
 
 interface IPayload<T> {
   id: number;

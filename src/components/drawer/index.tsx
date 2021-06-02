@@ -1,3 +1,4 @@
+import React from 'react';
 import { Drawer } from 'antd-mobile';
 
 import styles from './index.module.scss';

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Route, BrowserRouter, Redirect } from 'react-router-dom';
 import CacheRoute, { CacheSwitch } from 'react-router-cache-route';
 

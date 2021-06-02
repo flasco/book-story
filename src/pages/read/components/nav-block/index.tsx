@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { Icon, Popover, ActionSheet } from 'antd-mobile';
 import { useHistory } from 'react-router-dom';
 import cx from 'classnames';
@@ -79,6 +79,7 @@ const NavBlock = () => {
             },
             buttonIndex => {
               const cnt = cacheCnts[buttonIndex];
+              if (cnt == null) return;
               const position = record.getChapterPosition();
               const urls: string[] = [];
               for (let i = 1; i <= cnt; i++) {

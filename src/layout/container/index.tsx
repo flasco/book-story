@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import cx from 'classnames';
 import { useHistory } from 'react-router-dom';
 import { NavBar, Icon } from 'antd-mobile';
