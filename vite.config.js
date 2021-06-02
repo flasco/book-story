@@ -1,19 +1,18 @@
 import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
-import vitePluginImp from 'vite-plugin-imp';
+import vitePluginImport from 'vite-plugin-babel-import';
 import path from 'path';
 
 export default defineConfig({
   plugins: [
     reactRefresh(),
-    vitePluginImp({
-      libList: [
-        {
-          libName: 'antd-mobile',
-          style: name => `antd-mobile/lib/${name}/style/index.css`,
-        },
-      ],
-    }),
+    vitePluginImport([
+      {
+        libraryName: 'antd-mobile',
+        libraryDirectory: 'es',
+        style: name => `antd-mobile/es/${name}/style/index.css`,
+      },
+    ]),
   ],
   define: {
     ENV: JSON.stringify({
