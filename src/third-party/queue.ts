@@ -20,11 +20,11 @@ class Queue<T = any> {
       const task = this.work(item);
       task.finally(() => {
         this.#workingSet.delete(task);
-        console.log('delete!', this.#workingSet.entries());
+        // console.log('delete!', this.#workingSet.entries());
         this._workPush();
       });
       this.#workingSet.add(task);
-      console.log('add!', this.#workingSet.entries());
+      // console.log('add!', this.#workingSet.entries());
     }
 
     if (this.#workingSet.size === 0) this.drain();
