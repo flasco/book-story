@@ -1,4 +1,5 @@
 import { Toast } from 'antd-mobile';
+import React from 'react';
 
 export function openLoading(text?: string) {
   Toast.loading(text, 0);
@@ -41,3 +42,11 @@ export function transformURL(url: string, obj?: TObject) {
 }
 
 export const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+
+export const connectContext = (child: any, ...providers) => {
+  return props =>
+    providers.reduce(
+      (prev, cur) => React.createElement(cur, { children: prev }),
+      React.createElement(child, props)
+    );
+};
