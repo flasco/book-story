@@ -51,7 +51,9 @@ async function cleanCacheWithLimitLen(cache, limit = 50) {
 }
 
 self.addEventListener('fetch', e => {
-  if (e.request.url.includes('/v2/')) {
+  const requestKey = e.request.url;
+
+  if (requestKey.includes('/v2/')) {
     e.respondWith(
       caches.open(DATA_CACHE_NAME).then(cache => {
         return fetch(e.request)
@@ -60,28 +62,39 @@ self.addEventListener('fetch', e => {
             if (canCache(res.status, e.request.method.toLowerCase())) {
               // 控制缓存数量，保证静态资源的缓存可以长时间的保留
               await cleanCacheWithLimitLen(cache, 50);
-              cache.put(e.request.url, res.clone());
+              cache.put(requestKey, res.clone());
             }
             return res;
           })
           .catch(() => {
-            return cache.match(e.request);
+            return cache.match(requestKey);
           });
       })
     );
   } else {
     e.respondWith(
-      caches.open(STATIC_CACHE_NAME).then(cache => {
-        return fetch(e.request)
-          .then(res => {
-            if (canCache(res.status, e.request.method.toLowerCase())) {
-              cache.put(e.request.url, res.clone());
-            }
-            return res;
-          })
-          .catch(() => {
-            return cache.match(e.request);
-          });
+      caches.open(STATIC_CACHE_NAME).then(async cache => {
+        const payload = await cache.match(requestKey);
+
+        const fetchAndUpdate = () =>
+          fetch(e.request)
+            .then(res => {
+              if (canCache(res.status, e.request.method.toLowerCase())) {
+                cache.put(requestKey, res.clone());
+              }
+              return res;
+            })
+            .catch(() => {
+              return cache.match(requestKey);
+            });
+        // 如果已有缓存，就优先返回，会在返回途中做一下更新的操作
+        if (payload) {
+          fetchAndUpdate();
+          return payload;
+        }
+
+        // 如果没有的话就做个更新
+        return fetchAndUpdate();
       })
     );
   }
