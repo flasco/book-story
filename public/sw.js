@@ -10,7 +10,14 @@ self.addEventListener('install', e => {
   e.waitUntil(
     caches
       .open(STATIC_CACHE_NAME)
-      .then(cache => cache.addAll(FILES_TO_CACHE))
+      .then(async cache => {
+        const existKeys = await cache.keys();
+        if (existKeys.length > 8) {
+          // 如果已缓存的静态资源超过了一定数量，说明已经有很多过期的版本了，可以删掉重新load
+          await Promise.all(existKeys.map(k => cache.delete(k)));
+        }
+        cache.addAll(FILES_TO_CACHE);
+      })
       .then(() => self.skipWaiting())
   );
 });
@@ -27,24 +34,33 @@ self.addEventListener('activate', () => {
   });
 });
 
+function canCache(status, methods) {
+  return status === 200 && methods.toLowerCase() === 'get';
+}
+
+async function cleanCacheWithLimitLen(cache, limit = 50) {
+  // keys的顺序按照insert的顺序排列，按顺序删即可
+  const keys = await cache.keys();
+  if (keys.length < limit) return;
+
+  // 删除60%的过期cache
+  const deletedKeys = keys.slice(0, keys.length - ((limit * 0.6) | 0));
+  const workers = deletedKeys.map(k => cache.delete(k));
+  // 确保删除操作完成，避免并发请求时的重复删除
+  await Promise.all(workers);
+}
+
 self.addEventListener('fetch', e => {
   if (e.request.url.includes('/v2/')) {
     e.respondWith(
       caches.open(DATA_CACHE_NAME).then(cache => {
         return fetch(e.request)
           .then(async res => {
-            if (res.status === 200) {
-              // keys的顺序按照insert的顺序排列，按顺序删即可
+            // 仅缓存 get 请求
+            if (canCache(res.status, e.request.method.toLowerCase())) {
               // 控制缓存数量，保证静态资源的缓存可以长时间的保留
-              const keys = await cache.keys();
-              if (keys.length < 50) {
-                cache.put(e.request.url, res.clone());
-              } else {
-                const deletedKeys = keys.slice(0, keys.length - 30);
-                const workers = deletedKeys.map(k => cache.delete(k));
-                // 确保删除操作完成，避免并发请求时的重复删除
-                await Promise.all(workers);
-              }
+              await cleanCacheWithLimitLen(cache, 50);
+              cache.put(e.request.url, res.clone());
             }
             return res;
           })
@@ -58,7 +74,7 @@ self.addEventListener('fetch', e => {
       caches.open(STATIC_CACHE_NAME).then(cache => {
         return fetch(e.request)
           .then(res => {
-            if (res.status === 200) {
+            if (canCache(res.status, e.request.method.toLowerCase())) {
               cache.put(e.request.url, res.clone());
             }
             return res;
