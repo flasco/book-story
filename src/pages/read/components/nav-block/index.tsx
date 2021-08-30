@@ -107,7 +107,6 @@ const NavBlock = () => {
             <Popover
               visible={popVisible}
               onVisibleChange={a => {
-                console.log('action', a);
                 changePopVisible(a);
               }}
               align={{
