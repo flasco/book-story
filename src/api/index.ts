@@ -3,9 +3,8 @@ import { IChapter } from '@/defination';
 
 export function getLatestChapter(url: string, retryCnt = 0) {
   return get(
-    '/v2/analysis',
+    '/v3/analyze/api/latest-chapter',
     {
-      action: 3,
       url,
     },
     { retryCnt }
@@ -15,13 +14,17 @@ export function getLatestChapter(url: string, retryCnt = 0) {
 interface IFetchItem {
   title: string;
   url: string;
+  fullUrl?: string;
 }
 
 interface IFetchRET {
   title: string;
   list: IChapter[];
 }
+
 export function fetchAllLatest(list: IFetchItem[]) {
-  if (list.length < 1) return [];
-  return post<(IFetchRET & '-1')[]>('/v2/analysis', list);
+  if (list.length < 1) {
+    return [];
+  }
+  return post<(IFetchRET | null)[]>('/v3/analyze/api/batch-latest-chapters', list);
 }

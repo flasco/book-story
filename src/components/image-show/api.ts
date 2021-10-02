@@ -8,7 +8,7 @@ export async function getImage(url: string) {
 
   let image = await getItem(url);
   if (image == null) {
-    image = await getAsBuffer('/v2/utils/get-image', { img: url });
+    image = await getAsBuffer('/v3/others/api/get-image', { img: url });
     await setItem(url, image, STORE_LEVEL.SAFE);
   }
   image = buffer2Base64(image);
