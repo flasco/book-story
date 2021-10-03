@@ -14,7 +14,7 @@ export function getLatestChapter(url: string, retryCnt = 0) {
 interface IFetchItem {
   title: string;
   url: string;
-  fullUrl?: string;
+  catalogUrl?: string;
 }
 
 interface IFetchRET {

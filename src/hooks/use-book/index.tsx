@@ -178,7 +178,7 @@ const useBookAndFlatten = () => {
     const func = (i: IBook) => ({
       title: i.latestChapter,
       url: i.source[i.plantformId],
-      fullUrl: i.catalogUrl,
+      catalogUrl: i.catalogUrl,
     });
     const task1 = books.map(func);
     const task2 = flattens.map(func);
