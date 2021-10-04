@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { Icon } from 'antd-mobile';
+import { useHistory } from 'react-router-dom';
 
 import { appName } from '@/constants';
 import Container from '@/layout/container';
@@ -8,8 +9,9 @@ import useSwitch from '@/hooks/use-switch';
 import Drawer from './components/drawer';
 import BookList from './components/book-list';
 
+import { useNoticed } from './use-noticed';
+
 import styles from './index.m.scss';
-import { useHistory } from 'react-router-dom';
 
 const RightIcon = ({ onClick }) => (
   <div onClick={onClick}>
@@ -24,6 +26,8 @@ const Shelf = () => {
   const [open, changeOpen] = useSwitch();
   const { push } = useHistory();
   const right = useMemo(() => <RightIcon onClick={changeOpen} />, [changeOpen]);
+
+  useNoticed();
 
   useEffect(() => {
     // hack: 修复 safari 的 bug
