@@ -3,9 +3,8 @@ import { IChapter, IContent } from '@/defination';
 
 export function getChapter(url: string, retryCnt = 0) {
   return get<IContent>(
-    '/v2/analysis',
+    '/v3/analyze/api/chapter',
     {
-      action: 2,
       url,
     },
     { retryCnt, cache: true }
@@ -13,8 +12,7 @@ export function getChapter(url: string, retryCnt = 0) {
 }
 
 export function getList(url: string) {
-  return get<IChapter[]>('/v2/analysis', {
-    action: 1,
+  return get<IChapter[]>('/v3/analyze/api/catalog', {
     url,
   });
 }

@@ -1,4 +1,4 @@
-const SW_VERSION = '0.1.0';
+const SW_VERSION = '0.2.0';
 const STATIC_CACHE_NAME = `static-cache-${SW_VERSION}`;
 const DATA_CACHE_NAME = `data-cache-${SW_VERSION}`;
 
@@ -53,7 +53,7 @@ async function cleanCacheWithLimitLen(cache, limit = 50) {
 self.addEventListener('fetch', e => {
   const requestKey = e.request.url;
 
-  if (requestKey.includes('/v2/')) {
+  if (requestKey.includes('/api/')) {
     e.respondWith(
       caches.open(DATA_CACHE_NAME).then(cache => {
         return fetch(e.request)
