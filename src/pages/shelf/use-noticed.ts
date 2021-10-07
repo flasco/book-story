@@ -1,6 +1,5 @@
-import { setItem, STORE_LEVEL } from '@/storage/base';
+import { getItem, setItem, STORE_LEVEL } from '@/storage/base';
 import { Modal } from 'antd-mobile';
-import { getItem } from 'localforage';
 import { useState, useEffect, useRef } from 'react';
 
 const newVersionNoticedKey = 'new-version-noticed';

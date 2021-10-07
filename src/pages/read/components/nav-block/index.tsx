@@ -25,7 +25,7 @@ const NavBlock = () => {
   const { push, goBack } = useHistory();
   const { changeSunny, sunny } = useTheme();
   const {
-    api: { changeMenu, pretchWorker },
+    api: { changeMenu, pretchWorker, reloadChapter },
     cache: { list, record },
     showMenu,
   } = useReaderContext();
@@ -88,6 +88,10 @@ const NavBlock = () => {
               pretchWorker(...urls);
             }
           ),
+      },
+      {
+        title: '重载本章',
+        onClick: () => reloadChapter(),
       },
     ],
     []

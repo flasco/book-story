@@ -155,6 +155,21 @@ function useReader(bookInfo?: IBook) {
     return goToChapter(position, 1);
   }, [sourceUrl]);
 
+  /**
+   * 清除当前缓存，重新加载
+   * 不过服务器侧会有缓存，时间在 20 min
+   * 当然三方书源更新时间无法保证，这个问题不大
+   */
+  const reloadChapter = useCallback(async () => {
+    if (sourceUrl == null) throw new Error('书源记录获取失败...');
+
+    const curpoi = cachedRecord.getChapterPosition();
+    const curChapterUrl = cachedList.getChapterUrl(curpoi);
+
+    cachedChapters.cleanChapterCache(curChapterUrl);
+    return goToChapter(curpoi, 1);
+  }, [sourceUrl]);
+
   const prevChapter = useCallback(async () => {
     if (sourceUrl == null) throw new Error('书源记录获取失败...');
     const position = cachedRecord.getChapterPosition() - 1;
@@ -189,6 +204,7 @@ function useReader(bookInfo?: IBook) {
       prevChapter,
       saveRecord,
       goToChapter,
+      reloadChapter,
       changeMenu,
     },
   };
