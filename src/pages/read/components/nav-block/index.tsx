@@ -13,6 +13,7 @@ import ProgressBlock from './components/progress';
 import CatalogDrawer from './components/catalog-drawer';
 
 import styles from './index.m.scss';
+import { useDrawer } from '@/components/drawer';
 
 const useSwitch = (initVal: boolean): [boolean, () => void] => {
   const [chx, setChx] = useState<boolean>(initVal);
@@ -32,13 +33,13 @@ const NavBlock = () => {
 
   const [popVisible, changePopVisible] = useState(false);
   const [progress, changeProgress] = useSwitch(false);
-  const [catalog, changeCatalog] = useSwitch(false);
+  const opener = useDrawer();
   const operatorMap = useMemo(() => {
     return [
       {
         title: '目录',
         icon: ICON_FONT_MAP.CATALOG,
-        click: changeCatalog,
+        click: opener.changeVisible,
       },
       {
         title: '进度',
@@ -104,7 +105,7 @@ const NavBlock = () => {
 
   return (
     <div className={cx(styles.container, { [styles.hidden]: !showMenu })}>
-      <CatalogDrawer open={catalog} changeOpen={changeCatalog} changeMenu={changeMenu}>
+      <CatalogDrawer opener={opener} changeMenu={changeMenu}>
         <div className={styles.container}>
           <div className={styles.header}>
             <Icon type="left" className={styles.back} onClick={() => goBack()} />

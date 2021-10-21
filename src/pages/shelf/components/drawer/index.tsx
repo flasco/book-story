@@ -2,7 +2,7 @@ import React, { useMemo, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Modal, Toast } from 'antd-mobile';
 
-import SXider from '@/components/drawer';
+import SXider, { TOpener } from '@/components/drawer';
 import { clearTemp } from '@/storage/base';
 import { useTheme } from '@/hooks/use-theme';
 import Touchable from '@/components/touchable';
@@ -60,16 +60,15 @@ const SiderBar = ({ push }) => {
 };
 
 interface IProps {
-  open: boolean;
-  changeOpen: () => void;
+  opener: TOpener;
 }
 
-const Sider: React.FC<IProps> = ({ open, changeOpen, children = null }) => {
+const Sider: React.FC<IProps> = ({ opener, children = null }) => {
   const { push } = useHistory();
   const siderBar = useMemo(() => <SiderBar push={push} />, [push]);
 
   return (
-    <SXider sideBar={siderBar} open={open} changeOpen={changeOpen}>
+    <SXider sideBar={siderBar} opener={opener}>
       {children}
     </SXider>
   );

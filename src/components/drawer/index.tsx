@@ -1,27 +1,43 @@
-import React from 'react';
-import { Drawer } from 'antd-mobile';
+import React, { useState } from 'react';
+import cx from 'classnames';
+
+import { Mask } from 'antd-mobile-v5';
 
 import styles from './index.m.scss';
 
-interface IProps {
-  open: boolean;
-  changeOpen: () => void;
-  sideBar?: React.ReactElement;
+interface IDrawerProps {
+  sideBar: JSX.Element;
+  children: any;
+  opener: TOpener;
+  fullScreen?: boolean;
 }
 
-const Sider: React.FC<IProps> = ({ open, changeOpen, children = null, sideBar = null }) => {
+const Drawer: React.FC<IDrawerProps> = ({ sideBar, children, opener, fullScreen = false }) => {
+  const { close, visible } = opener;
   return (
-    <Drawer
-      className={styles.box}
-      sidebar={sideBar}
-      position="right"
-      open={open}
-      contentStyle={{ height: '100%' }}
-      onOpenChange={changeOpen}
-    >
+    <>
+      <Mask
+        visible={visible}
+        onMaskClick={() => close()}
+        className={cx({ [styles.mask]: fullScreen })}
+      >
+        <div className={styles.floater}>{sideBar}</div>
+      </Mask>
       {children}
-    </Drawer>
+    </>
   );
 };
 
-export default Sider;
+export type TOpener = ReturnType<typeof useDrawer>;
+
+export const useDrawer = () => {
+  const [visible, change] = useState(false);
+
+  const close = () => change(false);
+  const open = () => change(true);
+  const changeVisible = () => change(a => !a);
+
+  return { open, close, visible, changeVisible };
+};
+
+export default Drawer;
