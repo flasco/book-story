@@ -24,3 +24,16 @@ action：
 # why
 
 主要是为了后续的 vite 替换打基础，antd-mobile@v2 的代码过于老旧，没办法迁移。
+
+# 进度
+
+- [ ] NavBar | NavBar
+- [ ] Icon | Icon
+- [ ] button | button
+- [ ] Popover | Popover
+- [ ] actionSheet | actionSheet
+- [ ] slider | slider
+- [ ] toast | toast
+- [ ] searchBar | search
+- [ ] Modal | Dialog
+- [ ] SwipeAction | SwipeAction

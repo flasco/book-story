@@ -21,7 +21,6 @@ module.exports = () => {
     cacheDirectory: true,
     babelrc: false,
     plugins: [
-      [require.resolve('babel-plugin-import'), { libraryName: 'antd-mobile', style: 'css' }], // `style: true` 会加载 less 文件
       require.resolve('@babel/plugin-proposal-class-properties'),
       require.resolve('@babel/plugin-transform-runtime'),
       require.resolve('@babel/plugin-syntax-dynamic-import'),
