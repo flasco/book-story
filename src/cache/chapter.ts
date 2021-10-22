@@ -37,6 +37,10 @@ class ChapterCache {
     }
   };
 
+  cleanChapterCache = (chapterUrl: string) => {
+    this.chapters.delete(chapterUrl);
+  };
+
   updateChapters = () => {
     updateBookChapters(this.key, this.chapters);
   };

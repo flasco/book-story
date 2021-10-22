@@ -25,7 +25,7 @@ const NavBlock = () => {
   const { push, goBack } = useHistory();
   const { changeSunny, sunny } = useTheme();
   const {
-    api: { changeMenu, pretchWorker },
+    api: { changeMenu, pretchWorker, reloadChapter },
     cache: { list, record },
     showMenu,
   } = useReaderContext();
@@ -90,6 +90,10 @@ const NavBlock = () => {
             }
           ),
       },
+      {
+        title: '重载本章',
+        onClick: () => reloadChapter(),
+      },
     ],
     []
   );
@@ -108,7 +112,6 @@ const NavBlock = () => {
             <Popover
               visible={popVisible}
               onVisibleChange={a => {
-                console.log('action', a);
                 changePopVisible(a);
               }}
               align={{

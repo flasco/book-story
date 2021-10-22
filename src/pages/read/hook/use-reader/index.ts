@@ -24,6 +24,12 @@ let ctrlPos = 0;
 export const getCtrlPos = () => ctrlPos;
 export const changeCtrlPos = (res: number) => (ctrlPos = res);
 
+const cachedQueue = new Queue<string>(3);
+
+cachedQueue.drain = () => {
+  Toast.success('缓存成功');
+};
+
 function useReader(bookInfo?: IBook) {
   const [pages, setPages] = useState<any[]>([]);
   const [title, setTitle] = useState('');
@@ -44,10 +50,12 @@ function useReader(bookInfo?: IBook) {
 
   useEffect(() => {
     // prefetch
-    workArr.work = async item => {
+    const prefetch = async item => {
       if (item === '') return;
       await cachedChapters.getContent(item, 3);
     };
+    workArr.work = prefetch;
+    cachedQueue.work = prefetch;
   }, [cachedChapters]);
 
   useEffect(() => {
@@ -87,15 +95,15 @@ function useReader(bookInfo?: IBook) {
   const pretchWorker = useCallback(
     (...urls: string[]) => {
       Toast.info('开始后台缓存...');
-      workArr.push(...urls);
+      cachedQueue.push(...urls);
     },
-    [workArr]
+    [cachedQueue]
   );
 
   const init: any = async () => {
     try {
       openLoading('数据加载中...');
-      if (sourceUrl == null) throw '书源记录获取失败...';
+      if (sourceUrl == null) throw new Error('书源记录获取失败...');
       await cachedRecord.init();
 
       setWatched(cachedRecord.getWatchedPage());
@@ -121,7 +129,7 @@ function useReader(bookInfo?: IBook) {
 
   const goToChapter = useCallback(
     async (position: number, ctrlPos: number) => {
-      if (sourceUrl == null) throw '书源记录获取失败...';
+      if (sourceUrl == null) throw new Error('书源记录获取失败...');
       if (position >= cachedList.getLength() || position < 0) return false;
       openLoading('数据加载中...');
       changeCtrlPos(ctrlPos);
@@ -141,14 +149,29 @@ function useReader(bookInfo?: IBook) {
   );
 
   const nextChapter = useCallback(async () => {
-    if (sourceUrl == null) throw '书源记录获取失败...';
+    if (sourceUrl == null) throw new Error('书源记录获取失败...');
 
     const position = cachedRecord.getChapterPosition() + 1;
     return goToChapter(position, 1);
   }, [sourceUrl]);
 
+  /**
+   * 清除当前缓存，重新加载
+   * 不过服务器侧会有缓存，时间在 20 min
+   * 当然三方书源更新时间无法保证，这个问题不大
+   */
+  const reloadChapter = useCallback(async () => {
+    if (sourceUrl == null) throw new Error('书源记录获取失败...');
+
+    const curpoi = cachedRecord.getChapterPosition();
+    const curChapterUrl = cachedList.getChapterUrl(curpoi);
+
+    cachedChapters.cleanChapterCache(curChapterUrl);
+    return goToChapter(curpoi, 1);
+  }, [sourceUrl]);
+
   const prevChapter = useCallback(async () => {
-    if (sourceUrl == null) throw '书源记录获取失败...';
+    if (sourceUrl == null) throw new Error('书源记录获取失败...');
     const position = cachedRecord.getChapterPosition() - 1;
     return goToChapter(position, -1);
   }, [sourceUrl]);
@@ -156,7 +179,7 @@ function useReader(bookInfo?: IBook) {
   /** 只存页数，章节在翻页的时候存 */
   const saveRecord = useCallback(
     (page: number) => {
-      if (sourceUrl == null) throw '书源记录获取失败...';
+      if (sourceUrl == null) throw new Error('书源记录获取失败...');
 
       cachedRecord.updateRecord({
         recordPage: page + 1,
@@ -181,6 +204,7 @@ function useReader(bookInfo?: IBook) {
       prevChapter,
       saveRecord,
       goToChapter,
+      reloadChapter,
       changeMenu,
     },
   };
