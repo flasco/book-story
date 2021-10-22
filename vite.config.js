@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-// import vitePluginImport from 'vite-plugin-babel-import';
+import vitePluginImport from 'vite-plugin-babel-import';
 import path from 'path';
 
 export default defineConfig({
@@ -8,6 +8,13 @@ export default defineConfig({
     react({
       include: '**/*.tsx',
     }),
+    vitePluginImport([
+      {
+        libraryName: 'antd-mobile-v5',
+        libraryDirectory: 'es/components',
+        style: name => `antd-mobile-v5/es/components/${name}/${name}.css`,
+      },
+    ]),
   ],
   define: {
     ENV: JSON.stringify({
@@ -15,9 +22,6 @@ export default defineConfig({
       PROJECT_ENV: 'development',
     }),
   },
-  // esbuild: {
-  //   jsxInject: `import React from 'react'`,
-  // },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
