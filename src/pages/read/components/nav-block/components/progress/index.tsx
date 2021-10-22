@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Icon, Slider } from 'antd-mobile';
+import { Slider } from 'antd-mobile-v5';
+import { LeftOutline, RightOutline } from 'antd-mobile-icons';
 
 import styles from './index.m.scss';
 import { useReaderContext } from '@/pages/read/context';
@@ -40,7 +41,7 @@ const ProgressBlock = () => {
     <div className={styles.container}>
       <div className={styles.top}>
         <div className={styles.cbtn} onClick={prevChapter}>
-          <Icon type="left" />
+          <LeftOutline />
           上一章
         </div>
         <div className={styles.chapter}>
@@ -49,7 +50,7 @@ const ProgressBlock = () => {
         </div>
         <div className={styles.cbtn} onClick={nextChapter}>
           下一章
-          <Icon type="right" />
+          <RightOutline />
         </div>
       </div>
       <div>

@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 import { useHistory } from 'react-router-dom';
-import { NavBar, Icon } from 'antd-mobile';
+import { NavBar } from 'antd-mobile-v5';
+import { NavBarProps } from 'antd-mobile-v5/es/components/nav-bar';
 
 import styles from './index.m.scss';
 
@@ -15,8 +16,6 @@ interface IContainerProps extends INavBarProps {
   topRight?: any;
 }
 
-const LeftIcon = <Icon type="left" className={styles.icon} />;
-
 const Container: React.FC<IContainerProps> = props => {
   const { children = null, className } = props;
   const { title = '标题', back = false, showBar = false, topRight = null } = props;
@@ -25,12 +24,13 @@ const Container: React.FC<IContainerProps> = props => {
 
   /** params 不应该动态改变 */
   const params = useMemo(() => {
-    const payload: any = {
-      rightContent: topRight,
+    const payload: NavBarProps = {
+      right: topRight,
     };
+    payload.backArrow = back;
+
     if (back) {
-      payload.icon = LeftIcon;
-      payload.onLeftClick = () => goBack();
+      payload.onBack = () => goBack();
     }
     return payload;
   }, [topRight]);

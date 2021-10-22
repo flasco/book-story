@@ -19,7 +19,7 @@ const Drawer: React.FC<IDrawerProps> = ({ sideBar, children, opener, fullScreen 
       <Mask
         visible={visible}
         onMaskClick={() => close()}
-        className={cx({ [styles.mask]: fullScreen })}
+        className={cx({ [styles.mask]: !fullScreen })}
       >
         <div className={styles.floater}>{sideBar}</div>
       </Mask>

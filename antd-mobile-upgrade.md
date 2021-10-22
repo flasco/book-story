@@ -27,13 +27,13 @@ action：
 
 # 进度
 
-- [ ] NavBar | NavBar
-- [ ] Icon | Icon
-- [ ] button | button
-- [ ] Popover | Popover
-- [ ] actionSheet | actionSheet
+- [x] NavBar | NavBar
+- [x] Icon | Icon
+- [x] button | button
+- [x] Popover | Popover
+- [x] actionSheet | actionSheet
 - [ ] slider | slider
-- [ ] toast | toast
-- [ ] searchBar | search
-- [ ] Modal | Dialog
-- [ ] SwipeAction | SwipeAction
+- [x] toast | toast
+- [x] searchBar | search
+- [x] Modal | Dialog
+- [x] SwipeAction | SwipeAction

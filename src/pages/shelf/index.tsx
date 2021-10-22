@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { Icon } from 'antd-mobile';
+import { MoreOutline } from 'antd-mobile-icons';
 import { useHistory } from 'react-router-dom';
 
 import { appName } from '@/constants';
@@ -15,7 +15,7 @@ import styles from './index.m.scss';
 
 const RightIcon = ({ onClick }) => (
   <div onClick={onClick}>
-    <Icon type="ellipsis" size="md" color="#fff" />
+    <MoreOutline color="#fff" style={{ fontSize: 24 }} />
   </div>
 );
 

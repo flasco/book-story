@@ -1,7 +1,7 @@
 import { createRef, useState, useCallback, useEffect } from 'react';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
-import { Toast } from 'antd-mobile';
+import { Toast } from 'antd-mobile-v5';
 import { changeCtrlPos, getCtrlPos } from '../use-reader';
 
 let startX = 0;
@@ -106,7 +106,7 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
         const isSucceed = (await curApi?.()) ?? false;
         if (!isSucceed) {
           setLoading(false);
-          Toast.info('已经临近边界', 2, undefined, false);
+          Toast.show('已经临近边界');
           currentPage = page;
         }
         return;
