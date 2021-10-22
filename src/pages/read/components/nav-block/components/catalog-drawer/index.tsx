@@ -1,27 +1,26 @@
 import React, { useMemo } from 'react';
-import SXider from '@/components/drawer';
+import SXider, { TOpener } from '@/components/drawer';
 
 import CatalogList from './catalog-list';
 
 import styles from './index.module.scss';
 
 interface IProps {
-  open: boolean;
-  changeOpen: () => void;
+  opener: TOpener;
   changeMenu: () => void;
 }
 
-const Sider: React.FC<IProps> = ({ open, changeOpen, children = null, changeMenu }) => {
+const Sider: React.FC<IProps> = ({ opener, children = null, changeMenu }) => {
   const siderBar = useMemo(
     () => (
       <div className={styles.sider}>
         <div className={styles.title}>目录</div>
-        <CatalogList changeOpen={changeOpen} open={open} changeMenu={changeMenu} />
+        <CatalogList opener={opener} changeMenu={changeMenu} />
       </div>
     ),
-    [changeOpen, open]
+    [opener]
   );
-  return <SXider sideBar={siderBar} open={open} changeOpen={changeOpen} children={children} />;
+  return <SXider sideBar={siderBar} opener={opener} children={children} />;
 };
 
 export default Sider;

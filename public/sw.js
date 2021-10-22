@@ -10,7 +10,7 @@ self.addEventListener('install', e => {
   e.waitUntil(
     caches
       .open(STATIC_CACHE_NAME)
-      .then(async (cache) => {
+      .then(async cache => {
         const existKeys = await cache.keys();
         if (existKeys.length > 8) {
           // 如果已缓存的静态资源超过了一定数量，说明已经有很多过期的版本了，可以删掉重新load

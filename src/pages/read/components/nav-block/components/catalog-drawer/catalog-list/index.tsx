@@ -8,7 +8,8 @@ import { useReaderContext } from '@/pages/read/context';
 
 import styles from './index.module.scss';
 
-const BookList = ({ changeOpen, open, changeMenu }) => {
+const BookList = ({ opener, changeMenu }) => {
+  const { open, changeVisible } = opener;
   const {
     cache: { list, record, chapters },
     api: { goToChapter },
@@ -25,7 +26,7 @@ const BookList = ({ changeOpen, open, changeMenu }) => {
   }, [open, currentPos]);
 
   const onClick = useCallback(index => {
-    changeOpen();
+    changeVisible();
     changeMenu();
     goToChapter(index, 1);
   }, []);

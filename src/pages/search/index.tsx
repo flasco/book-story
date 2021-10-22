@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { SearchBar } from 'antd-mobile';
+import { Search } from 'antd-mobile-v5';
 
 import Container from '@/layout/container';
 import VirtualList from '@/components/virtual-list';
@@ -26,7 +26,7 @@ const SearchPage = () => {
   const searchOpe = useCallback(
     async (keyword: string) => {
       if (keyword.length < 1) {
-        toastFail({ text: '请输入关键字', sec: 2 });
+        toastFail({ text: '请输入关键字', sec: 2000 });
         return;
       }
       openLoading('加载中...');
@@ -56,9 +56,9 @@ const SearchPage = () => {
 
   return (
     <Container showBar title="搜索" back>
-      <SearchBar
+      <Search
         placeholder="输入关键字"
-        onSubmit={searchOpe}
+        onSearch={searchOpe}
         onCancel={cancelSearch}
         className={styles.search}
       />

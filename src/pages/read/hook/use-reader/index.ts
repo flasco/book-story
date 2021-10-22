@@ -9,8 +9,8 @@ import { openLoading, closeLoading, toastFail } from '@/utils';
 import { newGetP } from '@/utils/text';
 
 import { getList } from '@/pages/read/api';
-import { IBook } from '@/definition';
-import { Toast } from 'antd-mobile';
+import { IBook } from '@/defination';
+import { Toast } from 'antd-mobile-v5';
 
 /**
  * 书籍进度存储key约定 record@${sourceUrl}
@@ -27,7 +27,7 @@ export const changeCtrlPos = (res: number) => (ctrlPos = res);
 const cachedQueue = new Queue<string>(3);
 
 cachedQueue.drain = () => {
-  Toast.success('缓存成功');
+  Toast.show('缓存成功');
 };
 
 function useReader(bookInfo?: IBook) {
@@ -94,7 +94,7 @@ function useReader(bookInfo?: IBook) {
 
   const pretchWorker = useCallback(
     (...urls: string[]) => {
-      Toast.info('开始后台缓存...');
+      Toast.show('开始后台缓存...');
       cachedQueue.push(...urls);
     },
     [cachedQueue]

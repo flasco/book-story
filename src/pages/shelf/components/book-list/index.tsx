@@ -1,5 +1,5 @@
-import React, { useMemo, useState, useEffect } from 'react';
-import { ListView, PullToRefresh, Toast, SwipeAction } from 'antd-mobile';
+import React,{ useEffect } from 'react';
+import { List, PullToRefresh, Toast, SwipeAction } from 'antd-mobile-v5';
 import { useHistory } from 'react-router-dom';
 import cx from 'classnames';
 
@@ -14,16 +14,6 @@ import { IBook } from '@/definition';
 
 import styles from './index.module.scss';
 
-const PullRefresh: any = PullToRefresh;
-
-const ds = new ListView.DataSource({
-  rowHasChanged: (r1, r2) => r1 !== r2,
-});
-
-const renderSeparator = (_, id) => {
-  return <div className={styles.separator} key={id} />;
-};
-
 const getSubTitle = item => {
   if (item.updateNum > 10) return `距上次点击已更新${item.updateNum}章`;
   return spliceLine(item.latestChapter, 15);
@@ -35,10 +25,18 @@ const BookList = () => {
   const { books, api } = useBook();
   const { updateLists, clickBookToRead, sortBookWithStamp, deleteBook } = api;
   const { push } = useHistory();
-  const [pull, setPull] = useState(true);
-  const datasets = useMemo(() => ds.cloneWithRows(books), [books]);
 
   const flag = books.length > 0 ? true : isInit ? true : false;
+
+  const onPull = useCallbackRef(
+    async (slience = false) => {
+      if (books.length > 0) {
+        const { cnt, flattened } = await updateLists();
+        !slience && Toast.show(`更新完毕，${cnt} 本有更新，养肥区 ${flattened} 本待看`);
+      }
+    },
+    [books]
+  );
 
   useEffect(() => {
     if (books.length > 0) {
@@ -46,27 +44,9 @@ const BookList = () => {
       isInit = true;
       onPull.current(true);
     }
-  }, [flag]);
+  }, [flag, onPull]);
 
-  const onPull = useCallbackRef(
-    async (slience = false) => {
-      setPull(true);
-      if (books.length > 0) {
-        const { cnt, flattened } = await updateLists();
-        !slience &&
-          Toast.info(`更新完毕，${cnt} 本有更新，养肥区 ${flattened} 本待看`, 2, undefined, false);
-      }
-      setPull(false);
-    },
-    [books]
-  );
-
-  const refresh = useMemo(
-    () => <PullRefresh refreshing={pull} onRefresh={() => onPull.current()} />,
-    [pull]
-  );
-
-  const renderItem = (item: IBook, _, index: any) => {
+  const renderItem = (item: IBook, index: number) => {
     const { bookName, author, plantformId, img, isUpdate } = item;
     const onClick = () => {
       push('/read');
@@ -76,8 +56,7 @@ const BookList = () => {
     return (
       <SwipeAction
         style={{ background: 'var(--shelf-row)' }}
-        autoClose
-        right={[
+        rightActions={[
           // {
           //   text: '养肥',
           //   onPress: () => console.log('cancel'),
@@ -85,13 +64,15 @@ const BookList = () => {
           // },
           {
             text: '详情',
-            onPress: () => push('/detail', item),
-            style: { color: '#000' },
+            key: 'detail',
+            onClick: () => push('/detail', item),
+            color: '#000',
           },
           {
             text: '删除',
-            onPress: () => deleteBook(+index),
-            style: { color: '#F4333C' },
+            key: 'delete',
+            onClick: () => deleteBook(+index),
+            color: '#F4333C',
           },
         ]}
       >
@@ -114,16 +95,15 @@ const BookList = () => {
   };
 
   return (
-    <ListView
-      dataSource={datasets}
-      renderRow={renderItem}
-      renderFooter={() => <div style={{ height: '30vh' }} />}
-      renderSeparator={renderSeparator}
-      initialListSize={18}
-      pageSize={10}
-      className={cx(styles.list, 'needScroll')}
-      pullToRefresh={refresh}
-    />
+    <PullToRefresh onRefresh={() => onPull.current()}>
+      <List className={styles.list}>
+        {books.map((book, ind) => {
+          return (
+            <List.Item key={`${book.bookName}-${book.author}`}>{renderItem(book, ind)}</List.Item>
+          );
+        })}
+      </List>
+    </PullToRefresh>
   );
 };
 

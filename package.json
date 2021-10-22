@@ -42,7 +42,8 @@
     "vite-plugin-babel-import": "^2.0.4"
   },
   "dependencies": {
-    "antd-mobile": "^2.3.1",
+    "antd-mobile-icons": "^0.2.2",
+    "antd-mobile-v5": "npm:antd-mobile@next",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "indexof": "^0.0.1",
