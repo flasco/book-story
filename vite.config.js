@@ -16,6 +16,7 @@ const generateVersion = (generLen = 6) => {
 };
 
 export default defineConfig({
+  base: './',
   plugins: [
     react({
       include: '**/*.tsx',
