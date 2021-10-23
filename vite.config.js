@@ -31,10 +31,14 @@ export default defineConfig({
       targets: ['android >= 4.4', 'ios >= 9', 'not IE 11'],
     }),
   ],
+  server: {
+    fs: {
+      strict: false,
+    },
+  },
   define: {
     ENV: JSON.stringify({
       PROJECT_VERSION_TAG: generateVersion(),
-      PROJECT_ENV: 'development',
     }),
   },
   resolve: {
