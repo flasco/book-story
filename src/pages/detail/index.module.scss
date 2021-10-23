@@ -66,8 +66,9 @@
 }
 
 :global {
-  .am-button-primary {
+  .adm-button-primary {
     background-color: var(--read-current);
+    border-color: var(--read-current);
 
     &::before {
       border-color: var(--read-current) !important; // sass-lint:disable-line no-important
@@ -77,13 +78,14 @@
       background-color: var(--read-current);
     }
 
-    &.am-button-active {
+    &.adm-button-active {
       background-color: var(--read-current);
     }
   }
 
-  .am-button-ghost {
+  .adm-button-fill-outline {
     color: var(--read-current);
+    border-color: var(--read-current);
 
     &::before {
       border-color: var(--read-current) !important; // sass-lint:disable-line no-important

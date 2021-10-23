@@ -104,10 +104,6 @@ const NavBlock = () => {
         text: '重载本章',
         onClick: () => reloadChapter(),
       },
-      {
-        title: '重载本章',
-        onClick: () => reloadChapter(),
-      },
     ],
     []
   );
@@ -119,7 +115,9 @@ const NavBlock = () => {
           <div className={styles.header}>
             <LeftOutline className={styles.back} onClick={() => goBack()} />
             <Popover.Menu actions={popOtrMap} placement="topRight" trigger="click">
-              <MoreOutline style={{ fontSize: 24 }} />
+              <div style={{ paddingRight: 8 }}>
+                <MoreOutline style={{ fontSize: 24 }} />
+              </div>
             </Popover.Menu>
           </div>
           <Touchable needStop className={styles.content} onClick={() => changeMenu()} />

@@ -29,8 +29,6 @@ const Shelf = () => {
 
   useNoticed();
 
-  useNoticed();
-
   useEffect(() => {
     // hack: 修复 safari 的 bug
     // safari 的 bug：history 层级为 2 的时候，goBack 无效
