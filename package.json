@@ -38,7 +38,8 @@
     "stylelint-scss": "^3.18.0",
     "typescript": "^4.4.4",
     "vite": "^2.6.10",
-    "vite-plugin-babel-import": "^2.0.5"
+    "vite-plugin-babel-import": "^2.0.5",
+    "vite-plugin-babel-macros": "^1.0.5"
   },
   "dependencies": {
     "antd-mobile-icons": "^0.2.2",

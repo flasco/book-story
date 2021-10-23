@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import vitePluginImport from 'vite-plugin-babel-import';
 import legacy from '@vitejs/plugin-legacy';
+import macrosPlugin from 'vite-plugin-babel-macros';
 import path from 'path';
 
 const generateVersion = (generLen = 6) => {
@@ -18,6 +19,7 @@ export default defineConfig({
     react({
       include: '**/*.tsx',
     }),
+    macrosPlugin(),
     vitePluginImport([
       {
         libraryName: 'antd-mobile-v5',

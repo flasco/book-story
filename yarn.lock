@@ -29,7 +29,7 @@
   resolved "https://registry.nlark.com/@babel/compat-data/download/@babel/compat-data-7.15.0.tgz#2dbaf8b85334796cafbb0f5793a90a2fc010b176"
   integrity sha1-Lbr4uFM0eWyvuw9Xk6kKL8AQsXY=
 
-"@babel/core@>=7.9.0", "@babel/core@^7.15.5":
+"@babel/core@>=7.9.0", "@babel/core@^7.13.8", "@babel/core@^7.15.5":
   version "7.15.8"
   resolved "https://registry.npmmirror.com/@babel/core/download/@babel/core-7.15.8.tgz?cache=0&sync_timestamp=1633554060461&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40babel%2Fcore%2Fdownload%2F%40babel%2Fcore-7.15.8.tgz#195b9f2bffe995d2c6c159e72fe525b4114e8c10"
   integrity sha1-GVufK//pldLGwVnnL+UltBFOjBA=
@@ -191,15 +191,22 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.12.11", "@babel/parser@^7.15.4", "@babel/parser@^7.15.8":
+"@babel/parser@^7.1.0", "@babel/parser@^7.12.11", "@babel/parser@^7.15.4", "@babel/parser@^7.15.8":
   version "7.15.8"
   resolved "https://registry.npmmirror.com/@babel/parser/download/@babel/parser-7.15.8.tgz?cache=0&sync_timestamp=1633554059632&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40babel%2Fparser%2Fdownload%2F%40babel%2Fparser-7.15.8.tgz#7bacdcbe71bdc3ff936d510c15dcea7cf0b99016"
   integrity sha1-e6zcvnG9w/+TbVEMFdzqfPC5kBY=
 
-"@babel/plugin-syntax-jsx@^7.14.5":
+"@babel/plugin-syntax-jsx@^7.12.13", "@babel/plugin-syntax-jsx@^7.14.5":
   version "7.14.5"
   resolved "https://registry.nlark.com/@babel/plugin-syntax-jsx/download/@babel/plugin-syntax-jsx-7.14.5.tgz?cache=0&sync_timestamp=1623280424207&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40babel%2Fplugin-syntax-jsx%2Fdownload%2F%40babel%2Fplugin-syntax-jsx-7.14.5.tgz#000e2e25d8673cce49300517a3eda44c263e4201"
   integrity sha1-AA4uJdhnPM5JMAUXo+2kTCY+QgE=
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.14.5"
+
+"@babel/plugin-syntax-typescript@^7.12.13":
+  version "7.14.5"
+  resolved "https://registry.nlark.com/@babel/plugin-syntax-typescript/download/@babel/plugin-syntax-typescript-7.14.5.tgz#b82c6ce471b165b5ce420cf92914d6fb46225716"
+  integrity sha1-uCxs5HGxZbXOQgz5KRTW+0YiVxY=
   dependencies:
     "@babel/helper-plugin-utils" "^7.14.5"
 
@@ -271,7 +278,7 @@
     debug "^4.1.0"
     globals "^11.1.0"
 
-"@babel/types@^7.12.12", "@babel/types@^7.14.9", "@babel/types@^7.15.4", "@babel/types@^7.15.6":
+"@babel/types@^7.0.0", "@babel/types@^7.12.12", "@babel/types@^7.14.9", "@babel/types@^7.15.4", "@babel/types@^7.15.6", "@babel/types@^7.3.0":
   version "7.15.6"
   resolved "https://registry.nlark.com/@babel/types/download/@babel/types-7.15.6.tgz?cache=0&sync_timestamp=1631216248664&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40babel%2Ftypes%2Fdownload%2F%40babel%2Ftypes-7.15.6.tgz#99abdc48218b2881c058dd0a7ab05b99c9be758f"
   integrity sha1-mavcSCGLKIHAWN0KerBbmcm+dY8=
@@ -546,6 +553,39 @@
   dependencies:
     remark "^13.0.0"
     unist-util-find-all-after "^3.0.2"
+
+"@types/babel__core@^7.1.12":
+  version "7.1.16"
+  resolved "https://registry.nlark.com/@types/babel__core/download/@types/babel__core-7.1.16.tgz#bc12c74b7d65e82d29876b5d0baf5c625ac58702"
+  integrity sha1-vBLHS31l6C0ph2tdC69cYlrFhwI=
+  dependencies:
+    "@babel/parser" "^7.1.0"
+    "@babel/types" "^7.0.0"
+    "@types/babel__generator" "*"
+    "@types/babel__template" "*"
+    "@types/babel__traverse" "*"
+
+"@types/babel__generator@*":
+  version "7.6.3"
+  resolved "https://registry.nlark.com/@types/babel__generator/download/@types/babel__generator-7.6.3.tgz?cache=0&sync_timestamp=1629706648808&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fbabel__generator%2Fdownload%2F%40types%2Fbabel__generator-7.6.3.tgz#f456b4b2ce79137f768aa130d2423d2f0ccfaba5"
+  integrity sha1-9Fa0ss55E392iqEw0kI9LwzPq6U=
+  dependencies:
+    "@babel/types" "^7.0.0"
+
+"@types/babel__template@*":
+  version "7.4.1"
+  resolved "https://registry.nlark.com/@types/babel__template/download/@types/babel__template-7.4.1.tgz?cache=0&sync_timestamp=1629706636298&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fbabel__template%2Fdownload%2F%40types%2Fbabel__template-7.4.1.tgz#3d1a48fd9d6c0edfd56f2ff578daed48f36c8969"
+  integrity sha1-PRpI/Z1sDt/Vby/1eNrtSPNsiWk=
+  dependencies:
+    "@babel/parser" "^7.1.0"
+    "@babel/types" "^7.0.0"
+
+"@types/babel__traverse@*":
+  version "7.14.2"
+  resolved "https://registry.nlark.com/@types/babel__traverse/download/@types/babel__traverse-7.14.2.tgz?cache=0&sync_timestamp=1629706636317&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fbabel__traverse%2Fdownload%2F%40types%2Fbabel__traverse-7.14.2.tgz#ffcd470bbb3f8bf30481678fb5502278ca833a43"
+  integrity sha1-/81HC7s/i/MEgWePtVAieMqDOkM=
+  dependencies:
+    "@babel/types" "^7.3.0"
 
 "@types/history@*":
   version "4.7.9"
@@ -951,6 +991,15 @@ axios@^0.23.0:
   integrity sha1-sPpdCUio0ddePVY1I4tsRiWwUUk=
   dependencies:
     follow-redirects "^1.14.4"
+
+babel-plugin-macros@^3.0.1:
+  version "3.1.0"
+  resolved "https://registry.nlark.com/babel-plugin-macros/download/babel-plugin-macros-3.1.0.tgz?cache=0&sync_timestamp=1620233928609&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fbabel-plugin-macros%2Fdownload%2Fbabel-plugin-macros-3.1.0.tgz#9ef6dc74deb934b4db344dc973ee851d148c50c1"
+  integrity sha1-nvbcdN65NLTbNE3Jc+6FHRSMUME=
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    cosmiconfig "^7.0.0"
+    resolve "^1.19.0"
 
 bail@^1.0.0:
   version "1.0.5"
@@ -3538,7 +3587,7 @@ resolve-pathname@^3.0.0:
   resolved "https://registry.npm.taobao.org/resolve-pathname/download/resolve-pathname-3.0.0.tgz#99d02224d3cf263689becbb393bc560313025dcd"
   integrity sha1-mdAiJNPPJjaJvsuzk7xWAxMCXc0=
 
-resolve@^1.10.0, resolve@^1.20.0:
+resolve@^1.10.0, resolve@^1.19.0, resolve@^1.20.0:
   version "1.20.0"
   resolved "https://registry.npm.taobao.org/resolve/download/resolve-1.20.0.tgz#629a013fb3f70755d6f0b7935cc1c2c5378b1975"
   integrity sha1-YpoBP7P3B1XW8LeTXMHCxTeLGXU=
@@ -4078,7 +4127,7 @@ tslib@^1.8.1, tslib@^1.9.0:
   resolved "https://registry.nlark.com/tslib/download/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha1-zy04vcNKE0vK8QkcQfZhni9nLQA=
 
-tslib@^2, tslib@^2.0.3, tslib@^2.3.1:
+tslib@^2, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.3.1:
   version "2.3.1"
   resolved "https://registry.nlark.com/tslib/download/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha1-6KM1rdXOrlGqJh0ypJAVjvBC7wE=
@@ -4258,6 +4307,18 @@ vite-plugin-babel-import@^2.0.5:
     "@babel/traverse" "^7.12.12"
     "@babel/types" "^7.12.12"
     change-case "^4.1.2"
+
+vite-plugin-babel-macros@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.npmmirror.com/vite-plugin-babel-macros/download/vite-plugin-babel-macros-1.0.5.tgz#417216812460eb0605d49a968dcea24e04f0d061"
+  integrity sha1-QXIWgSRg6wYF1JqWjc6iTgTw0GE=
+  dependencies:
+    "@babel/core" "^7.13.8"
+    "@babel/plugin-syntax-jsx" "^7.12.13"
+    "@babel/plugin-syntax-typescript" "^7.12.13"
+    "@types/babel__core" "^7.1.12"
+    babel-plugin-macros "^3.0.1"
+    tslib "^2.1.0"
 
 vite@^2.6.10:
   version "2.6.10"
