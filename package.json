@@ -9,7 +9,6 @@
     "dev": "vite",
     "build": "vite build",
     "upgrade-dep": "yarn upgrade-interactive",
-    "upgrade-latest-dep": "yarn upgrade-dep --latest",
     "scss-lint": "stylelint src/**/*.scss",
     "es-lint": "eslint 'src/**/*.{js,ts,tsx}'",
     "preview": "vite preview"
