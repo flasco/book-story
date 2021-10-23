@@ -40,6 +40,9 @@ export default defineConfig({
       strict: false,
     },
   },
+  build: {
+    emptyOutDir: true,
+  },
   define: {
     ENV: JSON.stringify({
       PROJECT_VERSION_TAG: generateVersion(),
