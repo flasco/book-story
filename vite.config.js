@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import vitePluginImport from 'vite-plugin-babel-import';
+import viteCompression from 'vite-plugin-compression';
 import legacy from '@vitejs/plugin-legacy';
 import macrosPlugin from 'vite-plugin-babel-macros';
 import path from 'path';
@@ -20,6 +21,9 @@ export default defineConfig({
       include: '**/*.tsx',
     }),
     macrosPlugin(),
+    viteCompression({
+      filter: /\.(js|css)$/i,
+    }),
     vitePluginImport([
       {
         libraryName: 'antd-mobile-v5',
