@@ -4,6 +4,15 @@ import vitePluginImport from 'vite-plugin-babel-import';
 import legacy from '@vitejs/plugin-legacy';
 import path from 'path';
 
+const generateVersion = (generLen = 6) => {
+  const strs = 'ABCDEFTUGHJTOKYabcdefghigklmnopqrstuvwxyz0123456789';
+  let ver = '';
+  for (let i = 0; i < generLen; i++) {
+    ver += strs[(Math.random() * strs.length) | 0];
+  }
+  return ver;
+};
+
 export default defineConfig({
   plugins: [
     react({
@@ -22,7 +31,7 @@ export default defineConfig({
   ],
   define: {
     ENV: JSON.stringify({
-      PROJECT_VERSION_TAG: '123',
+      PROJECT_VERSION_TAG: generateVersion(),
       PROJECT_ENV: 'development',
     }),
   },
