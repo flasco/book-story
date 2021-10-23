@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { Popover, ActionSheet } from 'antd-mobile-v5';
 import { useHistory } from 'react-router-dom';
 import cx from 'classnames';

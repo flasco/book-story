@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Slider } from 'antd-mobile-v5';
 import { SliderValue } from 'antd-mobile-v5/es/components/slider';
 import { LeftOutline, RightOutline } from 'antd-mobile-icons';
