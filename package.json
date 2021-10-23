@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "inst": "yarn && cd webpack && yarn",
+    "prepare": "husky install",
     "dev": "vite",
     "build": "vite build",
     "upgrade-dep": "yarn upgrade-interactive",
@@ -29,7 +29,7 @@
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.14.3",
-    "husky": "^3.0.5",
+    "husky": "^7.0.4",
     "lint-staged": "^11.2.3",
     "prettier": "^2.1.2",
     "sass": "^1.43.3",
