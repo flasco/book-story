@@ -3,8 +3,8 @@ import cx from 'classnames';
 
 import TouchableHighlight from '@/components/touchable';
 import VirtualList from '@/components/virtual-list';
-
 import { useReaderContext } from '@/pages/read/context';
+import { spliceLine } from '@/utils';
 
 import styles from './index.module.scss';
 
@@ -43,7 +43,7 @@ const BookList = ({ opener, changeMenu }) => {
               [styles.current]: index === currentPos,
             })}
           >
-            {curData.title}
+            {spliceLine(curData.title, 18)}
           </span>
         </TouchableHighlight>
       );
