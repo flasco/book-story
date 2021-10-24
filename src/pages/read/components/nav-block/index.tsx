@@ -27,7 +27,7 @@ const NavBlock = () => {
   const { push, goBack } = useHistory();
   const { changeSunny, sunny } = useTheme();
   const {
-    api: { changeMenu, pretchWorker, reloadChapter },
+    api,
     cache: { list, record },
     showMenu,
   } = useReaderContext();
@@ -96,21 +96,25 @@ const NavBlock = () => {
                 const url = list.getChapterUrl(i + position);
                 if (url) urls.push(url);
               }
-              pretchWorker(...urls);
+              api.pretchWorker(...urls);
             },
           }),
       },
       {
         text: '重载本章',
-        onClick: () => reloadChapter(),
+        onClick: () => api.reloadChapter(),
+      },
+      {
+        text: '重载列表',
+        onClick: () => api.reloadList(),
       },
     ],
-    []
+    [api]
   );
 
   return (
     <div className={cx(styles.container, { [styles.hidden]: !showMenu })}>
-      <CatalogDrawer opener={opener} changeMenu={changeMenu}>
+      <CatalogDrawer opener={opener} changeMenu={api.changeMenu}>
         <div className={styles.container}>
           <div className={styles.header}>
             <LeftOutline className={styles.back} onClick={() => goBack()} />
@@ -120,7 +124,7 @@ const NavBlock = () => {
               </div>
             </Popover.Menu>
           </div>
-          <Touchable needStop className={styles.content} onClick={() => changeMenu()} />
+          <Touchable needStop className={styles.content} onClick={() => api.changeMenu()} />
           {/**TODO: 状态机，同一时间内只有一个面板展示 */}
           {progress && <ProgressBlock />}
           <div className={styles.footer}>
