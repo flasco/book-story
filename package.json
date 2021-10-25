@@ -45,7 +45,9 @@
     "vite": "^2.6.10",
     "vite-plugin-babel-import": "^2.0.5",
     "vite-plugin-babel-macros": "^1.0.5",
-    "vite-plugin-compression": "^0.3.5"
+    "vite-plugin-compression": "^0.3.5",
+    "vite-plugin-optimize-persist": "^0.1.0",
+    "vite-plugin-package-config": "^0.0.3"
   },
   "dependencies": {
     "@react-spring/web": "^9.3.0",
@@ -65,5 +67,37 @@
   "lint-staged": {
     "**/*.{js,ts,tsx}": "eslint",
     "**/*.scss": "stylelint"
+  },
+  "vite": {
+    "optimizeDeps": {
+      "include": [
+        "@react-spring/web",
+        "antd-mobile-icons",
+        "antd-mobile-v5",
+        "antd-mobile-v5/es/components/action-sheet",
+        "antd-mobile-v5/es/components/button",
+        "antd-mobile-v5/es/components/dialog",
+        "antd-mobile-v5/es/components/list",
+        "antd-mobile-v5/es/components/mask",
+        "antd-mobile-v5/es/components/nav-bar",
+        "antd-mobile-v5/es/components/popover",
+        "antd-mobile-v5/es/components/pull-to-refresh",
+        "antd-mobile-v5/es/components/search",
+        "antd-mobile-v5/es/components/slider",
+        "antd-mobile-v5/es/components/swipe-action",
+        "antd-mobile-v5/es/components/toast",
+        "antd-mobile-v5/es/global",
+        "axios",
+        "classnames",
+        "localforage",
+        "penv.macro",
+        "react",
+        "react-dom",
+        "react-router-cache-route",
+        "react-router-dom",
+        "react-virtualized-auto-sizer",
+        "react-window"
+      ]
+    }
   }
 }

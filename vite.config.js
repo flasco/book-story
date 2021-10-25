@@ -4,9 +4,11 @@ import vitePluginImport from 'vite-plugin-babel-import';
 import viteCompression from 'vite-plugin-compression';
 import legacy from '@vitejs/plugin-legacy';
 import macrosPlugin from 'vite-plugin-babel-macros';
+import OptimizationPersist from 'vite-plugin-optimize-persist';
+import PkgConfig from 'vite-plugin-package-config';
 import path from 'path';
 
-import { generateAntdPreloadDeps, generateVersion } from './scripts/utils.js';
+import { generateVersion } from './scripts/utils.js';
 
 export default defineConfig({
   base: './',
@@ -15,6 +17,8 @@ export default defineConfig({
       include: '**/*.tsx',
     }),
     macrosPlugin(),
+    PkgConfig(),
+    OptimizationPersist(),
     viteCompression({
       filter: /\.(js|css)$/i,
     }),
@@ -46,8 +50,5 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
-  },
-  optimizeDeps: {
-    include: [...generateAntdPreloadDeps()],
   },
 });
