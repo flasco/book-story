@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 
+import { animated } from '@react-spring/web';
+
 import { useReaderContext } from '../../context';
 import useDrag from '../../hook/use-drag';
 
@@ -18,7 +20,7 @@ const NewReader: React.FC = () => {
     [watched, api]
   );
 
-  const { ref, page, touchEvent, loading, total } = useDrag(pages, param);
+  const { ref, page, touchEvent, loading, total, transformX } = useDrag(pages, param);
 
   const footer = useMemo(() => {
     if (total < 1) return null;
@@ -37,9 +39,13 @@ const NewReader: React.FC = () => {
         <div className={styles.title}>{title}</div>
         <div className={styles.wrapper}>
           <div className={styles.inner} {...touchEvent}>
-            <div ref={ref} className={styles.main}>
+            <animated.div
+              ref={ref}
+              className={styles.main}
+              style={{ transform: transformX.to(x => `translateX(${x}px)`) }}
+            >
               {pagesElement}
-            </div>
+            </animated.div>
           </div>
         </div>
         {footer}

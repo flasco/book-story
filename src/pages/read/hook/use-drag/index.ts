@@ -1,7 +1,9 @@
 import { createRef, useState, useCallback, useEffect } from 'react';
+import { useSpring } from '@react-spring/web';
+import { Toast } from 'antd-mobile-v5';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
-import { Toast } from 'antd-mobile-v5';
+
 import { changeCtrlPos, getCtrlPos } from '../use-reader';
 
 let startX = 0;
@@ -9,38 +11,52 @@ let inAnimate = false;
 
 const pageWidth = screenWidth - 16;
 
-function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRight }) {
+function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRight }) {
   const ref = createRef<HTMLDivElement>();
   const [page, setPage] = useState(() => Math.round(initialPage - 1));
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  const [{ transformX }, api] = useSpring(() => ({
+    from: { transformX: 0 },
+    config: { duration: 150 },
+  }));
 
   useEffect(() => {
     const totalWidth = ref.current!.scrollWidth;
     const totalPage = (totalWidth + 16) / pageWidth;
     setTotal(totalPage);
     const ctrlPos = getCtrlPos();
-    if (ctrlPos < 0) goTo(totalPage, false);
-    else if (ctrlPos > 0) goTo(1, false);
+    if (ctrlPos < 0) {
+      goTo(totalPage, false);
+    } else if (ctrlPos > 0) {
+      goTo(1, false);
+    }
     setTimeout(() => setLoading(false), 100);
   }, [pages]);
 
   useEffect(() => {
-    if (initialPage > 1) goTo(Math.round(initialPage), false);
+    if (initialPage > 1) {
+      goTo(Math.round(initialPage), false);
+    }
   }, [initialPage]);
 
   /** cur 从1开始 */
   const goTo = useCallback(
     (cur: number, needAnimate = true) => {
       cur = Math.round(cur - 1);
-      const current = ref.current;
       setPage(cur);
       saveRecord(cur);
       inAnimate = true;
-      requestAnimationFrame(() => {
-        current!.style.transition = needAnimate ? 'transform 150ms ease 0s' : 'none';
-        current!.style.transform = `translateX(${0 - cur * pageWidth}px)`;
-        setTimeout(() => (inAnimate = false), needAnimate ? 160 : 30);
+      requestAnimationFrame(async () => {
+        const params = { transformX: 0 - cur * pageWidth };
+        if (needAnimate) {
+          await Promise.all(api.start(params));
+        } else {
+          api.set(params);
+        }
+
+        inAnimate = false;
       });
       changeCtrlPos(0);
     },
@@ -49,14 +65,10 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
 
   const onTouchStart = useCallback(
     e => {
-      if (inAnimate) return;
+      if (inAnimate) {
+        return;
+      }
       startX = e.touches[0].clientX;
-
-      const current = ref.current;
-      requestAnimationFrame(() => {
-        // 跟随手指移动的样式
-        current!.style.transition = 'none';
-      });
     },
     [ref]
   );
@@ -64,13 +76,12 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
   /** 垃圾throttle，别用，用了就掉帧 */
   const onTouchMove = useCallback(
     (e: any) => {
-      if (inAnimate) return;
+      if (inAnimate) {
+        return;
+      }
       const prevX = e.touches[0].clientX - startX;
 
-      const current = ref.current;
-      requestAnimationFrame(() => {
-        current!.style.transform = `translateX(${0 - page * pageWidth + prevX}px)`;
-      });
+      api.set({ transformX: 0 - page * pageWidth + prevX });
     },
     [page, ref]
   );
@@ -78,7 +89,9 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
   const onTouchEnd = useCallback(
     async e => {
       e.preventDefault();
-      if (inAnimate) return;
+      if (inAnimate) {
+        return;
+      }
       const endX = e.changedTouches[0].clientX;
       const diff = endX - startX;
 
@@ -124,6 +137,7 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
     ref,
     goTo,
     loading,
+    transformX,
     touchEvent: {
       onTouchStart,
       onTouchMove,
@@ -132,4 +146,4 @@ function useDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRig
   };
 }
 
-export default useDrag;
+export default useCustomDrag;

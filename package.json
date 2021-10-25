@@ -46,6 +46,7 @@
     "vite-plugin-compression": "^0.3.5"
   },
   "dependencies": {
+    "@react-spring/web": "^9.3.0",
     "antd-mobile-icons": "^0.2.2",
     "antd-mobile-v5": "npm:antd-mobile@next",
     "axios": "^0.23.0",
