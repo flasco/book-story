@@ -9,7 +9,7 @@ import { useBook } from '@/hooks/use-book';
 
 import { getOriginLatest } from './api';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
 const OriginPage = () => {
   const { currentBook: bookInfo, api } = useBook();

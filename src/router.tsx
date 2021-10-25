@@ -1,6 +1,5 @@
-import React from 'react';
 import { Route, BrowserRouter, Redirect } from 'react-router-dom';
-import CacheRoute, { CacheSwitch } from 'react-router-cache-route';
+import { CacheSwitch, CacheRoute } from 'react-router-cache-route';
 import { BookProvider } from '@/hooks/use-book';
 import { ThemeProvider } from '@/hooks/use-theme';
 
@@ -24,7 +23,6 @@ const routes = () => (
         <CacheRoute when="forward" path="/search" exact component={Search} />
         <Route path="/origin" exact component={Origin} />
         <Route path="/detail" exact component={Detail} />
-        <Route path="/origin" exact component={Origin} />
 
         <Redirect from="/*" exact to="/shelf" />
       </CacheSwitch>

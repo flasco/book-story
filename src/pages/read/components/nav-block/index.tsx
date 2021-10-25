@@ -1,7 +1,8 @@
 import { useMemo, useState, useCallback } from 'react';
-import { Icon, Popover, ActionSheet } from 'antd-mobile';
+import { Popover, ActionSheet } from 'antd-mobile-v5';
 import { useHistory } from 'react-router-dom';
 import cx from 'classnames';
+import { LeftOutline, MoreOutline } from 'antd-mobile-icons';
 
 import { ICON_FONT_MAP } from '@/constants';
 import { useTheme } from '@/hooks/use-theme';
@@ -12,7 +13,8 @@ import { useReaderContext } from '../../context';
 import ProgressBlock from './components/progress';
 import CatalogDrawer from './components/catalog-drawer';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
+import { useDrawer } from '@/components/drawer';
 
 const useSwitch = (initVal: boolean): [boolean, () => void] => {
   const [chx, setChx] = useState<boolean>(initVal);
@@ -25,20 +27,19 @@ const NavBlock = () => {
   const { push, goBack } = useHistory();
   const { changeSunny, sunny } = useTheme();
   const {
-    api: { changeMenu, pretchWorker, reloadChapter },
+    api,
     cache: { list, record },
     showMenu,
   } = useReaderContext();
 
-  const [popVisible, changePopVisible] = useState(false);
   const [progress, changeProgress] = useSwitch(false);
-  const [catalog, changeCatalog] = useSwitch(false);
+  const opener = useDrawer();
   const operatorMap = useMemo(() => {
     return [
       {
         title: '目录',
         icon: ICON_FONT_MAP.CATALOG,
-        click: changeCatalog,
+        click: opener.changeVisible,
       },
       {
         title: '进度',
@@ -58,84 +59,72 @@ const NavBlock = () => {
     ];
   }, [sunny]);
 
-  const cacheMap = ['缓存20章', '缓存50章', '缓存200章', '取消'];
   const cacheCnts = [20, 50, 200];
 
   const popOtrMap = useMemo(
     () => [
       {
-        title: '换源',
+        text: '换源',
         onClick: () => push('/origin'),
       },
       {
-        title: '缓存',
+        text: '缓存',
         onClick: () =>
-          ActionSheet.showActionSheetWithOptions(
-            {
-              options: cacheMap,
-              cancelButtonIndex: cacheMap.length - 1,
-              message: '需要缓存多少章？',
-              maskClosable: true,
-            },
-            buttonIndex => {
+          ActionSheet.show({
+            extra: '需要缓存多少章？',
+            cancelText: '取消',
+            actions: [
+              {
+                text: '缓存20章',
+                key: '20',
+              },
+              {
+                text: '缓存50章',
+                key: '50',
+              },
+              {
+                text: '缓存200章',
+                key: '200',
+              },
+            ],
+            onAction: (_, buttonIndex) => {
               const cnt = cacheCnts[buttonIndex];
+              if (cnt == null) return;
               const position = record.getChapterPosition();
               const urls: string[] = [];
               for (let i = 1; i <= cnt; i++) {
                 const url = list.getChapterUrl(i + position);
                 if (url) urls.push(url);
               }
-              pretchWorker(...urls);
-            }
-          ),
+              api.pretchWorker(...urls);
+            },
+          }),
       },
       {
-        title: '重载本章',
-        onClick: () => reloadChapter(),
+        text: '重载本章',
+        onClick: () => api.reloadChapter(),
+      },
+      {
+        text: '重载列表',
+        onClick: () => api.reloadList(),
       },
     ],
-    []
+    [api]
   );
-
-  const onSelect = (_, index) => {
-    popOtrMap[index].onClick();
-    changePopVisible(false);
-  };
 
   return (
     <div className={cx(styles.container, { [styles.hidden]: !showMenu })}>
-      <CatalogDrawer open={catalog} changeOpen={changeCatalog} changeMenu={changeMenu}>
+      <CatalogDrawer opener={opener} changeMenu={api.changeMenu}>
         <div className={styles.container}>
           <div className={styles.header}>
-            <Icon type="left" className={styles.back} onClick={() => goBack()} />
-            <Popover
-              visible={popVisible}
-              onVisibleChange={a => {
-                changePopVisible(a);
-              }}
-              align={{
-                overflow: { adjustY: 0, adjustX: 10 },
-              }}
-              onSelect={onSelect}
-              overlay={popOtrMap.map(i => (
-                <Popover.Item key={i.title}>{i.title}</Popover.Item>
-              ))}
-            >
-              <div
-                style={{
-                  height: '100%',
-                  padding: '0 15px',
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <Icon type="ellipsis" />
+            <LeftOutline className={styles.back} onClick={() => goBack()} />
+            <Popover.Menu actions={popOtrMap} placement="topRight" trigger="click">
+              <div style={{ paddingRight: 8 }}>
+                <MoreOutline style={{ fontSize: 24 }} />
               </div>
-            </Popover>
-
-            {/* <span onClick={() => push('/origin')}>换源</span> */}
+            </Popover.Menu>
           </div>
-          <Touchable needStop className={styles.content} onClick={() => changeMenu()} />
+          <Touchable needStop className={styles.content} onClick={() => api.changeMenu()} />
           {/**TODO: 状态机，同一时间内只有一个面板展示 */}
           {progress && <ProgressBlock />}
           <div className={styles.footer}>

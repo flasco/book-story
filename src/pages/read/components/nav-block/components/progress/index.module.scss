@@ -3,8 +3,14 @@
   color: #fff;
   height: 115px;
 
-  :global(.am-slider-rail) {
-    background-color: rgba(255, 255, 255, .4);
+  :global(.adm-slider-thumb) {
+    background: #fff;
+    width: 16px;
+    height: 16px;
+  }
+
+  :global(.adm-slider-fill) {
+    background: var(--read-current);
   }
 }
 

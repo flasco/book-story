@@ -25,6 +25,7 @@
 }
 
 .main {
+  touch-action: none;
   column-gap: 16px;
   column-width: calc(100vw - 32px);
   column-count: 1;
@@ -57,6 +58,7 @@
 .inner {
   padding: 0 16px;
   height: 100%;
+  touch-action: none;
 }
 
 .footer {

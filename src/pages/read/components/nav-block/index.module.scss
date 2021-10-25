@@ -15,15 +15,16 @@
 
 .header {
   background: var(--read-nav);
-  height: 45px;
+  height: 44px;
+  padding: 0 12px;
   display: flex;
   align-items: center;
   color: #fff;
   justify-content: space-between;
 
   .back {
-    padding: 11px;
-    padding-left: 15px;
+    color: #fff;
+    font-size: 18px;
   }
 
   span {

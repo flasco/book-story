@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Icon, Slider } from 'antd-mobile';
+import { Slider } from 'antd-mobile-v5';
+import { SliderValue } from 'antd-mobile-v5/es/components/slider';
+import { LeftOutline, RightOutline } from 'antd-mobile-icons';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 import { useReaderContext } from '@/pages/read/context';
-
-const Slder: any = Slider;
 
 const getPercent = (pos, total) => ((pos / total) * 100).toFixed(1) + '%';
 
@@ -24,13 +24,15 @@ const ProgressBlock = () => {
     setPosition(record.getChapterPosition() + 1);
   }, [title, cache]);
 
-  const changeSlider = (pos: number) => {
+  const changeSlider = (pos: SliderValue) => {
+    if (typeof pos !== 'number') return;
     const name = list.getChapterName(pos - 1);
     setCurTitle(name);
     setPosition(pos);
   };
 
-  const afterChangeSlider = (pos: number) => {
+  const afterChangeSlider = (pos: SliderValue) => {
+    if (typeof pos !== 'number') return;
     goToChapter(pos - 1, 1);
   };
 
@@ -40,7 +42,7 @@ const ProgressBlock = () => {
     <div className={styles.container}>
       <div className={styles.top}>
         <div className={styles.cbtn} onClick={prevChapter}>
-          <Icon type="left" />
+          <LeftOutline />
           上一章
         </div>
         <div className={styles.chapter}>
@@ -49,16 +51,11 @@ const ProgressBlock = () => {
         </div>
         <div className={styles.cbtn} onClick={nextChapter}>
           下一章
-          <Icon type="right" />
+          <RightOutline />
         </div>
       </div>
       <div>
-        <Slder
-          style={{ marginLeft: 22, marginRight: 22, marginTop: 20 }}
-          trackStyle={{
-            backgroundColor: 'red',
-          }}
-          handleStyle={{ background: 'red', border: 0, width: 16, height: 16, marginTop: -7 }}
+        <Slider
           value={position}
           min={1}
           max={total}

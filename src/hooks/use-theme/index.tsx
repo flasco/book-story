@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useContext, useCallback } from 'react';
+import React from 'react';
+import { useState, useMemo, useContext, useCallback } from 'react';
 
 interface Context {
   sunny: boolean;

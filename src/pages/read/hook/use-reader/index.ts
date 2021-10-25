@@ -1,4 +1,4 @@
-import { ee } from '@/main';
+import { ee } from '@/event';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 
 import ListCache from '@/cache/list';
@@ -9,8 +9,8 @@ import { openLoading, closeLoading, toastFail } from '@/utils';
 import { newGetP } from '@/utils/text';
 
 import { getList } from '@/pages/read/api';
-import { IBook } from '@/defination';
-import { Toast } from 'antd-mobile';
+import { IBook } from '@/definition';
+import { Toast } from 'antd-mobile-v5';
 
 /**
  * 书籍进度存储key约定 record@${sourceUrl}
@@ -27,7 +27,7 @@ export const changeCtrlPos = (res: number) => (ctrlPos = res);
 const cachedQueue = new Queue<string>(3);
 
 cachedQueue.drain = () => {
-  Toast.success('缓存成功');
+  Toast.show('缓存成功');
 };
 
 function useReader(bookInfo?: IBook) {
@@ -94,7 +94,7 @@ function useReader(bookInfo?: IBook) {
 
   const pretchWorker = useCallback(
     (...urls: string[]) => {
-      Toast.info('开始后台缓存...');
+      Toast.show('开始后台缓存...');
       cachedQueue.push(...urls);
     },
     [cachedQueue]
@@ -155,6 +155,14 @@ function useReader(bookInfo?: IBook) {
     return goToChapter(position, 1);
   }, [sourceUrl]);
 
+  console.log(sourceUrl);
+  const reloadList = useCallback(async () => {
+    console.log(sourceUrl);
+    if (sourceUrl == null) throw new Error('书源记录获取失败...');
+
+    cachedList.cleanListCache();
+    init();
+  }, [sourceUrl]);
   /**
    * 清除当前缓存，重新加载
    * 不过服务器侧会有缓存，时间在 20 min
@@ -206,6 +214,7 @@ function useReader(bookInfo?: IBook) {
       goToChapter,
       reloadChapter,
       changeMenu,
+      reloadList,
     },
   };
 }

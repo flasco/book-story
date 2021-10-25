@@ -1,18 +1,22 @@
-const isDev = process.env.PROJECT_ENV === 'development';
+import env from 'penv.macro';
 
-const serverIps = [
-  // 'https://tassel-1.avosapps.us',
-  // 'https://tassel-2.avosapps.us',
-  'https://cmdsh3b7eebg.cn-e1.leanapp.cn',
-  'https://mhbxymrllauo.cn-e1.leanapp.cn',
-];
+const serverIps = env(
+  {
+    production: [
+      // 'https://tassel-1.avosapps.us',
+      // 'https://tassel-2.avosapps.us',
+      'https://cmdsh3b7eebg.cn-e1.leanapp.cn',
+      'https://mhbxymrllauo.cn-e1.leanapp.cn',
+    ],
+  },
+  ['http://localhost:3001', 'http://localhost:3001']
+);
 
 export const getIp = (() => {
   let prevIp;
   let lockTime = Date.now();
 
   return () => {
-    if (isDev) return 'http://localhost:3001';
     const current = Date.now();
     if (prevIp == null || current - lockTime > 3600 * 1000) {
       const currenthours = new Date().getUTCHours() + 8;

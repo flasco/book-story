@@ -1,5 +1,5 @@
 import { setItem, getItem, STORE_LEVEL } from './base';
-import { IChapter, IContent, IBook } from '@/defination';
+import { IChapter, IContent, IBook } from '@/definition';
 
 type bookType = 'books' | 'flattens';
 export async function getBooksWithType(type: bookType): Promise<IBook[]> {

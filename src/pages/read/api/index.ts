@@ -1,5 +1,5 @@
 import { get } from '@/utils/request';
-import { IChapter, IContent } from '@/defination';
+import { IChapter, IContent } from '@/definition';
 
 export function getChapter(url: string, retryCnt = 0) {
   return get<IContent>(

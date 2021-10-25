@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Button } from 'antd-mobile';
+import { Button } from 'antd-mobile-v5';
 import { useHistory } from 'react-router-dom';
 
 import Container from '@/layout/container';
 import ImageShow from '@/components/image-show';
-import { IBookX } from '@/defination';
+import { IBookX } from '@/definition';
 import { useBook } from '@/hooks/use-book';
 import { openLoading, closeLoading, toastFail } from '@/utils';
 
 import { getDetail } from './api';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
 const DetailPage = props => {
   const { push } = useHistory();
@@ -66,7 +66,7 @@ const DetailPage = props => {
   const renderAddBtn = () => {
     if (!isExist) {
       return (
-        <Button type="ghost" className={styles.btn} onClick={addBook}>
+        <Button fill="outline" className={styles.btn} onClick={addBook}>
           追书
         </Button>
       );
@@ -94,7 +94,7 @@ const DetailPage = props => {
         </div>
         <div className={styles.btns}>
           {renderAddBtn()}
-          <Button type="primary" className={styles.btn} onClick={readBook}>
+          <Button color="primary" className={styles.btn} onClick={readBook}>
             开始阅读
           </Button>
         </div>
