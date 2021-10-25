@@ -56,7 +56,8 @@
 - [x] 添加书籍时加入对已有书源的展示
 - [x] services worker 逻辑梳理
 - [x] 下载
-- [ ] 使用 @use-gesture/react 优化 reader
+- [x] 使用 @react-spring/web 优化 reader，修复滑动闪烁的bug
+- [ ] use zustand instead of context，减少不必要的渲染
 - [ ] 换源时展示全部书源结果，支持更新书源
 - [ ] 排行
 - [ ] 设置
