@@ -56,10 +56,16 @@
 - [x] 添加书籍时加入对已有书源的展示
 - [x] services worker 逻辑梳理
 - [x] 下载
-- [x] 使用 @react-spring/web 优化 reader，修复滑动闪烁的bug
-- [ ] use zustand instead of context，减少不必要的渲染
 - [ ] 换源时展示全部书源结果，支持更新书源
 - [ ] 排行
 - [ ] 设置
 - [ ] 添加用户统计模块，增加 api 限制
 - [ ] 加个字数统计
+
+## 技术改造
+
+- [x] 使用 @react-spring/web 优化 reader，修复滑动闪烁的 bug
+- [ ] `vite-plugin-css-modules`, not only module.xxxx
+- [ ] `vite-plugin-html`, 使用 ejs 模板
+- [ ] use `zustand` instead of context，减少不必要的渲染
+
