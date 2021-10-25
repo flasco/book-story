@@ -6,14 +6,7 @@ import legacy from '@vitejs/plugin-legacy';
 import macrosPlugin from 'vite-plugin-babel-macros';
 import path from 'path';
 
-const generateVersion = (generLen = 6) => {
-  const strs = 'ABCDEFTUGHJTOKYabcdefghigklmnopqrstuvwxyz0123456789';
-  let ver = '';
-  for (let i = 0; i < generLen; i++) {
-    ver += strs[(Math.random() * strs.length) | 0];
-  }
-  return ver;
-};
+import { generateAntdPreloadDeps, generateVersion } from './scripts/utils.js';
 
 export default defineConfig({
   base: './',
@@ -53,5 +46,8 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
+  },
+  optimizeDeps: {
+    include: [...generateAntdPreloadDeps()],
   },
 });

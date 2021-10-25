@@ -587,6 +587,13 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/fs-extra@^9.0.13":
+  version "9.0.13"
+  resolved "https://registry.nlark.com/@types/fs-extra/download/@types/fs-extra-9.0.13.tgz#7594fbae04fe7f1918ce8b3d213f74ff44ac1f45"
+  integrity sha1-dZT7rgT+fxkYzos9IT90/0SsH0U=
+  dependencies:
+    "@types/node" "*"
+
 "@types/history@*":
   version "4.7.9"
   resolved "https://registry.nlark.com/@types/history/download/@types/history-4.7.9.tgz#1cfb6d60ef3822c589f18e70f8b12f9a28ce8724"
@@ -613,6 +620,11 @@
   version "1.2.2"
   resolved "https://registry.nlark.com/@types/minimist/download/@types/minimist-1.2.2.tgz?cache=0&sync_timestamp=1629708337116&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fminimist%2Fdownload%2F%40types%2Fminimist-1.2.2.tgz#ee771e2ba4b3dc5b372935d549fd9617bf345b8c"
   integrity sha1-7nceK6Sz3Fs3KTXVSf2WF780W4w=
+
+"@types/node@*":
+  version "16.11.4"
+  resolved "https://registry.npmmirror.com/@types/node/download/@types/node-16.11.4.tgz#90771124822d6663814f7c1c9b45a6654d8fd964"
+  integrity sha1-kHcRJIItZmOBT3wcm0WmZU2P2WQ=
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
