@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 import cx from 'classnames';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
 const LONG_PRESS_DURATION = 600;
 

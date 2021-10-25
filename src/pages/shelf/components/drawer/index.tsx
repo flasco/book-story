@@ -1,15 +1,17 @@
-import React, { useMemo, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Modal, Toast } from 'antd-mobile';
+import { Dialog, Toast } from 'antd-mobile-v5';
 
-import SXider from '@/components/drawer';
+import SXider, { TOpener } from '@/components/drawer';
 import { clearTemp } from '@/storage/base';
 import { useTheme } from '@/hooks/use-theme';
 import Touchable from '@/components/touchable';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
-const version = process.env.PROJECT_VERSION_TAG;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const version = ENV.PROJECT_VERSION_TAG;
 
 const SiderBar = ({ push }) => {
   const onClick = () => push('/search');
@@ -20,21 +22,24 @@ const SiderBar = ({ push }) => {
   }, []);
 
   const onForceUpdate = useCallback(() => {
-    Modal.alert('警告', '确定清理应用以获取最新版本吗？', [
-      { text: '取消', onPress: () => console.log('cancel') },
-      {
-        text: '确定',
-        onPress: () =>
-          caches
-            .keys()
-            .then(keys => Promise.all(keys.map(key => caches.delete(key))))
-            .then(() =>
-              Toast.info('清理完成，即将重启应用', 2, () => {
+    Dialog.confirm({
+      title: '警告',
+      content: '确定清理应用以获取最新版本吗？',
+      confirmText: '确定',
+      onConfirm: () =>
+        caches
+          .keys()
+          .then(keys => Promise.all(keys.map(key => caches.delete(key))))
+          .then(() =>
+            Toast.show({
+              content: '清理完成，即将重启应用',
+              afterClose: () => {
                 window.location.reload();
-              })
-            ),
-      },
-    ]);
+              },
+              duration: 2000,
+            })
+          ),
+    });
   }, []);
 
   return (
@@ -60,16 +65,15 @@ const SiderBar = ({ push }) => {
 };
 
 interface IProps {
-  open: boolean;
-  changeOpen: () => void;
+  opener: TOpener;
 }
 
-const Sider: React.FC<IProps> = ({ open, changeOpen, children = null }) => {
+const Sider: React.FC<IProps> = ({ opener, children = null }) => {
   const { push } = useHistory();
   const siderBar = useMemo(() => <SiderBar push={push} />, [push]);
 
   return (
-    <SXider sideBar={siderBar} open={open} changeOpen={changeOpen}>
+    <SXider sideBar={siderBar} opener={opener}>
       {children}
     </SXider>
   );

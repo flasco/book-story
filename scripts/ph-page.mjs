@@ -1,5 +1,5 @@
-const ghpages = require('gh-pages');
-const ora = require('ora');
+import ghpages from 'gh-pages';
+import ora from 'ora';
 
 function main() {
   const spinner = ora('deploy...').start();

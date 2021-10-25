@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { useTheme } from '@/hooks/use-theme';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
 const ThemeWrapper = ({ children }) => {
   const { sunny } = useTheme();

@@ -1,7 +1,7 @@
 import { getBooksWithType, setBooksWithType } from '@/storage/book';
 import { removeItem } from '@/storage/base';
 
-import { IBook } from '@/defination';
+import { IBook } from '@/definition';
 
 interface IUpdate {
   books?: IBook[];

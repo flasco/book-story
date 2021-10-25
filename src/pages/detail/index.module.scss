@@ -1,5 +1,38 @@
 .contianer {
   background: #f6f7f9;
+
+  :global {
+    .adm-button-primary {
+      background-color: var(--read-current);
+      border-color: var(--read-current);
+
+      &::before {
+        border-color: var(--read-current) !important; // sass-lint:disable-line no-important
+      }
+
+      &:hover {
+        background-color: var(--read-current);
+      }
+
+      &.adm-button-active {
+        background-color: var(--read-current);
+      }
+    }
+
+    .adm-button-fill-outline {
+      color: var(--read-current);
+      border-color: var(--read-current);
+
+      &::before {
+        border-color: var(--read-current) !important; // sass-lint:disable-line no-important
+      }
+
+      &.am-button-active {
+        color: var(--read-current);
+        opacity: 0.6;
+      }
+    }
+  }
 }
 
 .img {
@@ -46,7 +79,7 @@
 }
 
 .desc {
-  font-size: .875rem;
+  font-size: 0.875rem;
   line-height: 1.5rem;
   text-align: justify;
   margin-left: 1rem;
@@ -61,37 +94,6 @@
   }
 
   p {
-    margin: .1em 0;
-  }
-}
-
-:global {
-  .am-button-primary {
-    background-color: var(--read-current);
-
-    &::before {
-      border-color: var(--read-current) !important; // sass-lint:disable-line no-important
-    }
-
-    &:hover {
-      background-color: var(--read-current);
-    }
-
-    &.am-button-active {
-      background-color: var(--read-current);
-    }
-  }
-
-  .am-button-ghost {
-    color: var(--read-current);
-
-    &::before {
-      border-color: var(--read-current) !important; // sass-lint:disable-line no-important
-    }
-
-    &.am-button-active {
-      color: var(--read-current);
-      opacity: .6;
-    }
+    margin: 0.1em 0;
   }
 }

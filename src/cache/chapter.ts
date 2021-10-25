@@ -1,4 +1,4 @@
-import { IContent } from '@/defination';
+import { IContent } from '@/definition';
 import { getBookChapters, updateBookChapters } from '@/storage/book';
 import { getChapter } from '@/pages/read/api';
 import { newGetP } from '@/utils/text';

@@ -9,7 +9,7 @@ import Provider from './context';
 import NavBlock from './components/nav-block';
 import NewReader from './components/new-reader';
 
-import styles from './index.m.scss';
+import styles from './index.module.scss';
 
 const Home = () => {
   const { currentBook } = useBook();
