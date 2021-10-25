@@ -68,4 +68,6 @@
 - [ ] `vite-plugin-css-modules`, not only module.xxxx
 - [ ] `vite-plugin-html`, 使用 ejs 模板
 - [ ] use `zustand` instead of context，减少不必要的渲染
+- [ ] 调研 `@node-rs/deno-lint` / `dprint`, instead of eslint & prettier
+
 
