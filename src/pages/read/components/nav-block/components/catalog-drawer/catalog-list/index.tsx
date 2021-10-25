@@ -1,15 +1,21 @@
-import React, { useRef, useMemo, useEffect, useCallback } from 'react';
+import { useRef, useMemo, useEffect, useCallback } from 'react';
 import cx from 'classnames';
 
 import TouchableHighlight from '@/components/touchable';
 import VirtualList from '@/components/virtual-list';
-
 import { useReaderContext } from '@/pages/read/context';
+import { spliceLine } from '@/utils';
+import { TOpener } from '@/components/drawer';
 
 import styles from './index.module.scss';
 
-const BookList = ({ opener, changeMenu }) => {
-  const { open, changeVisible } = opener;
+interface IListProps {
+  opener: TOpener;
+  changeMenu: () => void;
+}
+
+const BookList: React.FC<IListProps> = ({ opener, changeMenu }) => {
+  const { visible, changeVisible } = opener;
   const {
     cache: { list, record, chapters },
     api: { goToChapter },
@@ -20,10 +26,13 @@ const BookList = ({ opener, changeMenu }) => {
   const currentPos = useMemo(() => record.getChapterPosition(), [record.getChapterPosition()]);
 
   useEffect(() => {
-    if (open) {
-      listx.current?.scrollToItem?.(currentPos + 10);
-    }
-  }, [open, currentPos]);
+    setTimeout(() => {
+      if (visible) {
+        listx.current?.scrollToItem?.(currentPos + 10);
+      }
+      // 因为mask打开有200ms的动画，需要延后执行
+    }, 200);
+  }, [opener, visible, currentPos]);
 
   const onClick = useCallback(index => {
     changeVisible();
@@ -43,7 +52,7 @@ const BookList = ({ opener, changeMenu }) => {
               [styles.current]: index === currentPos,
             })}
           >
-            {curData.title}
+            {spliceLine(curData.title, 18)}
           </span>
         </TouchableHighlight>
       );

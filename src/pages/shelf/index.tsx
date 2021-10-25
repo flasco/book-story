@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { MoreOutline } from 'antd-mobile-icons';
 import { useHistory } from 'react-router-dom';
 
@@ -26,8 +26,6 @@ const Shelf = () => {
   const opener = useDrawer();
   const { push } = useHistory();
   const right = useMemo(() => <RightIcon onClick={opener.changeVisible} />, [opener]);
-
-  useNoticed();
 
   useNoticed();
 

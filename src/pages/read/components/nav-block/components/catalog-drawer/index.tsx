@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import SXider, { TOpener } from '@/components/drawer';
 
 import CatalogList from './catalog-list';
@@ -20,7 +20,7 @@ const Sider: React.FC<IProps> = ({ opener, children = null, changeMenu }) => {
     ),
     [opener]
   );
-  return <SXider sideBar={siderBar} opener={opener} children={children} />;
+  return <SXider fullScreen sideBar={siderBar} opener={opener} children={children} />;
 };
 
 export default Sider;

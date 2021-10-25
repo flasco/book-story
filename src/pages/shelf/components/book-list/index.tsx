@@ -1,4 +1,4 @@
-import React,{ useEffect } from 'react';
+import { useEffect } from 'react';
 import { List, PullToRefresh, Toast, SwipeAction } from 'antd-mobile-v5';
 import { useHistory } from 'react-router-dom';
 import cx from 'classnames';

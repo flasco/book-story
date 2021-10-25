@@ -11,7 +11,7 @@ export const useNoticed = () => {
 
   useEffect(() => {
     if (isLoaded && !isNoticed.current) {
-      Dialog.confirm({
+      Dialog.alert({
         title: '警告',
         content:
           '当前版本的服务器经过大规模重构，提升了性能与后续的维护效率，但是可能会引入不可预知的bug，若遇到问题，请及时反馈~',

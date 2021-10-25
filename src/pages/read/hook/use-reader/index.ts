@@ -9,7 +9,7 @@ import { openLoading, closeLoading, toastFail } from '@/utils';
 import { newGetP } from '@/utils/text';
 
 import { getList } from '@/pages/read/api';
-import { IBook } from '@/defination';
+import { IBook } from '@/definition';
 import { Toast } from 'antd-mobile-v5';
 
 /**
@@ -155,6 +155,14 @@ function useReader(bookInfo?: IBook) {
     return goToChapter(position, 1);
   }, [sourceUrl]);
 
+  console.log(sourceUrl);
+  const reloadList = useCallback(async () => {
+    console.log(sourceUrl);
+    if (sourceUrl == null) throw new Error('书源记录获取失败...');
+
+    cachedList.cleanListCache();
+    init();
+  }, [sourceUrl]);
   /**
    * 清除当前缓存，重新加载
    * 不过服务器侧会有缓存，时间在 20 min
@@ -206,6 +214,7 @@ function useReader(bookInfo?: IBook) {
       goToChapter,
       reloadChapter,
       changeMenu,
+      reloadList,
     },
   };
 }

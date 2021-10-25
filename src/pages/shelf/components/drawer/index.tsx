@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Dialog, Toast } from 'antd-mobile-v5';
 

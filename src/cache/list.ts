@@ -11,7 +11,7 @@ class ListCache {
   checkIsExist = async () => {
     const list = await getChapterList(this.key);
     if (list != null) this.list = list;
-    return list != null;
+    return list?.length > 0;
   };
 
   updateList = list => {
@@ -24,6 +24,11 @@ class ListCache {
   getChapterName = position => this.list[position]?.title ?? '';
 
   getLength = () => this.list.length;
+
+  cleanListCache = () => {
+    this.list = [];
+    updateChapterList(this.key, []);
+  };
 
   findChapterPosition = url => {
     return this.list.findIndex(i => i.url === url);

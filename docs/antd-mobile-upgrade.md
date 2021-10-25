@@ -32,7 +32,7 @@ action：
 - [x] button | button
 - [x] Popover | Popover
 - [x] actionSheet | actionSheet
-- [ ] slider | slider
+- [x] slider | slider
 - [x] toast | toast
 - [x] searchBar | search
 - [x] Modal | Dialog
