@@ -30,16 +30,12 @@ export default defineConfig({
       },
     ]),
     legacy({
-      targets: ['android >= 4.4', 'ios >= 9', 'not IE 11'],
+      targets: ['android >= 4.4', 'ios >= 9', 'chrome>39'],
     }),
   ],
-  server: {
-    fs: {
-      strict: false,
-    },
-  },
   build: {
     emptyOutDir: true,
+    chunkSizeWarningLimit: 1024,
   },
   define: {
     ENV: JSON.stringify({
