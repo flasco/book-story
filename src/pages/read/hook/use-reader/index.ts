@@ -31,7 +31,7 @@ cachedQueue.drain = () => {
 };
 
 function useReader(bookInfo?: IBook) {
-  const [pages, setPages] = useState<any[]>([]);
+  const [pages, setPages] = useState<string[]>([]);
   const [title, setTitle] = useState('');
   const [watched, setWatched] = useState(1);
   const [showMenu, setShow] = useState(false);
@@ -78,7 +78,7 @@ function useReader(bookInfo?: IBook) {
   }, []);
 
   const prefetchChapter = useCallback(
-    async (position, prefetch = true) => {
+    (position, prefetch = true) => {
       const currentChapter = cachedList.getChapterUrl(position);
 
       if (prefetch) {
@@ -100,7 +100,7 @@ function useReader(bookInfo?: IBook) {
     [cachedQueue]
   );
 
-  const init: any = async () => {
+  const init = async () => {
     try {
       openLoading('数据加载中...');
       if (sourceUrl == null) throw new Error('书源记录获取失败...');
@@ -148,7 +148,7 @@ function useReader(bookInfo?: IBook) {
     [sourceUrl]
   );
 
-  const nextChapter = useCallback(async () => {
+  const nextChapter = useCallback(() => {
     if (sourceUrl == null) throw new Error('书源记录获取失败...');
 
     const position = cachedRecord.getChapterPosition() + 1;
@@ -156,7 +156,7 @@ function useReader(bookInfo?: IBook) {
   }, [sourceUrl]);
 
   console.log(sourceUrl);
-  const reloadList = useCallback(async () => {
+  const reloadList = useCallback(() => {
     console.log(sourceUrl);
     if (sourceUrl == null) throw new Error('书源记录获取失败...');
 
@@ -168,7 +168,7 @@ function useReader(bookInfo?: IBook) {
    * 不过服务器侧会有缓存，时间在 20 min
    * 当然三方书源更新时间无法保证，这个问题不大
    */
-  const reloadChapter = useCallback(async () => {
+  const reloadChapter = useCallback(() => {
     if (sourceUrl == null) throw new Error('书源记录获取失败...');
 
     const curpoi = cachedRecord.getChapterPosition();
@@ -178,7 +178,7 @@ function useReader(bookInfo?: IBook) {
     return goToChapter(curpoi, 1);
   }, [sourceUrl]);
 
-  const prevChapter = useCallback(async () => {
+  const prevChapter = useCallback(() => {
     if (sourceUrl == null) throw new Error('书源记录获取失败...');
     const position = cachedRecord.getChapterPosition() - 1;
     return goToChapter(position, -1);

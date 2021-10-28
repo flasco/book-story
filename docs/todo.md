@@ -64,10 +64,9 @@
 
 ## 技术改造
 
-- [x] 使用 @react-spring/web 优化 reader，修复滑动闪烁的 bug
-- [ ] `vite-plugin-css-modules`, not only module.xxxx
-- [ ] `vite-plugin-html`, 使用 ejs 模板
 - [ ] use `zustand` instead of context，减少不必要的渲染
-- [ ] 调研 `@node-rs/deno-lint` / `dprint`, instead of eslint & prettier
-
-
+- [x] 使用 @react-spring/web 优化 reader，修复滑动闪烁的 bug
+- [x] 调研 `@node-rs/deno-lint` / `dprint`, ~~instead of eslint & prettier~~
+  - deno_lint 作为 eslint 的替代品，目前仅支持校验，不支持 autofix，属于半残次品，暂且搁置
+  - dprint 作为 deno 的专属 fmt，不支持 js，且生态对前端体系不友好。
+  - 上面两种目测感觉都不太支持前端体系，估计仅可在 node 层使用，拉了。

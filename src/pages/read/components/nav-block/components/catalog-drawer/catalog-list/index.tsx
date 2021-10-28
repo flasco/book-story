@@ -1,5 +1,6 @@
 import { useRef, useMemo, useEffect, useCallback } from 'react';
 import cx from 'classnames';
+import type { FixedSizeList } from 'react-window';
 
 import TouchableHighlight from '@/components/touchable';
 import VirtualList from '@/components/virtual-list';
@@ -20,7 +21,7 @@ const BookList: React.FC<IListProps> = ({ opener, changeMenu }) => {
     cache: { list, record, chapters },
     api: { goToChapter },
   } = useReaderContext();
-  const listx = useRef<any>(null);
+  const listx = useRef<FixedSizeList>(null);
 
   const data = useMemo(() => list.list, [list.list]);
   const currentPos = useMemo(() => record.getChapterPosition(), [record.getChapterPosition()]);
@@ -28,7 +29,7 @@ const BookList: React.FC<IListProps> = ({ opener, changeMenu }) => {
   useEffect(() => {
     setTimeout(() => {
       if (visible) {
-        listx.current?.scrollToItem?.(currentPos + 10);
+        listx.current?.scrollToItem(currentPos + 10);
       }
       // 因为mask打开有200ms的动画，需要延后执行
     }, 200);

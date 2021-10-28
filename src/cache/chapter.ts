@@ -32,7 +32,7 @@ class ChapterCache {
         return chapter;
       }
       return cached;
-    } catch (error) {
+    } catch (_error) {
       return { title: '网络异常', content: '网络异常，请稍后重试' };
     }
   };
