@@ -29,7 +29,7 @@
   resolved "https://registry.nlark.com/@babel/compat-data/download/@babel/compat-data-7.15.0.tgz#2dbaf8b85334796cafbb0f5793a90a2fc010b176"
   integrity sha1-Lbr4uFM0eWyvuw9Xk6kKL8AQsXY=
 
-"@babel/core@>=7.9.0", "@babel/core@^7.13.8", "@babel/core@^7.15.5":
+"@babel/core@>=7.9.0", "@babel/core@^7.13.8", "@babel/core@^7.15.5", "@babel/core@^7.9.6":
   version "7.15.8"
   resolved "https://registry.npmmirror.com/@babel/core/download/@babel/core-7.15.8.tgz?cache=0&sync_timestamp=1633554060461&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40babel%2Fcore%2Fdownload%2F%40babel%2Fcore-7.15.8.tgz#195b9f2bffe995d2c6c159e72fe525b4114e8c10"
   integrity sha1-GVufK//pldLGwVnnL+UltBFOjBA=
@@ -486,6 +486,44 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@preact/preset-vite@^2.1.5":
+  version "2.1.5"
+  resolved "https://registry.npmmirror.com/@preact/preset-vite/download/@preact/preset-vite-2.1.5.tgz#bbeb53bcbd3e4290f6fdbb5669f186e740780cb3"
+  integrity sha1-u+tTvL0+QpD2/btWafGG50B4DLM=
+  dependencies:
+    "@babel/plugin-transform-react-jsx" "^7.14.9"
+    "@prefresh/vite" "^2.2.3"
+    babel-plugin-transform-hook-names "^1.0.2"
+    debug "^4.3.1"
+    kolorist "^1.2.10"
+    resolve "^1.20.0"
+
+"@prefresh/babel-plugin@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.npm.taobao.org/@prefresh/babel-plugin/download/@prefresh/babel-plugin-0.4.1.tgz#c4e843f7c5e56c15f1185979a8559c893ffb4a35"
+  integrity sha1-xOhD98XlbBXxGFl5qFWciT/7SjU=
+
+"@prefresh/core@^1.3.1":
+  version "1.3.2"
+  resolved "https://registry.npm.taobao.org/@prefresh/core/download/@prefresh/core-1.3.2.tgz#97f966759b16e5f4c52361972e3c61ccac9ce396"
+  integrity sha1-l/lmdZsW5fTFI2GXLjxhzKyc45Y=
+
+"@prefresh/utils@^1.0.0":
+  version "1.1.1"
+  resolved "https://registry.npm.taobao.org/@prefresh/utils/download/@prefresh/utils-1.1.1.tgz#ffe7f2e6bd48a0633631a3d92c0ee4bdeb0ac330"
+  integrity sha1-/+fy5r1IoGM2MaPZLA7kvesKwzA=
+
+"@prefresh/vite@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.nlark.com/@prefresh/vite/download/@prefresh/vite-2.2.3.tgz#a06c7d18b93893c4bc4b90cd2b215990dc4a0906"
+  integrity sha1-oGx9GLk4k8S8S5DNKyFZkNxKCQY=
+  dependencies:
+    "@babel/core" "^7.9.6"
+    "@prefresh/babel-plugin" "0.4.1"
+    "@prefresh/core" "^1.3.1"
+    "@prefresh/utils" "^1.0.0"
+    "@rollup/pluginutils" "^4.1.0"
+
 "@react-spring/animated@~9.3.0":
   version "9.3.0"
   resolved "https://registry.npmmirror.com/@react-spring/animated/download/@react-spring/animated-9.3.0.tgz?cache=0&sync_timestamp=1634302509763&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40react-spring%2Fanimated%2Fdownload%2F%40react-spring%2Fanimated-9.3.0.tgz#294f7696e450c4ae3abd2b59a6dd08bf70b53d3f"
@@ -531,7 +569,7 @@
     "@react-spring/shared" "~9.3.0"
     "@react-spring/types" "~9.3.0"
 
-"@rollup/pluginutils@^4.1.1":
+"@rollup/pluginutils@^4.1.0", "@rollup/pluginutils@^4.1.1":
   version "4.1.1"
   resolved "https://registry.nlark.com/@rollup/pluginutils/download/@rollup/pluginutils-4.1.1.tgz#1d4da86dd4eded15656a57d933fda2b9a08d47ec"
   integrity sha1-HU2obdTt7RVlalfZM/2iuaCNR+w=
@@ -1029,6 +1067,11 @@ babel-plugin-macros@^3.0.1:
     "@babel/runtime" "^7.12.5"
     cosmiconfig "^7.0.0"
     resolve "^1.19.0"
+
+babel-plugin-transform-hook-names@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.nlark.com/babel-plugin-transform-hook-names/download/babel-plugin-transform-hook-names-1.0.2.tgz#0d75c2d78e8bbcdb258241131562b9cf07f010f3"
+  integrity sha1-DXXC146LvNslgkETFWK5zwfwEPM=
 
 bail@^1.0.0:
   version "1.0.5"
@@ -2728,6 +2771,11 @@ known-css-properties@^0.21.0:
   version "0.21.0"
   resolved "https://registry.nlark.com/known-css-properties/download/known-css-properties-0.21.0.tgz#15fbd0bbb83447f3ce09d8af247ed47c68ede80d"
   integrity sha1-FfvQu7g0R/POCdivJH7UfGjt6A0=
+
+kolorist@^1.2.10:
+  version "1.5.0"
+  resolved "https://registry.nlark.com/kolorist/download/kolorist-1.5.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fkolorist%2Fdownload%2Fkolorist-1.5.0.tgz#a06f7dd11d1b5fdb743d79c8acd4e1ecbcbd89b3"
+  integrity sha1-oG990R0bX9t0PXnIrNTh7Ly9ibM=
 
 levn@^0.4.1:
   version "0.4.1"

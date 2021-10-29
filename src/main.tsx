@@ -1,4 +1,4 @@
-import { render } from 'react-dom';
+import { render } from 'preact';
 
 import 'antd-mobile-v5/es/global';
 
@@ -8,4 +8,4 @@ import './initial';
 
 import './base.scss';
 
-render(<App />, document.getElementById('root'));
+render(<App />, document.getElementById('root')!);
