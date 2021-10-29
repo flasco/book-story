@@ -11,7 +11,7 @@ module.exports = {
   },
   settings: {
     react: {
-      version: 'detect', // use which you installed
+      version: '16.8.6', // use which you installed
     },
   },
   env: {
