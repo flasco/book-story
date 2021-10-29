@@ -15,6 +15,8 @@ export default defineConfig({
   plugins: [
     react({
       include: '**/*.tsx',
+      jsxImportSource: 'preact',
+      jsxRuntime: 'classic',
     }),
     macrosPlugin(),
     PkgConfig(),
@@ -49,6 +51,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
+      react: 'preact/compat',
+      'react-dom': 'preact/compat',
     },
   },
 });

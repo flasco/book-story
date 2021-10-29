@@ -1,5 +1,5 @@
-import React from 'react';
-import { useContext } from 'react';
+import React from 'preact/compat';
+import { useContext } from 'preact/compat';
 
 import useReader from '../hook/use-reader';
 

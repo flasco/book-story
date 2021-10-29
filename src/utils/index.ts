@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/indent */
 import { Toast } from 'antd-mobile-v5';
-import React from 'react';
+import React from 'preact/compat';
 
 export function openLoading(text?: string) {
   Toast.show({
@@ -51,8 +52,10 @@ export function transformURL(url: string, obj?: TObject) {
 
 export const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
-export const connectContext = (child: any, ...providers) => props =>
-  providers.reduce(
-    (prev, cur) => React.createElement(cur, { children: prev }),
-    React.createElement(child, props)
-  );
+export const connectContext =
+  (child: any, ...providers) =>
+  props =>
+    providers.reduce(
+      (prev, cur) => React.createElement(cur, { children: prev }),
+      React.createElement(child, props)
+    );

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'preact/compat';
 import { useHistory } from 'react-router-dom';
 
 import Container from '@/layout/container';
