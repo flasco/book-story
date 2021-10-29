@@ -6,6 +6,7 @@ import legacy from '@vitejs/plugin-legacy';
 import macrosPlugin from 'vite-plugin-babel-macros';
 import OptimizationPersist from 'vite-plugin-optimize-persist';
 import PkgConfig from 'vite-plugin-package-config';
+// import { visualizer as analyze } from 'rollup-plugin-visualizer';
 import path from 'path';
 
 import { generateVersion } from './scripts/utils.js';
@@ -38,6 +39,9 @@ export default defineConfig({
   },
   build: {
     emptyOutDir: true,
+    // rollupOptions: {
+    //   plugins: [analyze()],
+    // },
   },
   define: {
     ENV: JSON.stringify({
