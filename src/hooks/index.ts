@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'preact/compat';
 
 export function useCallbackRef<T>(fn: T, deps: any[]) {
   const cb = useRef(fn);

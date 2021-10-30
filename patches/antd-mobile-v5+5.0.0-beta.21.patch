@@ -1,0 +1,13 @@
+diff --git a/node_modules/antd-mobile-v5/es/utils/merge-locale.js b/node_modules/antd-mobile-v5/es/utils/merge-locale.js
+index 5143022..66e24fc 100644
+--- a/node_modules/antd-mobile-v5/es/utils/merge-locale.js
++++ b/node_modules/antd-mobile-v5/es/utils/merge-locale.js
+@@ -1,4 +1,6 @@
+-import { cloneDeep, merge } from 'lodash';
++import cloneDeep from 'lodash/cloneDeep';
++import merge from 'lodash/merge';
++
+ export function mergeLocale(base, patch) {
+   return merge(cloneDeep(base), patch);
+ }
+\ No newline at end of file

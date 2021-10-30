@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo } from 'preact/compat';
 import cx from 'classnames';
 import { useHistory } from 'react-router-dom';
 import { NavBar } from 'antd-mobile-v5';

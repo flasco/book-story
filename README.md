@@ -1,6 +1,6 @@
 # book-story
 
-A Progressive Web App, created by react 17+ and vite@2, based on Functional Component
+A Progressive Web App, created by preact and vite@2, based on Functional Component
 
 it use:
 

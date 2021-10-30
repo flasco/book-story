@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from 'preact/compat';
 import { List, PullToRefresh, Toast, SwipeAction } from 'antd-mobile-v5';
 import { useHistory } from 'react-router-dom';
 import cx from 'classnames';
@@ -55,7 +55,7 @@ const BookList = () => {
     };
     return (
       <SwipeAction
-        style={{ background: 'var(--shelf-row)' }}
+        style={{ background: 'var(--shelf-row)', touchAction: 'pan-y' }}
         rightActions={[
           // {
           //   text: '养肥',

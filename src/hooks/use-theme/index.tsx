@@ -1,5 +1,5 @@
-import React from 'react';
-import { useState, useMemo, useContext, useCallback } from 'react';
+import React from 'preact/compat';
+import { useState, useMemo, useContext, useCallback } from 'preact/compat';
 
 interface Context {
   sunny: boolean;

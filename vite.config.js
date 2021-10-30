@@ -1,11 +1,12 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import preact from '@preact/preset-vite';
 import vitePluginImport from 'vite-plugin-babel-import';
 import viteCompression from 'vite-plugin-compression';
 import legacy from '@vitejs/plugin-legacy';
 import macrosPlugin from 'vite-plugin-babel-macros';
 import OptimizationPersist from 'vite-plugin-optimize-persist';
 import PkgConfig from 'vite-plugin-package-config';
+// import { visualizer as analyze } from 'rollup-plugin-visualizer';
 import path from 'path';
 
 import { generateVersion } from './scripts/utils.js';
@@ -13,9 +14,7 @@ import { generateVersion } from './scripts/utils.js';
 export default defineConfig({
   base: './',
   plugins: [
-    react({
-      include: '**/*.tsx',
-    }),
+    preact(),
     macrosPlugin(),
     PkgConfig(),
     OptimizationPersist(),
@@ -35,7 +34,9 @@ export default defineConfig({
   ],
   build: {
     emptyOutDir: true,
-    chunkSizeWarningLimit: 1024,
+    // rollupOptions: {
+    //   plugins: [analyze()],
+    // },
   },
   define: {
     ENV: JSON.stringify({
@@ -45,6 +46,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
+      react: 'preact/compat',
+      'react-dom': 'preact/compat',
     },
   },
 });

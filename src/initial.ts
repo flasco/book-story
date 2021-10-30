@@ -10,7 +10,7 @@ function checkNeedScroll(target) {
   return false;
 }
 
-document.body.addEventListener(
+window.addEventListener(
   'touchmove',
   function (e) {
     if (!checkNeedScroll(e.target)) {

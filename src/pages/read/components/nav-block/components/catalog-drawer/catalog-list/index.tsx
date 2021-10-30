@@ -1,4 +1,4 @@
-import { useRef, useMemo, useEffect, useCallback } from 'react';
+import { useRef, useMemo, useEffect, useCallback } from 'preact/compat';
 import cx from 'classnames';
 import type { FixedSizeList } from 'react-window';
 

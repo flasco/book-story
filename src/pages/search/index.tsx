@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from 'preact/compat';
 import { Search } from 'antd-mobile-v5';
 
 import Container from '@/layout/container';

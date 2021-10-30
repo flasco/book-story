@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo } from 'preact/compat';
 import SXider, { TOpener } from '@/components/drawer';
 
 import CatalogList from './catalog-list';
