@@ -1,6 +1,7 @@
 :global(.adm-pull-to-refresh) {
   height: 100%;
   overflow: auto;
+  touch-action: pan-y;
 }
 
 .list {

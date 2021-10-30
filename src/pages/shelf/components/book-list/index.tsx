@@ -55,7 +55,7 @@ const BookList = () => {
     };
     return (
       <SwipeAction
-        style={{ background: 'var(--shelf-row)', touchAction: 'none' }}
+        style={{ background: 'var(--shelf-row)', touchAction: 'pan-y' }}
         rightActions={[
           // {
           //   text: '养肥',
