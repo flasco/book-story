@@ -29,7 +29,7 @@ export default defineConfig({
       },
     ]),
     legacy({
-      targets: ['android >= 4.4', 'ios >= 9', 'not IE 11'],
+      targets: ['android >= 4.4', 'ios >= 9', 'chrome>39'],
     }),
   ],
   server: {
