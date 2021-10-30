@@ -49,7 +49,7 @@ class Queue<T = any> {
     this.#isKilled = false;
   }
 
-  async work(item) {
+  work(item) {
     return new Promise(resolve => {
       console.log('current - ', this.inProgress, 'default work, plz overload it', item);
       setTimeout(resolve, (Math.random() * 5000) | 0);

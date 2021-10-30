@@ -32,11 +32,6 @@ export default defineConfig({
       targets: ['android >= 4.4', 'ios >= 9', 'chrome>39'],
     }),
   ],
-  server: {
-    fs: {
-      strict: false,
-    },
-  },
   build: {
     emptyOutDir: true,
     // rollupOptions: {
