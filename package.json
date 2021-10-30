@@ -5,6 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "postinstall": "patch-package",
     "prepare": "husky install",
     "dev": "vite",
     "build": "vite build",
@@ -33,6 +34,7 @@
     "husky": "^7.0.4",
     "lint-staged": "^11.2.3",
     "ora": "^6.0.1",
+    "patch-package": "^6.4.7",
     "penv.macro": "^0.4.0",
     "prettier": "^2.1.2",
     "rollup-plugin-analyzer": "^4.0.0",
