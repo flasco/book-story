@@ -3979,11 +3979,6 @@ rimraf@^3.0.2:
   dependencies:
     glob "^7.1.3"
 
-rollup-plugin-analyzer@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npm.taobao.org/rollup-plugin-analyzer/download/rollup-plugin-analyzer-4.0.0.tgz#96b757ed64a098b59d72f085319e68cdd86d5798"
-  integrity sha1-lrdX7WSgmLWdcvCFMZ5ozdhtV5g=
-
 rollup-plugin-visualizer@^5.5.2:
   version "5.5.2"
   resolved "https://registry.nlark.com/rollup-plugin-visualizer/download/rollup-plugin-visualizer-5.5.2.tgz#ae2130ee5ae4a2d901e764e492b71357cb95eed7"

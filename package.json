@@ -37,7 +37,6 @@
     "patch-package": "^6.4.7",
     "penv.macro": "^0.4.0",
     "prettier": "^2.1.2",
-    "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-visualizer": "^5.5.2",
     "sass": "^1.43.3",
     "stylelint": "^13.7.2",
