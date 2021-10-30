@@ -1,13 +1,13 @@
 :global(.adm-pull-to-refresh) {
   height: 100%;
   overflow: auto;
-  padding-bottom: 30vh;
 }
 
 .list {
   width: 100%;
   border: 0;
   background: transparent;
+  padding-bottom: 30vh;
 
   :global(.adm-list-item-content) {
     padding: 0;
