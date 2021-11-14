@@ -1,0 +1,22 @@
+diff --git a/node_modules/antd-mobile-v5/es/components/popover/popover.js b/node_modules/antd-mobile-v5/es/components/popover/popover.js
+index 6828ccd..60c80af 100644
+--- a/node_modules/antd-mobile-v5/es/components/popover/popover.js
++++ b/node_modules/antd-mobile-v5/es/components/popover/popover.js
+@@ -43,17 +43,6 @@ export var Popover = /*#__PURE__*/forwardRef(function (p, ref) {
+     visible: visible,
+     onVisibleChange: setVisible,
+     trigger: props.trigger,
+-    motion: {
+-      motionName: {
+-        appear: enterClassName,
+-        appearActive: enterClassName,
+-        enter: enterClassName,
+-        enterActive: enterClassName,
+-        leaveActive: leaveClassName,
+-        leave: leaveClassName
+-      },
+-      motionDeadline: 200
+-    },
+     overlay: /*#__PURE__*/React.createElement("div", {
+       className: classPrefix + "-inner-content"
+     }, props.content)
