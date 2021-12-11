@@ -3654,9 +3654,9 @@ postcss@^8.3.11:
     source-map-js "^1.0.1"
 
 preact@^10.5.15:
-  version "10.5.15"
-  resolved "https://registry.npmmirror.com/preact/download/preact-10.5.15.tgz#6df94d8afecf3f9e10a742fd8c362ddab464225f"
-  integrity sha1-bflNiv7PP54Qp0L9jDYt2rRkIl8=
+  version "10.6.3"
+  resolved "https://registry.npmmirror.com/preact/download/preact-10.6.3.tgz#5d2fd00c34114373ed2bfbeb4fcc9b14df78160d"
+  integrity sha512-vwuM6VmFffw5t3RrLFn49QHPzoepD9hiNdkLa3Mt4UGSRdfQfIHtC1xqxhjVGoq70Sjtxrn4c9xwAnaS6z3anA==
 
 prelude-ls@^1.2.1:
   version "1.2.1"
@@ -3772,9 +3772,9 @@ react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   resolved "https://registry.npmmirror.com/react-is/download/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ=
 
-react-router-cache-route@^1.11.1:
+react-router-cache-route@1.11.1:
   version "1.11.1"
-  resolved "https://registry.nlark.com/react-router-cache-route/download/react-router-cache-route-1.11.1.tgz#c5f51d708e85aaa94fd25c8fce58ef00536e01d3"
+  resolved "https://registry.npmmirror.com/react-router-cache-route/download/react-router-cache-route-1.11.1.tgz#c5f51d708e85aaa94fd25c8fce58ef00536e01d3"
   integrity sha1-xfUdcI6FqqlP0lyPzljvAFNuAdM=
   dependencies:
     mini-create-react-context "^0.4.1"
