@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'preact/compat';
-import { Search } from 'antd-mobile-v5';
+import { SearchBar } from 'antd-mobile-v5';
 
 import Container from '@/layout/container';
 import VirtualList from '@/components/virtual-list';
@@ -56,7 +56,7 @@ const SearchPage = () => {
 
   return (
     <Container showBar title="搜索" back>
-      <Search
+      <SearchBar
         placeholder="输入关键字"
         onSearch={searchOpe}
         onCancel={cancelSearch}

@@ -82,7 +82,7 @@
         "antd-mobile-v5/es/components/nav-bar",
         "antd-mobile-v5/es/components/popover",
         "antd-mobile-v5/es/components/pull-to-refresh",
-        "antd-mobile-v5/es/components/search",
+        "antd-mobile-v5/es/components/search-bar",
         "antd-mobile-v5/es/components/slider",
         "antd-mobile-v5/es/components/swipe-action",
         "antd-mobile-v5/es/components/toast",
