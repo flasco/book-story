@@ -18,6 +18,7 @@ const Drawer: React.FC<IDrawerProps> = ({ sideBar, children, opener, fullScreen 
     <>
       <Mask
         visible={visible}
+        dissipationDuration={150}
         onMaskClick={() => close()}
         className={cx({ [styles.mask]: !fullScreen })}
       >

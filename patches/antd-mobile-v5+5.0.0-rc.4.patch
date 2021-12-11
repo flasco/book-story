@@ -20,3 +20,38 @@ index 6828ccd..60c80af 100644
      overlay: /*#__PURE__*/React.createElement("div", {
        className: classPrefix + "-inner-content"
      }, props.content)
+diff --git a/node_modules/antd-mobile-v5/es/components/mask/mask.d.ts b/node_modules/antd-mobile-v5/es/components/mask/mask.d.ts
+index 6b375f6..0b3d029 100644
+--- a/node_modules/antd-mobile-v5/es/components/mask/mask.d.ts
++++ b/node_modules/antd-mobile-v5/es/components/mask/mask.d.ts
+@@ -14,5 +14,6 @@ export declare type MaskProps = {
+     afterShow?: () => void;
+     afterClose?: () => void;
+     stopPropagation?: PropagationEvent[];
++    dissipationDuration?: number;
+ } & NativeProps<'--z-index'>;
+ export declare const Mask: React.FC<MaskProps>;
+diff --git a/node_modules/antd-mobile-v5/es/components/mask/mask.js b/node_modules/antd-mobile-v5/es/components/mask/mask.js
+index 9d0e798..ed595ef 100644
+--- a/node_modules/antd-mobile-v5/es/components/mask/mask.js
++++ b/node_modules/antd-mobile-v5/es/components/mask/mask.js
+@@ -22,7 +22,8 @@ var defaultProps = {
+   opacity: 'default',
+   disableBodyScroll: true,
+   getContainer: null,
+-  stopPropagation: ['click']
++  stopPropagation: ['click'],
++  dissipationDuration: 150,
+ };
+ export var Mask = function Mask(p) {
+   var props = mergeProps(defaultProps, p);
+@@ -53,7 +54,8 @@ export var Mask = function Mask(p) {
+       mass: 1,
+       tension: 200,
+       friction: 30,
+-      clamp: true
++      clamp: true,
++      duration: props.dissipationDuration,
+     },
+     onStart: function onStart() {
+       setActive(true);
