@@ -22,7 +22,7 @@ export const FLATTEN_BLOCK = {
   },
 };
 
-export enum ICON_FONT_MAP {
+export const enum ICON_FONT_MAP {
   SEARCH = '\ue7b3',
   MOON = '\ue773',
   SUN = '\ue771',

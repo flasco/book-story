@@ -1,7 +1,7 @@
 import localforage from 'localforage';
 import { ee } from '@/event';
 
-export enum STORE_LEVEL {
+export const enum STORE_LEVEL {
   STORE = -1, // 比如名单，不在清除范围
   SAFE = 0, // 比如书架信息，书籍阅读位置记录，除非删除书籍的时候才会清除
   TEMP = 1, // 随便清理
