@@ -1,6 +1,6 @@
 import { getItem, setItem, STORE_LEVEL } from '@/storage/base';
 import { Dialog } from 'antd-mobile-v5';
-import { useState, useEffect, useRef } from 'preact/compat';
+import { useState, useEffect, useRef } from 'react';
 
 const newVersionNoticedKey = 'new-version-noticed';
 

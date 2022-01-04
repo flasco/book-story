@@ -1,4 +1,4 @@
-import { createRef, useState, useCallback, useEffect } from 'preact/compat';
+import { createRef, useState, useCallback, useEffect } from 'react';
 import { useSpring } from '@react-spring/web';
 import { Toast } from 'antd-mobile-v5';
 

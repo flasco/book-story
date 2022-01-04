@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'preact/compat';
+import { useState, useCallback } from 'react';
 
 const useSwitch = (initVal = false) => {
   const [open, setOpen] = useState(initVal);

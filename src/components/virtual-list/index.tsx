@@ -1,4 +1,4 @@
-import { forwardRef } from 'preact/compat';
+import { forwardRef } from 'react';
 import { FixedSizeList as ListView } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 

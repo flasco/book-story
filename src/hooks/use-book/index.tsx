@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useContext, useEffect } from 'preact/compat';
+import React, { useState, useCallback, useMemo, useContext, useEffect } from 'react';
 
 import { getLatestChapter, fetchAllLatest } from '@/api';
 import { IBook, IBookX } from '@/definition';

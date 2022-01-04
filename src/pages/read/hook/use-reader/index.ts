@@ -1,5 +1,5 @@
 import { ee } from '@/event';
-import { useState, useEffect, useMemo, useCallback } from 'preact/compat';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 
 import ListCache from '@/cache/list';
 import RecordCache from '@/cache/record';

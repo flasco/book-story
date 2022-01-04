@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useRef } from 'preact/compat';
+import { useState, useLayoutEffect, useRef } from 'react';
 
 import defaultImage from '@/assets/noImg.jpg';
 

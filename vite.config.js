@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import preact from '@preact/preset-vite';
+import react from '@vitejs/plugin-react';
 import vitePluginImport from 'vite-plugin-babel-import';
 import viteCompression from 'vite-plugin-compression';
 import legacy from '@vitejs/plugin-legacy';
@@ -14,7 +14,9 @@ import { generateVersion } from './scripts/utils.js';
 export default defineConfig({
   base: './',
   plugins: [
-    preact(),
+    react({
+      include: '**/*.tsx',
+    }),
     macrosPlugin(),
     PkgConfig(),
     OptimizationPersist(),
@@ -46,8 +48,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
-      react: 'preact/compat',
-      'react-dom': 'preact/compat',
     },
   },
 });

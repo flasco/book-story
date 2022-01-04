@@ -1,4 +1,4 @@
-import { render } from 'preact';
+import { render } from 'react-dom';
 
 import 'antd-mobile-v5/es/global';
 

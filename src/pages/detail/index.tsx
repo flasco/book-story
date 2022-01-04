@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'preact/compat';
+import { useEffect, useState } from 'react';
 import { Button } from 'antd-mobile-v5';
 import { useHistory } from 'react-router-dom';
 

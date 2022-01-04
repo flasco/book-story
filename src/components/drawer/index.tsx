@@ -1,4 +1,4 @@
-import { useState } from 'preact/compat';
+import { useState } from 'react';
 import cx from 'classnames';
 
 import { Mask } from 'antd-mobile-v5';
