@@ -843,6 +843,13 @@
   resolved "https://registry.nlark.com/@types/prop-types/download/@types/prop-types-15.7.4.tgz?cache=0&sync_timestamp=1629708737049&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fprop-types%2Fdownload%2F%40types%2Fprop-types-15.7.4.tgz#fcf7205c25dff795ee79af1e30da2c9790808f11"
   integrity sha1-/PcgXCXf95Xuea8eMNosl5CAjxE=
 
+"@types/react-dom@^17.0.11":
+  version "17.0.11"
+  resolved "https://registry.npmmirror.com/@types/react-dom/download/@types/react-dom-17.0.11.tgz#e1eadc3c5e86bdb5f7684e00274ae228e7bcc466"
+  integrity sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-router-dom@^5.1.3":
   version "5.3.1"
   resolved "https://registry.npmmirror.com/@types/react-router-dom/download/@types/react-router-dom-5.3.1.tgz#76700ccce6529413ec723024b71f01fc77a4a980"
@@ -871,6 +878,15 @@
   version "17.0.31"
   resolved "https://registry.npmmirror.com/@types/react/download/@types/react-17.0.31.tgz#fe05ebf91ff3ae35bb6b13f6c1b461db8089dff8"
   integrity sha1-/gXr+R/zrjW7axP2wbRh24CJ3/g=
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@^17.0.38":
+  version "17.0.38"
+  resolved "https://registry.npmmirror.com/@types/react/download/@types/react-17.0.38.tgz#f24249fefd89357d5fa71f739a686b8d7c7202bd"
+  integrity sha512-SI92X1IA+FMnP3qM5m4QReluXzhcmovhZnLNm3pyeQlooi02qI7sLiepEYqT678uNiyc25XfCqxREFpy3W7YhQ==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
