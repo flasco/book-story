@@ -1,25 +1,3 @@
-diff --git a/node_modules/antd-mobile-v5/es/components/popover/popover.js b/node_modules/antd-mobile-v5/es/components/popover/popover.js
-index 6828ccd..60c80af 100644
---- a/node_modules/antd-mobile-v5/es/components/popover/popover.js
-+++ b/node_modules/antd-mobile-v5/es/components/popover/popover.js
-@@ -43,17 +43,6 @@ export var Popover = /*#__PURE__*/forwardRef(function (p, ref) {
-     visible: visible,
-     onVisibleChange: setVisible,
-     trigger: props.trigger,
--    motion: {
--      motionName: {
--        appear: enterClassName,
--        appearActive: enterClassName,
--        enter: enterClassName,
--        enterActive: enterClassName,
--        leaveActive: leaveClassName,
--        leave: leaveClassName
--      },
--      motionDeadline: 200
--    },
-     overlay: /*#__PURE__*/React.createElement("div", {
-       className: classPrefix + "-inner-content"
-     }, props.content)
 diff --git a/node_modules/antd-mobile-v5/es/components/mask/mask.d.ts b/node_modules/antd-mobile-v5/es/components/mask/mask.d.ts
 index 6b375f6..0b3d029 100644
 --- a/node_modules/antd-mobile-v5/es/components/mask/mask.d.ts
@@ -32,7 +10,7 @@ index 6b375f6..0b3d029 100644
  } & NativeProps<'--z-index'>;
  export declare const Mask: React.FC<MaskProps>;
 diff --git a/node_modules/antd-mobile-v5/es/components/mask/mask.js b/node_modules/antd-mobile-v5/es/components/mask/mask.js
-index 9d0e798..ed595ef 100644
+index 7d9252c..b25ab44 100644
 --- a/node_modules/antd-mobile-v5/es/components/mask/mask.js
 +++ b/node_modules/antd-mobile-v5/es/components/mask/mask.js
 @@ -22,7 +22,8 @@ var defaultProps = {
@@ -55,3 +33,25 @@ index 9d0e798..ed595ef 100644
      },
      onStart: function onStart() {
        setActive(true);
+diff --git a/node_modules/antd-mobile-v5/es/components/popover/popover.js b/node_modules/antd-mobile-v5/es/components/popover/popover.js
+index c45c6ab..ed991f0 100644
+--- a/node_modules/antd-mobile-v5/es/components/popover/popover.js
++++ b/node_modules/antd-mobile-v5/es/components/popover/popover.js
+@@ -46,17 +46,6 @@ export var Popover = /*#__PURE__*/forwardRef(function (p, ref) {
+     }),
+     onVisibleChange: setVisible,
+     trigger: props.trigger,
+-    motion: {
+-      motionName: {
+-        appear: enterClassName,
+-        appearActive: enterClassName,
+-        enter: enterClassName,
+-        enterActive: enterClassName,
+-        leaveActive: leaveClassName,
+-        leave: leaveClassName
+-      },
+-      motionDeadline: 200
+-    },
+     overlay: /*#__PURE__*/React.createElement("div", {
+       className: classPrefix + "-inner-content"
+     }, props.content)
