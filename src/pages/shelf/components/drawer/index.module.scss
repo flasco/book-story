@@ -21,6 +21,6 @@
 .version {
   color: #bbb;
   position: absolute;
-  bottom: 73px;
+  bottom: calc(73px + env(safe-area-inset-bottom));
   left: 10px;
 }
