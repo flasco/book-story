@@ -1,5 +1,5 @@
 import localforage from 'localforage';
-import { ee } from '@/event';
+import { ee } from '@/third-party/event';
 
 export const enum STORE_LEVEL {
   STORE = -1, // 比如名单，不在清除范围
