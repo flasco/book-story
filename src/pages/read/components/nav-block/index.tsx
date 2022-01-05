@@ -65,7 +65,9 @@ const NavBlock = () => {
     () => [
       {
         text: '换源',
-        onClick: () => push('/origin'),
+        onClick: () => {
+          setTimeout(() => push('/origin'), 100);
+        },
       },
       {
         text: '缓存',
