@@ -7,6 +7,7 @@ export const generateVersion = (generLen = 6) => {
   for (let i = 0; i < generLen; i++) {
     ver += strs[(Math.random() * strs.length) | 0];
   }
+  console.log('version generated -', ver);
   return ver;
 };
 
