@@ -5017,7 +5017,7 @@ vite-plugin-compression@^0.4.0:
     debug "^4.3.3"
     fs-extra "^10.0.0"
 
-vite-plugin-optimize-persist@^0.1.0:
+vite-plugin-optimize-persist@^0.1.2:
   version "0.1.2"
   resolved "https://registry.npmmirror.com/vite-plugin-optimize-persist/download/vite-plugin-optimize-persist-0.1.2.tgz#c2aa2712afa74db55f580e3d1656e8cc0b783019"
   integrity sha512-H/Ebn2kZO8PvwUF08SsT5K5xMJNCWKoGX71+e9/ER3yNj7GHiFjNQlvGg5ih/zEx09MZ9m7WCxOwmEKbeIVzww==
@@ -5025,12 +5025,12 @@ vite-plugin-optimize-persist@^0.1.0:
     debug "^4.3.2"
     fs-extra "^10.0.0"
 
-vite-plugin-package-config@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.nlark.com/vite-plugin-package-config/download/vite-plugin-package-config-0.0.3.tgz#8667dbffffd3eafa0f697c386659d653f737b887"
-  integrity sha1-hmfb///T6voPaXw4ZlnWU/c3uIc=
+vite-plugin-package-config@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.npmmirror.com/vite-plugin-package-config/download/vite-plugin-package-config-0.1.1.tgz#6bd579f71db7582ef9dcc05e9f7920e689c498c9"
+  integrity sha512-w9B3I8ZnqoyhlbzimXjXNk85imrMZgvI9m8f6j3zonK5IVA5KXzpT+PZOHlDz8lqh1vqvoEI1uhy+ZDoLAiA/w==
   dependencies:
-    debug "^4.3.2"
+    debug "^4.3.3"
 
 vite@^2.6.10:
   version "2.7.10"
