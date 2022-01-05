@@ -1681,7 +1681,7 @@ debug@^4.0.0, debug@^4.0.1, debug@^4.1.1, debug@^4.3.1:
   dependencies:
     ms "2.1.2"
 
-debug@^4.1.0, debug@^4.3.2:
+debug@^4.1.0, debug@^4.3.2, debug@^4.3.3:
   version "4.3.3"
   resolved "https://registry.npmmirror.com/debug/download/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
   integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
@@ -5008,13 +5008,13 @@ vite-plugin-babel-macros@^1.0.5:
     babel-plugin-macros "^3.0.1"
     tslib "^2.1.0"
 
-vite-plugin-compression@^0.3.5:
-  version "0.3.6"
-  resolved "https://registry.npmmirror.com/vite-plugin-compression/download/vite-plugin-compression-0.3.6.tgz#85e3ce5047ae6747bc3952177177a852fac901be"
-  integrity sha512-aSskQCJsP3VQ8PsnY+vO7UfD5qoFMOEuzg0PG2E9Zqyx+ARmc3wr9KCgOFraZOFW1Y4UAa5BR0SMTjoxHRMJoQ==
+vite-plugin-compression@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.npmmirror.com/vite-plugin-compression/download/vite-plugin-compression-0.4.0.tgz#e462924faa797514e6bd05fd2f0e33cd8403817f"
+  integrity sha512-CGC8DfIey0k4S4o54ylwFIzT1Mjb9s7cMmlXj6DMM1MZZIeWFjPCJc6YZWjnnS28ul3r7R1nmihvYvGg/lOYsQ==
   dependencies:
     chalk "^4.1.2"
-    debug "^4.3.2"
+    debug "^4.3.3"
     fs-extra "^10.0.0"
 
 vite-plugin-optimize-persist@^0.1.0:

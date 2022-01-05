@@ -48,7 +48,7 @@
     "vite": "^2.6.10",
     "vite-plugin-babel-import": "^2.0.5",
     "vite-plugin-babel-macros": "^1.0.5",
-    "vite-plugin-compression": "^0.3.5",
+    "vite-plugin-compression": "^0.4.0",
     "vite-plugin-optimize-persist": "^0.1.0",
     "vite-plugin-package-config": "^0.0.3"
   },
