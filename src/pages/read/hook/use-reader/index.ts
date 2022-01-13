@@ -1,4 +1,4 @@
-import { ee } from '@/event';
+import { ee } from '@/third-party/event';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 
 import ListCache from '@/cache/list';

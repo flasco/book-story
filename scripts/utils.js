@@ -1,6 +1,3 @@
-import path from 'path';
-import fse from 'fs-extra';
-
 export const generateVersion = (generLen = 6) => {
   const strs = 'ABCDEFTUGHJTOKYabcdefghigklmnopqrstuvwxyz0123456789';
   let ver = '';
@@ -9,12 +6,4 @@ export const generateVersion = (generLen = 6) => {
   }
   console.log('version generated -', ver);
   return ver;
-};
-
-export const generateAntdPreloadDeps = () => {
-  const compPath = 'antd-mobile-v5/es/components';
-
-  const curPath = path.resolve(path.resolve(), 'node_modules', compPath);
-
-  return fse.readdirSync(curPath).map(name => `${compPath}/${name}`);
 };

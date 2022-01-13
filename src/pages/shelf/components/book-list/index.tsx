@@ -95,15 +95,17 @@ const BookList = () => {
   };
 
   return (
-    <PullToRefresh onRefresh={() => onPull.current()}>
-      <List className={styles.list}>
-        {books.map((book, ind) => {
-          return (
-            <List.Item key={`${book.bookName}-${book.author}`}>{renderItem(book, ind)}</List.Item>
-          );
-        })}
-      </List>
-    </PullToRefresh>
+    <div className={cx('needScroll', styles.container)}>
+      <PullToRefresh onRefresh={() => onPull.current()}>
+        <List className={styles.list}>
+          {books.map((book, ind) => {
+            return (
+              <List.Item key={`${book.bookName}-${book.author}`}>{renderItem(book, ind)}</List.Item>
+            );
+          })}
+        </List>
+      </PullToRefresh>
+    </div>
   );
 };
 

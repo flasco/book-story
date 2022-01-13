@@ -1,4 +1,4 @@
-import { ee } from '@/event';
+import { ee } from '@/third-party/event';
 
 function checkNeedScroll(target) {
   for (let i = 0; i <= 6; i++) {

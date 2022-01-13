@@ -9,8 +9,6 @@ import { useDrawer } from '@/components/drawer';
 import Drawer from './components/drawer';
 import BookList from './components/book-list';
 
-import { useNoticed } from './use-noticed';
-
 import styles from './index.module.scss';
 
 const RightIcon = ({ onClick }) => (
@@ -26,8 +24,6 @@ const Shelf = () => {
   const opener = useDrawer();
   const { push } = useHistory();
   const right = useMemo(() => <RightIcon onClick={opener.changeVisible} />, [opener]);
-
-  useNoticed();
 
   useEffect(() => {
     // hack: 修复 safari 的 bug
