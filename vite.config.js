@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import vitePluginImport from 'vite-plugin-babel-import';
 import viteCompression from 'vite-plugin-compression';
-import legacy from '@vitejs/plugin-legacy';
+// import legacy from '@vitejs/plugin-legacy';
 import macrosPlugin from 'vite-plugin-babel-macros';
 import OptimizationPersist from 'vite-plugin-optimize-persist';
 import PkgConfig from 'vite-plugin-package-config';
@@ -30,9 +30,9 @@ export default defineConfig({
         style: name => `antd-mobile-v5/es/components/${name}/${name}.css`,
       },
     ]),
-    legacy({
-      targets: ['android >= 4.4', 'ios >= 9', 'chrome>39'],
-    }),
+    // legacy({
+    //   targets: ['android >= 4.4', 'ios >= 9', 'chrome>39'],
+    // }),
   ],
   build: {
     emptyOutDir: true,
