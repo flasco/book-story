@@ -54,7 +54,7 @@
     "@react-spring/web": "^9.3.0",
     "antd-mobile-icons": "^0.2.2",
     "antd-mobile-v5": "npm:antd-mobile@next",
-    "axios": "^0.23.0",
+    "axios": "^0.25.0",
     "classnames": "^2.2.6",
     "localforage": "^1.10.0",
     "react": "^17.0.2",
