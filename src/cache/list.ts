@@ -4,24 +4,26 @@ import { IChapter } from '@/definition';
 class ListCache {
   key: string;
   list: IChapter[] = [];
-  constructor(key) {
+  constructor(key: string) {
     this.key = key;
   }
 
   checkIsExist = async () => {
     const list = await getChapterList(this.key);
-    if (list != null) this.list = list;
+    if (list != null) {
+      this.list = list;
+    }
     return list?.length > 0;
   };
 
-  updateList = list => {
+  updateList = (list: IChapter[]) => {
     this.list = list;
     updateChapterList(this.key, list);
   };
 
-  getChapterUrl = position => this.list[position]?.url ?? '';
+  getChapterUrl = (position: number) => this.list[position]?.url ?? '';
 
-  getChapterName = position => this.list[position]?.title ?? '';
+  getChapterName = (position: number) => this.list[position]?.title ?? '';
 
   getLength = () => this.list.length;
 
@@ -30,9 +32,7 @@ class ListCache {
     updateChapterList(this.key, []);
   };
 
-  findChapterPosition = url => {
-    return this.list.findIndex(i => i.url === url);
-  };
+  findChapterPosition = (url: string) => this.list.findIndex(i => i.url === url);
 }
 
 export default ListCache;
