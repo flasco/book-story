@@ -17,7 +17,7 @@ class BookCache {
     this.flattens = (await getBooksWithType('flattens')) ?? [];
   };
 
-  deleteBook = (book: IBook) => {
+  deleteBookWithCache = (book: IBook) => {
     const listKey = 'list@' + book.catalogUrl;
     const chaptersKey = 'chapter@' + book.catalogUrl;
     const imgKey = book.img;

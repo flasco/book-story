@@ -63,7 +63,7 @@ const useBookAndFlatten = () => {
   const deleteBook = useCallback(
     (index: number) => {
       const book = books[index];
-      bookCache.deleteBook(book);
+      bookCache.deleteBookWithCache(book);
       books.splice(index, 1);
       setBooks([...books]);
       bookCache.update({ books });
