@@ -25,9 +25,9 @@ export default defineConfig({
     }),
     vitePluginImport([
       {
-        libraryName: 'antd-mobile-v5',
+        libraryName: 'antd-mobile',
         libraryDirectory: 'es/components',
-        style: name => `antd-mobile-v5/es/components/${name}/${name}.css`,
+        style: name => `antd-mobile/es/components/${name}/${name}.css`,
       },
     ]),
     // legacy({

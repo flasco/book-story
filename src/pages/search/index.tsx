@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { SearchBar } from 'antd-mobile-v5';
+import { SearchBar } from 'antd-mobile';
 
 import Container from '@/layout/container';
 import VirtualList from '@/components/virtual-list';

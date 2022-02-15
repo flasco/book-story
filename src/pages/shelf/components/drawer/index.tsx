@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Dialog, Toast } from 'antd-mobile-v5';
+import { Dialog, Toast } from 'antd-mobile';
 
 import SXider, { TOpener } from '@/components/drawer';
 import { clearTemp } from '@/storage/base';

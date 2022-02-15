@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import cx from 'classnames';
 
-import { Mask } from 'antd-mobile-v5';
+import { Mask } from 'antd-mobile';
 
 import styles from './index.module.scss';
 

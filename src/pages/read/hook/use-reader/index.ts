@@ -10,7 +10,7 @@ import { newGetP } from '@/utils/text';
 
 import { getList } from '@/pages/read/api';
 import { IBook } from '@/definition';
-import { Toast } from 'antd-mobile-v5';
+import { Toast } from 'antd-mobile';
 
 /**
  * 书籍进度存储key约定 record@${sourceUrl}

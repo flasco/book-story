@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 import { useHistory } from 'react-router-dom';
-import { NavBar } from 'antd-mobile-v5';
-import { NavBarProps } from 'antd-mobile-v5/es/components/nav-bar';
+import { NavBar } from 'antd-mobile';
+import { NavBarProps } from 'antd-mobile/es/components/nav-bar';
 
 import styles from './index.module.scss';
 

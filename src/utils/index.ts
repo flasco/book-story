@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/indent */
-import { Toast } from 'antd-mobile-v5';
+import { Toast } from 'antd-mobile';
 import React from 'react';
 
 export function openLoading(text?: string) {

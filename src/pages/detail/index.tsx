@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button } from 'antd-mobile-v5';
+import { Button } from 'antd-mobile';
 import { useHistory } from 'react-router-dom';
 
 import Container from '@/layout/container';

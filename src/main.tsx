@@ -1,6 +1,6 @@
 import { render } from 'react-dom';
 
-import 'antd-mobile-v5/es/global';
+import 'antd-mobile/es/global';
 
 import App from './router';
 

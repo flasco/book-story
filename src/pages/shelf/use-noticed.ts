@@ -1,5 +1,5 @@
 import { getItem, setItem, STORE_LEVEL } from '@/storage/base';
-import { Dialog } from 'antd-mobile-v5';
+import { Dialog } from 'antd-mobile';
 import { useState, useEffect, useRef } from 'react';
 
 const newVersionNoticedKey = 'new-version-noticed';
