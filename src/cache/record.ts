@@ -1,14 +1,5 @@
+import { IRecord } from '@/definition';
 import { getBookRecord, updateBookRecord } from '@/storage/book';
-
-interface IRecord {
-  recordChapterNum: number;
-  recordPage: number;
-}
-
-interface IRecordS {
-  recordChapterNum?: number;
-  recordPage?: number;
-}
 
 class RecordCache {
   key: string;
@@ -26,7 +17,9 @@ class RecordCache {
 
   getChapterPosition = () => this.record.recordChapterNum;
 
-  updateRecord = (param: IRecordS, needSave = false) => {
+  getLastChapterUrl = () => this.record.recordChapterUrl || '';
+
+  updateRecord = (param: Partial<IRecord>, needSave = false) => {
     this.record = {
       ...this.record,
       ...param,

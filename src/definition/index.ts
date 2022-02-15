@@ -36,4 +36,11 @@ export interface IChapter {
 export interface IContent {
   title: string;
   content: string;
+  nextUrl?: string;
+}
+
+export interface IRecord {
+  recordChapterNum: number;
+  recordPage: number;
+  recordChapterUrl: string;
 }

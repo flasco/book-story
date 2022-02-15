@@ -1,5 +1,5 @@
 import { setItem, getItem, STORE_LEVEL } from './base';
-import { IChapter, IContent, IBook } from '@/definition';
+import { IChapter, IContent, IBook, IRecord } from '@/definition';
 
 type bookType = 'books' | 'flattens';
 export function getBooksWithType(type: bookType): Promise<IBook[]> {
@@ -23,11 +23,6 @@ export function getChapterList(sourceUrl: string): Promise<IChapter[]> {
 export function updateChapterList(sourceUrl: string, list: IChapter[]) {
   const key = 'list@' + sourceUrl;
   return setItem(key, list, STORE_LEVEL.TEMP);
-}
-
-interface IRecord {
-  recordChapterNum: number;
-  recordPage: number;
 }
 
 export async function getBookRecord(sourceUrl: string): Promise<IRecord> {

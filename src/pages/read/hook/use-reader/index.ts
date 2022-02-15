@@ -1,5 +1,5 @@
 import { ee } from '@/third-party/event';
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 
 import ListCache from '@/cache/list';
 import RecordCache from '@/cache/record';
@@ -35,6 +35,7 @@ function useReader(bookInfo?: IBook) {
   const [title, setTitle] = useState('');
   const [watched, setWatched] = useState(1);
   const [showMenu, setShow] = useState(false);
+  const nextChapterUrl = useRef<string>('');
 
   const changeMenu = useCallback(() => setShow(val => !val), [setShow]);
 
@@ -78,16 +79,14 @@ function useReader(bookInfo?: IBook) {
   }, []);
 
   const prefetchChapter = useCallback(
-    (position, prefetch = true) => {
-      const currentChapter = cachedList.getChapterUrl(position);
-
+    (position: number, chapterUrl: string, prefetch = true) => {
       if (prefetch) {
         const urlArr = new Array(2)
           .fill(1)
           .map((_, ind) => cachedList.getChapterUrl(position + ind + 1));
         workArr.push(...urlArr);
       }
-      return cachedChapters.getContent(currentChapter);
+      return cachedChapters.getContent(chapterUrl);
     },
     [cachedList, cachedChapters]
   );
@@ -114,12 +113,13 @@ function useReader(bookInfo?: IBook) {
       }
 
       const position = cachedRecord.getChapterPosition();
-      const chapter = await prefetchChapter(position);
-
-      setTitle(chapter.title);
+      const lastChapter = cachedRecord.getLastChapterUrl() || cachedList.getChapterUrl(position);
+      const chapter = await prefetchChapter(position, lastChapter);
+      setTitle(chapter.title || cachedList.getChapterName(position));
       setPages(newGetP(chapter.content));
     } catch (error) {
-      toastFail(error.message || error);
+      console.trace(error);
+      toastFail((error as any).message || error);
       setTitle('加载失败');
       setPages(['书籍列表信息加载失败']);
     } finally {
@@ -127,20 +127,48 @@ function useReader(bookInfo?: IBook) {
     }
   };
 
+  interface IParams {
+    ctrlPos: number;
+    position: number;
+    chapterUrl: string;
+  }
+
   const goToChapter = useCallback(
-    async (position: number, ctrlPos: number) => {
+    async ({ position, chapterUrl, ctrlPos }: IParams) => {
       if (sourceUrl == null) throw new Error('书源记录获取失败...');
       if (position >= cachedList.getLength() || position < 0) return false;
       openLoading('数据加载中...');
       changeCtrlPos(ctrlPos);
 
-      const chapter = await prefetchChapter(position);
+      const curPosition = cachedList.findChapterPosition(chapterUrl);
 
-      cachedRecord.updateRecord({
-        recordChapterNum: position,
-      });
+      let curChapterUrl: string;
+      /**
+       * if curPosition === -1
+       * 说明当前记录的 chapterURL 不存在于列表中，是一章打碎的那种
+       * 需要直接用记录好的 chapterURL
+       */
+      if (curPosition === -1 && chapterUrl.length) {
+        curChapterUrl = chapterUrl;
 
-      setTitle(chapter.title);
+        cachedRecord.updateRecord({
+          recordChapterUrl: curChapterUrl,
+        });
+      } else {
+        curChapterUrl = cachedList.getChapterUrl(position);
+        cachedRecord.updateRecord({
+          recordChapterNum: position,
+          recordChapterUrl: curChapterUrl,
+        });
+      }
+
+      /** 如果是一章的起始，可以更新 recordChapterNum */
+
+      const chapter = await prefetchChapter(position, curChapterUrl);
+
+      nextChapterUrl.current = chapter.nextUrl || cachedList.getChapterUrl(position + 1);
+
+      setTitle(chapter.title || cachedList.getChapterName(position));
       setPages(newGetP(chapter.content));
       closeLoading();
       return true;
@@ -148,14 +176,16 @@ function useReader(bookInfo?: IBook) {
     [sourceUrl]
   );
 
-  const nextChapter = useCallback(() => {
+  const nextChapter = useCallback(async () => {
     if (sourceUrl == null) throw new Error('书源记录获取失败...');
 
-    const position = cachedRecord.getChapterPosition() + 1;
-    return goToChapter(position, 1);
+    return goToChapter({
+      position: cachedRecord.getChapterPosition() + 1,
+      ctrlPos: 1,
+      chapterUrl: nextChapterUrl.current,
+    });
   }, [sourceUrl]);
 
-  console.log(sourceUrl);
   const reloadList = useCallback(() => {
     console.log(sourceUrl);
     if (sourceUrl == null) throw new Error('书源记录获取失败...');
@@ -175,13 +205,15 @@ function useReader(bookInfo?: IBook) {
     const curChapterUrl = cachedList.getChapterUrl(curpoi);
 
     cachedChapters.cleanChapterCache(curChapterUrl);
-    return goToChapter(curpoi, 1);
+    return goToChapter({ position: curpoi, ctrlPos: 1, chapterUrl: curChapterUrl });
   }, [sourceUrl]);
 
   const prevChapter = useCallback(() => {
     if (sourceUrl == null) throw new Error('书源记录获取失败...');
     const position = cachedRecord.getChapterPosition() - 1;
-    return goToChapter(position, -1);
+    /** 为了简单起见，上一章就直接跳到上一章的起始位置 */
+    const chapterUrl = cachedList.getChapterUrl(position);
+    return goToChapter({ position, ctrlPos: -1, chapterUrl });
   }, [sourceUrl]);
 
   /** 只存页数，章节在翻页的时候存 */
