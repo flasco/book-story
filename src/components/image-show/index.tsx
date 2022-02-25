@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useRef } from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 
 import defaultImage from '@/assets/noImg.jpg';
 

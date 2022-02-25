@@ -1,9 +1,6 @@
-import { useState } from 'react';
-import cx from 'classnames';
+import React, { useState } from 'react';
 
-import { Mask } from 'antd-mobile';
-
-import styles from './index.module.scss';
+import { Popup } from 'antd-mobile';
 
 interface IDrawerProps {
   sideBar: JSX.Element;
@@ -16,14 +13,14 @@ const Drawer: React.FC<IDrawerProps> = ({ sideBar, children, opener, fullScreen 
   const { close, visible } = opener;
   return (
     <>
-      <Mask
+      <Popup
         visible={visible}
-        dissipationDuration={150}
+        position="right"
         onMaskClick={() => close()}
-        className={cx({ [styles.mask]: !fullScreen })}
+        bodyStyle={{ minWidth: '60vw', top: !fullScreen ? 45 : 0 }}
       >
-        <div className={styles.floater}>{sideBar}</div>
-      </Mask>
+        {sideBar}
+      </Popup>
       {children}
     </>
   );

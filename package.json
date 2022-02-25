@@ -5,7 +5,6 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "postinstall": "patch-package",
     "prepare": "husky install",
     "dev": "vite",
     "build": "vite build",
@@ -33,7 +32,6 @@
     "husky": "^7.0.4",
     "lint-staged": "^11.2.6",
     "ora": "^6.0.1",
-    "@milahu/patch-package-with-pnpm-support": "6.4.8",
     "penv.macro": "^0.4.0",
     "prettier": "^2.5.1",
     "rollup-plugin-visualizer": "^5.5.4",
@@ -72,8 +70,8 @@
     "optimizeDeps": {
       "include": [
         "@react-spring/web",
-        "antd-mobile-icons",
         "antd-mobile",
+        "antd-mobile-icons",
         "antd-mobile/es/components/action-sheet",
         "antd-mobile/es/components/button",
         "antd-mobile/es/components/dialog",
@@ -81,6 +79,7 @@
         "antd-mobile/es/components/mask",
         "antd-mobile/es/components/nav-bar",
         "antd-mobile/es/components/popover",
+        "antd-mobile/es/components/popup",
         "antd-mobile/es/components/pull-to-refresh",
         "antd-mobile/es/components/search-bar",
         "antd-mobile/es/components/slider",

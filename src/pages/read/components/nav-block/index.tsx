@@ -121,7 +121,7 @@ const NavBlock = () => {
           <div className={styles.header}>
             <LeftOutline className={styles.back} onClick={() => goBack()} />
             <Popover.Menu actions={popOtrMap} destroyOnHide trigger="click" placement="topRight">
-              <div style={{ paddingRight: 8 }}>
+              <div>
                 <MoreOutline style={{ fontSize: 24 }} />
               </div>
             </Popover.Menu>
