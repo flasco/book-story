@@ -1,12 +1,11 @@
-import { useState } from 'react';
-import cx from 'classnames';
+import React, { useState } from 'react';
 
-import { Mask } from 'antd-mobile';
+import { Popup } from 'antd-mobile';
 
-import styles from './index.module.scss';
+export type TOpener = ReturnType<typeof useDrawer>;
 
 interface IDrawerProps {
-  sideBar: JSX.Element;
+  sideBar: React.ReactNode;
   children: any;
   opener: TOpener;
   fullScreen?: boolean;
@@ -16,22 +15,20 @@ const Drawer: React.FC<IDrawerProps> = ({ sideBar, children, opener, fullScreen 
   const { close, visible } = opener;
   return (
     <>
-      <Mask
+      <Popup
         visible={visible}
-        dissipationDuration={150}
         onMaskClick={() => close()}
-        className={cx({ [styles.mask]: !fullScreen })}
+        position="right"
+        bodyStyle={{ minWidth: '60vw', top: fullScreen ? 0 : 45 }}
       >
-        <div className={styles.floater}>{sideBar}</div>
-      </Mask>
+        {sideBar}
+      </Popup>
       {children}
     </>
   );
 };
 
-export type TOpener = ReturnType<typeof useDrawer>;
-
-export const useDrawer = () => {
+export function useDrawer() {
   const [visible, change] = useState(false);
 
   const close = () => change(false);
@@ -39,6 +36,6 @@ export const useDrawer = () => {
   const changeVisible = () => change(a => !a);
 
   return { open, close, visible, changeVisible };
-};
+}
 
 export default Drawer;

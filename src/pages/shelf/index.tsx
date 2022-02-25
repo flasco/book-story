@@ -11,7 +11,7 @@ import BookList from './components/book-list';
 
 import styles from './index.module.scss';
 
-const RightIcon = ({ onClick }) => (
+const RightIcon = ({ onClick }: any) => (
   <div onClick={onClick}>
     <MoreOutline color="#fff" style={{ fontSize: 24 }} />
   </div>

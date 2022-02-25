@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Dialog, Toast } from 'antd-mobile';
 
@@ -9,11 +9,11 @@ import Touchable from '@/components/touchable';
 
 import styles from './index.module.scss';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
+// eslint-disable-next-line no-undef
 const version = ENV.PROJECT_VERSION_TAG;
 
-const SiderBar = ({ push }) => {
+const SiderBar = ({ push }: any) => {
   const onClick = () => push('/search');
   const { changeSunny } = useTheme();
   const onClear = useCallback(async () => {
@@ -26,7 +26,7 @@ const SiderBar = ({ push }) => {
       title: '警告',
       content: '确定清理应用以获取最新版本吗？',
       confirmText: '确定',
-      onConfirm: () =>
+      onConfirm: () => {
         caches
           .keys()
           .then(keys => Promise.all(keys.map(key => caches.delete(key))))
@@ -38,7 +38,8 @@ const SiderBar = ({ push }) => {
               },
               duration: 2000,
             })
-          ),
+          );
+      },
     });
   }, []);
 

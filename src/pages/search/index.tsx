@@ -1,16 +1,17 @@
 import { useCallback, useState } from 'react';
 import { SearchBar } from 'antd-mobile';
+import { useHistory } from 'react-router-dom';
 
 import Container from '@/layout/container';
 import VirtualList from '@/components/virtual-list';
 import { IBookX } from '@/definition';
-
-import { newSearch } from './api';
 import { openLoading, closeLoading, toastFail } from '@/utils';
 
-import styles from './index.module.scss';
 import Touchable from '@/components/touchable';
-import { useHistory } from 'react-router-dom';
+
+import { newSearch } from './api';
+
+import styles from './index.module.scss';
 
 const HINT_TIPS = {
   INIT: '输入后点击 done 即可搜索书籍。',
