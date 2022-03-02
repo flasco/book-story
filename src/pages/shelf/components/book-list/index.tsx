@@ -97,7 +97,7 @@ const BookList = () => {
   return (
     <div className={cx('needScroll', styles.container)}>
       <PullToRefresh onRefresh={() => onPull.current()}>
-        <List className={styles.list}>
+        <List className={cx('needScroll', styles.list)}>
           {books.map((book, ind) => {
             return (
               <List.Item key={`${book.bookName}-${book.author}`}>{renderItem(book, ind)}</List.Item>
