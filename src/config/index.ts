@@ -3,10 +3,10 @@ import env from 'penv.macro';
 const serverIps = env(
   {
     production: [
-      // 'https://tassel-1.avosapps.us',
-      // 'https://tassel-2.avosapps.us',
-      'https://cmdsh3b7eebg.cn-e1.leanapp.cn',
-      'https://mhbxymrllauo.cn-e1.leanapp.cn',
+      'https://tassel-1.avosapps.us',
+      'https://tassel-2.avosapps.us',
+      // 'https://cmdsh3b7eebg.cn-e1.leanapp.cn',
+      // 'https://mhbxymrllauo.cn-e1.leanapp.cn',
     ],
   },
   ['http://localhost:3001', 'http://localhost:3001']
