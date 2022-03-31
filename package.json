@@ -1,6 +1,6 @@
 {
   "name": "@leavo/book-story",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "author": "flasco",
   "license": "MIT",
   "private": false,
@@ -8,7 +8,8 @@
     "prepare": "husky install",
     "dev": "vite",
     "build": "vite build",
-    "build:doc": "yarn build && node scripts/ph-page.mjs",
+    "prepublishOnly": "yarn build",
+    "npm-publish": "yarn version --patch && npm publish --registry=https://registry.npmjs.org --access public",
     "upgrade-dep": "yarn upgrade-interactive",
     "scss-lint": "stylelint src/**/*.scss",
     "es-lint": "eslint 'src/**/*.{js,ts,tsx}'",
@@ -48,7 +49,8 @@
     "vite-plugin-babel-macros": "^1.0.6",
     "vite-plugin-compression": "^0.4.0",
     "vite-plugin-optimize-persist": "^0.1.2",
-    "vite-plugin-package-config": "^0.1.1"
+    "vite-plugin-package-config": "^0.1.1",
+    "zx": "4"
   },
   "dependencies": {
     "@react-spring/web": "^9.4.4",
