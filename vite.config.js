@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import vitePluginImport from 'vite-plugin-babel-import';
 import viteCompression from 'vite-plugin-compression';
 // import legacy from '@vitejs/plugin-legacy';
 import macrosPlugin from 'vite-plugin-babel-macros';
@@ -23,13 +22,6 @@ export default defineConfig({
     viteCompression({
       filter: /\.(js|css)$/i,
     }),
-    vitePluginImport([
-      {
-        libraryName: 'antd-mobile',
-        libraryDirectory: 'es/components',
-        style: name => `antd-mobile/es/components/${name}/${name}.css`,
-      },
-    ]),
     // legacy({
     //   targets: ['android >= 4.4', 'ios >= 9', 'chrome>39'],
     // }),

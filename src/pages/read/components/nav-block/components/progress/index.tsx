@@ -61,6 +61,7 @@ const ProgressBlock = () => {
           max={total}
           onChange={changeSlider}
           onAfterChange={afterChangeSlider}
+          icon={<></>}
         />
       </div>
     </div>
