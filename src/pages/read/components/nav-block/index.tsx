@@ -1,5 +1,5 @@
-import { useMemo, useState, useCallback, useRef } from 'react';
-import { Popover, ActionSheet, Modal, TextArea } from 'antd-mobile';
+import { useMemo, useState, useCallback } from 'react';
+import { Popover, ActionSheet, Modal } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import cx from 'classnames';
 import { LeftOutline, MoreOutline } from 'antd-mobile-icons';
@@ -7,14 +7,15 @@ import { LeftOutline, MoreOutline } from 'antd-mobile-icons';
 import { ICON_FONT_MAP } from '@/constants';
 import { useTheme } from '@/hooks/use-theme';
 import Touchable from '@/components/touchable';
+import { useDrawer } from '@/components/drawer';
 
 import { useReaderContext } from '../../context';
 
 import ProgressBlock from './components/progress';
 import CatalogDrawer from './components/catalog-drawer';
+import ModalContent from './modal-content';
 
 import styles from './index.module.scss';
-import { useDrawer } from '@/components/drawer';
 
 const useSwitch = (initVal: boolean): [boolean, () => void] => {
   const [chx, setChx] = useState<boolean>(initVal);
@@ -33,7 +34,6 @@ const NavBlock = () => {
   } = useReaderContext();
 
   const [progress, changeProgress] = useSwitch(false);
-  const filterStr = useRef('');
   const opener = useDrawer();
   const operatorMap = useMemo(() => {
     return [
@@ -63,24 +63,19 @@ const NavBlock = () => {
   const cacheCnts = [20, 50, 200];
 
   const openRegExpModal = () => {
-    Modal.confirm({
+    Modal.show({
       content: (
-        <TextArea
-          style={{ paddingTop: 8 }}
-          rows={5}
-          defaultValue={record.getFilters().join('\n') || ''}
-          placeholder="请输入需要过滤规则，换行可以书写多条规则"
-          onChange={val => {
-            filterStr.current = val;
+        <ModalContent
+          initialStr={record.getFilters().join('\n')}
+          onConfirm={filterStr => {
+            api.setFilters(filterStr.split('\n'));
+            Modal.clear();
           }}
+          onCancel={() => Modal.clear()}
         />
       ),
       showCloseButton: true,
       title: '请输入过滤的正则表达式',
-      onConfirm: () => {
-        console.log(filterStr.current);
-        api.setFilters(filterStr.current.split('\n'));
-      },
     });
   };
 
