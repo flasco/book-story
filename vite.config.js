@@ -38,7 +38,7 @@ export default defineConfig({
   },
   define: {
     ENV: JSON.stringify({
-      PROJECT_VERSION_TAG: version,
+      PROJECT_VERSION_TAG: `${version}（${new Date().toLocaleDateString('zh')}）`,
     }),
   },
   resolve: {
