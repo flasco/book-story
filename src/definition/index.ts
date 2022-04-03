@@ -37,3 +37,9 @@ export interface IContent {
   title: string;
   content: string;
 }
+
+export interface IRecord {
+  recordChapterNum: number;
+  recordPage: number;
+  filters: string[];
+}

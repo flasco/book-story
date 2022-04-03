@@ -1,5 +1,5 @@
-import { useMemo, useState, useCallback } from 'react';
-import { Popover, ActionSheet } from 'antd-mobile';
+import { useMemo, useState, useCallback, useRef } from 'react';
+import { Popover, ActionSheet, Modal, TextArea } from 'antd-mobile';
 import { useHistory } from 'react-router-dom';
 import cx from 'classnames';
 import { LeftOutline, MoreOutline } from 'antd-mobile-icons';
@@ -33,6 +33,7 @@ const NavBlock = () => {
   } = useReaderContext();
 
   const [progress, changeProgress] = useSwitch(false);
+  const filterStr = useRef('');
   const opener = useDrawer();
   const operatorMap = useMemo(() => {
     return [
@@ -60,6 +61,27 @@ const NavBlock = () => {
   }, [sunny]);
 
   const cacheCnts = [20, 50, 200];
+
+  const openRegExpModal = () => {
+    Modal.confirm({
+      content: (
+        <TextArea
+          style={{ height: 120, paddingTop: 8 }}
+          defaultValue={record.getFilters()?.[0] || ''}
+          placeholder="请输入需要过滤文案的正则表达式"
+          onChange={val => {
+            filterStr.current = val;
+          }}
+        />
+      ),
+      showCloseButton: true,
+      title: '请输入过滤的正则表达式',
+      onConfirm: () => {
+        console.log(filterStr.current);
+        api.setFilters([filterStr.current]);
+      },
+    });
+  };
 
   const popOtrMap = useMemo(
     () => [
@@ -110,6 +132,10 @@ const NavBlock = () => {
         text: '重载列表',
         onClick: () => api.reloadList(),
       },
+      {
+        text: '正则过滤',
+        onClick: openRegExpModal,
+      },
     ],
     [api]
   );
@@ -127,7 +153,6 @@ const NavBlock = () => {
             </Popover.Menu>
           </div>
           <Touchable needStop className={styles.content} onClick={() => api.changeMenu()} />
-          {/**TODO: 状态机，同一时间内只有一个面板展示 */}
           {progress && <ProgressBlock />}
           <div className={styles.footer}>
             {operatorMap.map(item => (
