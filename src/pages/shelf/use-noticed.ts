@@ -1,3 +1,6 @@
+/**
+ * Deprecated: not use it;
+ */
 import { getItem, setItem, STORE_LEVEL } from '@/storage/base';
 import { Dialog } from 'antd-mobile';
 import { useState, useEffect, useRef } from 'react';

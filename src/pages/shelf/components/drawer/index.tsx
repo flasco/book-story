@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Dialog, Toast } from 'antd-mobile';
+import { Modal, Toast } from 'antd-mobile';
 
 import SXider, { TOpener } from '@/components/drawer';
 import { clearTemp } from '@/storage/base';
@@ -24,24 +24,35 @@ const SiderBar = () => {
   }, []);
 
   const onForceUpdate = useCallback(() => {
-    Dialog.confirm({
+    Modal.show({
       title: '警告',
       content: '确定清理应用以获取最新版本吗？',
-      confirmText: '确定',
-      onConfirm: () => {
-        caches
-          .keys()
-          .then(keys => Promise.all(keys.map(key => caches.delete(key))))
-          .then(() =>
-            Toast.show({
-              content: '清理完成，即将重启应用',
-              afterClose: () => {
-                window.location.reload();
-              },
-              duration: 2000,
-            })
-          );
-      },
+      actions: [
+        {
+          key: 'true',
+          text: '确定',
+          primary: true,
+          onClick: () => {
+            Modal.clear();
+            caches
+              .keys()
+              .then(keys => Promise.all(keys.map(key => caches.delete(key))))
+              .then(() =>
+                Toast.show({
+                  content: '清理完成，即将重启应用',
+                  afterClose: () => {
+                    window.location.reload();
+                  },
+                  duration: 2000,
+                })
+              );
+          },
+        },
+        {
+          key: 'cancel',
+          text: '取消',
+        },
+      ],
     });
   }, []);
 
