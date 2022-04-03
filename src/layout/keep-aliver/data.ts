@@ -1,16 +1,5 @@
-import {
-  clone,
-  equals,
-  find,
-  findIndex,
-  is,
-  isEmpty,
-  last,
-  map,
-  mergeRight,
-  pick,
-  pipe,
-} from 'ramda';
+import { mergeRight, pick, pipe } from 'ramda';
+import { cloneDeep } from 'lodash-es';
 import type { NavigateFunction } from 'react-router-dom';
 
 export interface TagsViewDto {
@@ -67,51 +56,51 @@ export interface ActionUpdateTitlePayload {
   title: string;
 }
 function isArray(arg: any): arg is Array<any> {
-  return is(Array)(arg);
+  return Array.isArray(arg);
 }
 function delKeepAlive(keepAliveList: Array<TagsViewDto>, { key, navigate }: ActionDelDto) {
-  const index = findIndex(item => equals(item.key, key), keepAliveList);
-  if (equals(index, -1)) {
+  const index = keepAliveList.findIndex(item => item.key === key);
+  if (index === -1) {
     return keepAliveList;
   }
   let pathname = '';
   if (keepAliveList.length > 1) {
-    const index = findIndex(item => equals(item.key, key), keepAliveList);
+    const index = keepAliveList.findIndex(item => item.key === key);
     const data = keepAliveList[index];
     // 如果删除是  当前渲染     需要移动位置
     if (data && data.active) {
       // 如果是最后一个 那么  跳转到上一个
-      if (equals(index, keepAliveList.length - 1)) {
+      if (index === keepAliveList.length - 1) {
         pathname = keepAliveList[index - 1].key;
       } else {
         // 跳转到最后一个
-        pathname = last(keepAliveList)?.key ?? '';
+        pathname = keepAliveList[keepAliveList.length - 1]?.key ?? '';
       }
     }
   }
   keepAliveList.splice(index, 1);
-  if (!isEmpty(pathname)) {
+  if (!pathname) {
     navigate({ pathname });
   }
-  return clone(keepAliveList);
+  return cloneDeep(keepAliveList);
 }
 const mergeMatchRoute = pipe(pick(['key', 'title', 'ele', 'name']), mergeRight({ active: true }));
 
 function addKeepAlive(state: Array<TagsViewDto>, matchRouteObj: ActionTypeAddPayload) {
-  if (state.some(item => equals(item.key, matchRouteObj.key) && item.active)) {
+  if (state.some(item => item.key === matchRouteObj.key && item.active)) {
     return state;
   }
   let isNew = true;
   // 改变选中的值
-  const data = map(item => {
-    if (equals(item.key, matchRouteObj.key)) {
+  const data = state.map(item => {
+    if (item.key === matchRouteObj.key) {
       item.active = true;
       isNew = false;
     } else {
       item.active = false;
     }
     return item;
-  }, state);
+  });
   if (isNew) {
     if (data.length >= 10) {
       data.shift();
@@ -122,15 +111,15 @@ function addKeepAlive(state: Array<TagsViewDto>, matchRouteObj: ActionTypeAddPay
 }
 
 const updateKeepAlive = (state: Array<TagsViewDto>, keepAlive: Partial<TagsViewDto>) =>
-  map(item => (equals(item.key, keepAlive.key) ? mergeRight(item, keepAlive) : item), state);
+  state.map(item => (item.key === keepAlive.key ? mergeRight(item, keepAlive) : item));
 const updateKeepAliveList = (state: Array<TagsViewDto>, keepAlive: Array<TagsViewDto>) =>
-  map(item => {
-    const data = find(res => equals(res.key, item.key), keepAlive);
+  state.map(item => {
+    const data = keepAlive.find(res => res.key === item.key);
     if (data) {
       item = mergeRight(item, data ?? {});
     }
     return item;
-  }, state);
+  });
 export type Action = ActionDel | ActionAdd | ActionClear | ActionUp | ActionDelAdd;
 export const reducer = (state: Array<TagsViewDto>, action: Action): TagsViewDto[] => {
   switch (action.type) {

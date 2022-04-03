@@ -1,4 +1,4 @@
-import localforage from 'localforage';
+import localforage from 'localforage/src/localforage';
 import { ee } from '@/third-party/event';
 
 export const enum STORE_LEVEL {

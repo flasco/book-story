@@ -1,6 +1,5 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { routes } from './configure'; //路由文件
-import { map } from 'ramda';
 import ThemeWrapper from '@/layout/theme-wrapper';
 
 import { connectContext } from '@/utils';
@@ -13,16 +12,9 @@ const BaseRouter = (): JSX.Element => {
     <ThemeWrapper>
       <HashRouter>
         <Routes>
-          {map(
-            route => (
-              <Route
-                path={route.path}
-                key={route.name}
-                element={<route.component route={route} />}
-              />
-            ),
-            routes
-          )}
+          {routes.map(route => (
+            <Route path={route.path} key={route.name} element={<route.component route={route} />} />
+          ))}
         </Routes>
       </HashRouter>
     </ThemeWrapper>

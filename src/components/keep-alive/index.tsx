@@ -1,5 +1,4 @@
 import ReactDOM from 'react-dom';
-import { equals, isNil, map, filter, not } from 'ramda';
 import { useUpdate } from '@/hooks/use-update';
 import {
   JSXElementConstructor,
@@ -26,7 +25,7 @@ function KeepAlive({ activeName, children, exclude, include, isAsyncInclude, max
   const update = useUpdate();
 
   useEffect(() => {
-    if (isNil(activeName)) {
+    if (activeName == null) {
       return;
     }
     // 缓存超过上限的
@@ -34,8 +33,8 @@ function KeepAlive({ activeName, children, exclude, include, isAsyncInclude, max
       components.current = components.current.slice(1);
     }
     // 添加
-    const component = components.current.find(res => equals(res.name, activeName));
-    if (isNil(component)) {
+    const component = components.current.find(res => res.name === activeName);
+    if (component == null) {
       components.current = [
         ...components.current,
         {
@@ -43,15 +42,15 @@ function KeepAlive({ activeName, children, exclude, include, isAsyncInclude, max
           ele: children,
         },
       ];
-      if (not(asyncInclude)) {
+      if (!asyncInclude) {
         update();
       }
     }
     return () => {
-      if (isNil(exclude) && isNil(include)) {
+      if (exclude == null && include == null) {
         return;
       }
-      components.current = filter(({ name }) => {
+      components.current = components.current.filter(({ name }) => {
         if (exclude && exclude.includes(name)) {
           return false;
         }
@@ -59,25 +58,17 @@ function KeepAlive({ activeName, children, exclude, include, isAsyncInclude, max
           return include.includes(name);
         }
         return true;
-      }, components.current);
+      });
     };
   }, [children, activeName, exclude, maxLen, include, update, asyncInclude]);
   return (
     <>
       <div ref={containerRef} className="keep-alive" />
-      {map(
-        ({ name, ele }) => (
-          <Component
-            active={equals(name, activeName)}
-            renderDiv={containerRef}
-            name={name}
-            key={name}
-          >
-            {ele}
-          </Component>
-        ),
-        components.current
-      )}
+      {components.current.map(({ name, ele }) => (
+        <Component active={name === activeName} renderDiv={containerRef} name={name} key={name}>
+          {ele}
+        </Component>
+      ))}
     </>
   );
 }

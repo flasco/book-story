@@ -33,10 +33,8 @@ export default defineConfig({
         entryFileNames: 'assets/[name].js',
         assetFileNames: 'assets/[name][extname]',
       },
+      // plugins: [analyze()],
     },
-    // rollupOptions: {
-    //   plugins: [analyze()],
-    // },
   },
   define: {
     ENV: JSON.stringify({
@@ -46,6 +44,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
+      lodash: 'lodash-es',
     },
   },
 });

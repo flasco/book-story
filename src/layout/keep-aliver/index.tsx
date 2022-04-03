@@ -1,6 +1,6 @@
 import KeepAlive from '@/components/keep-alive';
 import { RouteConfig } from '@/router/configure';
-import { isNil, last, map } from 'ramda';
+import { last } from 'ramda';
 import React, { useEffect, useMemo, useReducer } from 'react';
 import {
   RouteMatch,
@@ -22,7 +22,7 @@ function makeRouteObject(
   routes: RouteConfig[],
   dispatch: React.Dispatch<Action>
 ): Array<RouteObjectDto> {
-  return map(route => {
+  return routes.map(route => {
     return {
       path: route.path,
       name: route.name,
@@ -31,9 +31,9 @@ function makeRouteObject(
           <route.component name={route.name} dispatch={dispatch} />
         </ViewProvider>
       ),
-      children: isNil(route.children) ? undefined : makeRouteObject(route.children, dispatch),
+      children: route.children == null ? undefined : makeRouteObject(route.children, dispatch),
     };
-  }, routes);
+  });
 }
 
 interface Props {
@@ -44,7 +44,7 @@ function getLatchRouteByEle(
   ele: React.ReactElement<any, string | React.JSXElementConstructor<any>>
 ): RouteMatch<string>[] | null {
   const data = ele?.props.value;
-  return isNil(data.outlet)
+  return data.outlet == null
     ? (data.matches as RouteMatch<string>[])
     : getLatchRouteByEle(data.outlet);
 }
@@ -65,11 +65,11 @@ const KeepAliver: React.FC<Props> = ({ route }) => {
   const ele = useRoutes(routeObject);
   // 计算 匹配的路由name
   const matchRouteObj = useMemo(() => {
-    if (isNil(ele)) {
+    if (ele == null) {
       return null;
     }
     const matchRoute = getLatchRouteByEle(ele);
-    if (isNil(matchRoute)) {
+    if (matchRoute == null) {
       return null;
     }
 
@@ -99,7 +99,7 @@ const KeepAliver: React.FC<Props> = ({ route }) => {
     }
   }, [location.key]);
   const include = useMemo(() => {
-    return map(res => res.key, keepAliveList);
+    return keepAliveList.map(res => res.key);
   }, [keepAliveList]);
   return (
     <>
