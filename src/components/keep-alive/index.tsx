@@ -14,15 +14,20 @@ interface Props {
   activeName?: string;
   isAsyncInclude: boolean; // 是否异步添加 Include  如果不是又填写了 true 会导致重复渲染
   include?: Array<string>;
-  exclude?: Array<string>;
   maxLen?: number;
   children: Children;
 }
-function KeepAlive({ activeName, children, exclude, include, isAsyncInclude, maxLen = 10 }: Props) {
+function KeepAlive({ activeName, children, include, isAsyncInclude, maxLen = 10 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const components = useRef<Array<{ name: string; ele: Children }>>([]);
   const [asyncInclude] = useState<boolean>(isAsyncInclude);
   const update = useUpdate();
+
+  useEffect(() => {
+    if (include) {
+      components.current = components.current.filter(({ name }) => include.includes(name));
+    }
+  }, [include]);
 
   useEffect(() => {
     if (activeName == null) {
@@ -35,32 +40,17 @@ function KeepAlive({ activeName, children, exclude, include, isAsyncInclude, max
     // 添加
     const component = components.current.find(res => res.name === activeName);
     if (component == null) {
-      components.current = [
-        ...components.current,
-        {
-          name: activeName,
-          ele: children,
-        },
-      ];
+      components.current.push({
+        name: activeName,
+        ele: children,
+      });
+
       if (!asyncInclude) {
         update();
       }
     }
-    return () => {
-      if (exclude == null && include == null) {
-        return;
-      }
-      components.current = components.current.filter(({ name }) => {
-        if (exclude && exclude.includes(name)) {
-          return false;
-        }
-        if (include) {
-          return include.includes(name);
-        }
-        return true;
-      });
-    };
-  }, [children, activeName, exclude, maxLen, include, update, asyncInclude]);
+  }, [children, activeName, include, update, asyncInclude]);
+
   return (
     <>
       <div ref={containerRef} className="keep-alive" />
