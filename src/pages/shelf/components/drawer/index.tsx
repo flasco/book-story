@@ -33,7 +33,6 @@ const SiderBar = () => {
           text: '确定',
           primary: true,
           onClick: () => {
-            Modal.clear();
             caches
               .keys()
               .then(keys => Promise.all(keys.map(key => caches.delete(key))))
@@ -45,12 +44,22 @@ const SiderBar = () => {
                   },
                   duration: 2000,
                 })
-              );
+              )
+              .catch(() => {
+                Modal.clear();
+                Toast.show({
+                  content: '清理失败，请手动清理',
+                  duration: 2000,
+                });
+              });
           },
         },
         {
           key: 'cancel',
           text: '取消',
+          onClick: () => {
+            Modal.clear();
+          },
         },
       ],
     });
