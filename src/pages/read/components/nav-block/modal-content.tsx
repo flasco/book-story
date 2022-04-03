@@ -1,19 +1,21 @@
-import { Button, TextArea } from 'antd-mobile';
+import { Button } from 'antd-mobile';
 import React, { useState } from 'react';
+
+import styles from './index.module.scss';
 
 const ModalContent = ({ initialStr, onConfirm, onCancel }: any) => {
   const [filterStr, setFilterStr] = useState(initialStr);
 
   return (
     <div>
-      <TextArea
+      <textarea
+        className={styles['filter-textarea']}
         style={{ paddingTop: 8 }}
-        rows={5}
         value={filterStr}
         placeholder="请输入需要过滤规则，换行可以书写多条规则"
         onChange={val => {
-          console.log(val);
-          setFilterStr(val);
+          console.log(val.target.value);
+          setFilterStr(val.target.value);
         }}
       />
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

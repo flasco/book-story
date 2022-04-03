@@ -1,5 +1,5 @@
 export function formatPageContent(text: string, filters: string[] = []) {
-  const regFilters = filters.map(filter => new RegExp(filter, 'ig'));
+  const regFilters = filters.filter(i => i.length).map(filter => new RegExp(filter, 'ig'));
 
   text = regFilters.reduce((prev, curr) => {
     prev = prev.replace(curr, '');

@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Modal, Toast } from 'antd-mobile';
+import { Dialog, Toast } from 'antd-mobile';
 
 import SXider, { TOpener } from '@/components/drawer';
 import { clearTemp } from '@/storage/base';
@@ -24,42 +24,24 @@ const SiderBar = () => {
   }, []);
 
   const onForceUpdate = useCallback(() => {
-    Modal.show({
+    Dialog.confirm({
       title: '警告',
       content: '确定清理应用以获取最新版本吗？',
-      actions: [
-        {
-          key: 'true',
-          text: '确定',
-          primary: true,
-          onClick: () => {
-            Modal.clear();
-            if (!caches) {
-              Toast.show('不支持 service worker, 请自行清理缓存');
-              return;
-            }
-            caches
-              .keys()
-              .then(keys => Promise.all(keys.map(key => caches.delete(key))))
-              .then(() => {
-                Toast.show({
-                  content: '清理完成，即将重启应用',
-                  afterClose: () => {
-                    window.location.reload();
-                  },
-                  duration: 2000,
-                });
-              });
-          },
-        },
-        {
-          key: 'cancel',
-          text: '取消',
-          onClick: () => {
-            Modal.clear();
-          },
-        },
-      ],
+      confirmText: '确定',
+      onConfirm: () => {
+        caches
+          .keys()
+          .then(keys => Promise.all(keys.map(key => caches.delete(key))))
+          .then(() =>
+            Toast.show({
+              content: '清理完成，即将重启应用',
+              afterClose: () => {
+                window.location.reload();
+              },
+              duration: 2000,
+            })
+          );
+      },
     });
   }, []);
 

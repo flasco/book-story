@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback, useRef } from 'react';
-import { Popover, ActionSheet, Modal } from 'antd-mobile';
+import { Popover, ActionSheet, Dialog } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import cx from 'classnames';
 import { LeftOutline, MoreOutline } from 'antd-mobile-icons';
@@ -64,18 +64,17 @@ const NavBlock = () => {
   const cacheCnts = [20, 50, 200];
 
   const openRegExpModal = () => {
-    Modal.show({
+    Dialog.show({
       content: (
         <ModalContent
           initialStr={record.getFilters().join('\n')}
-          onConfirm={filterStr => {
+          onConfirm={(filterStr: string) => {
             api.setFilters(filterStr.split('\n'));
-            Modal.clear();
+            Dialog.clear();
           }}
-          onCancel={() => Modal.clear()}
+          onCancel={() => Dialog.clear()}
         />
       ),
-      showCloseButton: true,
       title: '请输入过滤的正则表达式',
     });
   };
