@@ -1,6 +1,6 @@
 {
   "name": "@leavo/book-story",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "author": "flasco",
   "license": "MIT",
   "private": false,
@@ -20,9 +20,9 @@
     "dist"
   ],
   "devDependencies": {
-    "@milahu/patch-package-with-pnpm-support": "^6.4.8",
     "@commitlint/cli": "^13.2.1",
     "@commitlint/config-conventional": "^13.2.0",
+    "@milahu/patch-package-with-pnpm-support": "^6.4.8",
     "@types/ramda": "^0.28.7",
     "@types/react": "^17.0.43",
     "@types/react-dom": "^17.0.14",
