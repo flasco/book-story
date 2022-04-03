@@ -51,6 +51,7 @@ interface ActionTypeAddPayload {
   key: string;
   title: string;
   name: string;
+  needCutTop: boolean;
 }
 
 interface ActionAdd {
@@ -133,8 +134,13 @@ const updateKeepAliveList = (state: Array<TagsViewDto>, keepAlive: Array<TagsVie
 export type Action = ActionDel | ActionAdd | ActionClear | ActionUp | ActionDelAdd;
 export const reducer = (state: Array<TagsViewDto>, action: Action): TagsViewDto[] => {
   switch (action.type) {
-    case ActionType.add:
+    case ActionType.add: {
+      if (action.payload.needCutTop) {
+        const index = state.length - 1;
+        state.splice(index, 1);
+      }
       return addKeepAlive(state, action.payload);
+    }
     case ActionType.del:
       return delKeepAlive(state, action.payload);
     case ActionType.clear:
@@ -143,11 +149,6 @@ export const reducer = (state: Array<TagsViewDto>, action: Action): TagsViewDto[
       return isArray(action.payload)
         ? updateKeepAliveList(state, action.payload)
         : updateKeepAlive(state, action.payload);
-    case ActionType.delAdd: {
-      const index = state.length - 1;
-      state.splice(index, 1);
-      return addKeepAlive(state, action.payload as any);
-    }
     default:
       return state;
   }

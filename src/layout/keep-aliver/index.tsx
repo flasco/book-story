@@ -86,12 +86,11 @@ const KeepAliver: React.FC<Props> = ({ route }) => {
     console.log('KeepAliver useEffect', matchRouteObj, locationType);
     if (matchRouteObj) {
       dispatch({
-        type:
-          locationType === 'POP' || locationType === 'REPLACE' ? ActionType.delAdd : ActionType.add,
+        type: ActionType.add,
         payload: {
-          navigate,
+          needCutTop: locationType === 'POP' || locationType === 'REPLACE',
           ...matchRouteObj,
-        } as any,
+        },
       });
     } else {
       navigate({
