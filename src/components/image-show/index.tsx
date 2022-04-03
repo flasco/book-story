@@ -1,7 +1,5 @@
 import React, { useState, useLayoutEffect, useRef } from 'react';
 
-import defaultImage from '@/assets/noImg.jpg';
-
 import { getImage } from './api';
 
 // 考虑做个图片本地缓存
@@ -17,7 +15,7 @@ const ImageShow: React.FC<any> = ({ src, ...otherProps }) => {
         }
       })
       .catch(() => {
-        setSrc(defaultImage);
+        setSrc('https://unpkg.com/@leavo/book-story@0.0.6/dist/assets/noImg.jpg');
       });
     return () => {
       isActive.current = false;
