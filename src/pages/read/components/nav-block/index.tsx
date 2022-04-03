@@ -66,9 +66,10 @@ const NavBlock = () => {
     Modal.confirm({
       content: (
         <TextArea
-          style={{ height: 120, paddingTop: 8 }}
-          defaultValue={record.getFilters()?.[0] || ''}
-          placeholder="请输入需要过滤文案的正则表达式"
+          style={{ paddingTop: 8 }}
+          rows={5}
+          defaultValue={record.getFilters().join('\n') || ''}
+          placeholder="请输入需要过滤规则，换行可以书写多条规则"
           onChange={val => {
             filterStr.current = val;
           }}
@@ -78,7 +79,7 @@ const NavBlock = () => {
       title: '请输入过滤的正则表达式',
       onConfirm: () => {
         console.log(filterStr.current);
-        api.setFilters([filterStr.current]);
+        api.setFilters(filterStr.current.split('\n'));
       },
     });
   };
