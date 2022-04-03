@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState, useCallback, useRef } from 'react';
 import { Popover, ActionSheet, Modal } from 'antd-mobile';
 import { useNavigate } from 'react-router-dom';
 import cx from 'classnames';
@@ -32,6 +32,7 @@ const NavBlock = () => {
     cache: { list, record },
     showMenu,
   } = useReaderContext();
+  const hederRef = useRef<HTMLDivElement>(null);
 
   const [progress, changeProgress] = useSwitch(false);
   const opener = useDrawer();
@@ -137,12 +138,18 @@ const NavBlock = () => {
   );
 
   return (
-    <div className={cx(styles.container, { [styles.hidden]: !showMenu })}>
+    <div className={cx(styles.container, { [styles.hidden]: !showMenu })} ref={hederRef}>
       <CatalogDrawer opener={opener} changeMenu={api.changeMenu}>
         <div className={styles.container}>
           <div className={styles.header}>
             <LeftOutline className={styles.back} onClick={() => navigate(-1)} />
-            <Popover.Menu actions={popOtrMap} destroyOnHide trigger="click" placement="topRight">
+            <Popover.Menu
+              getContainer={() => hederRef.current!}
+              actions={popOtrMap}
+              destroyOnHide
+              trigger="click"
+              placement="topRight"
+            >
               <div>
                 <MoreOutline style={{ fontSize: 24 }} />
               </div>

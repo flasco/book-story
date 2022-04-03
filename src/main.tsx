@@ -1,4 +1,4 @@
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import 'antd-mobile/es/global';
 
@@ -8,4 +8,4 @@ import './initial';
 
 import './base.scss';
 
-render(<App />, document.getElementById('root')!);
+createRoot(document.getElementById('root')!).render(<App />);
