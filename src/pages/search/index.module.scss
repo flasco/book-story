@@ -15,10 +15,6 @@
 
 .search {
   padding: 12px;
-
-  input {
-    -webkit-user-select: auto; // sass-lint:disable-line no-vendor-prefixes
-  }
 }
 
 .item + .item {
