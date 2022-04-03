@@ -71,4 +71,6 @@
   resize: none;
   outline: none;
   line-height: 20px;
+  -webkit-user-select: text;
+  user-select: text;
 }
