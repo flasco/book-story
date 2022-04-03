@@ -33,22 +33,20 @@ const SiderBar = () => {
           text: '确定',
           primary: true,
           onClick: () => {
+            Modal.clear();
+            if (!caches) {
+              Toast.show('不支持 service worker, 请自行清理缓存');
+              return;
+            }
             caches
               .keys()
               .then(keys => Promise.all(keys.map(key => caches.delete(key))))
-              .then(() =>
+              .then(() => {
                 Toast.show({
                   content: '清理完成，即将重启应用',
                   afterClose: () => {
                     window.location.reload();
                   },
-                  duration: 2000,
-                })
-              )
-              .catch(() => {
-                Modal.clear();
-                Toast.show({
-                  content: '清理失败，请手动清理',
                   duration: 2000,
                 });
               });
