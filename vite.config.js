@@ -28,6 +28,12 @@ export default defineConfig({
   ],
   build: {
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        entryFileNames: 'assets/[name].js',
+        assetFileNames: 'assets/[name][extname]',
+      },
+    },
     // rollupOptions: {
     //   plugins: [analyze()],
     // },
