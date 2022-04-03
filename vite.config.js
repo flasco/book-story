@@ -8,7 +8,7 @@ import PkgConfig from 'vite-plugin-package-config';
 // import { visualizer as analyze } from 'rollup-plugin-visualizer';
 import path from 'path';
 
-import { generateVersion } from './scripts/utils.js';
+import { version } from './package.json';
 
 export default defineConfig({
   base: './',
@@ -40,7 +40,7 @@ export default defineConfig({
   },
   define: {
     ENV: JSON.stringify({
-      PROJECT_VERSION_TAG: generateVersion(),
+      PROJECT_VERSION_TAG: version,
     }),
   },
   resolve: {
