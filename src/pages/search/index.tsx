@@ -10,7 +10,7 @@ import { openLoading, closeLoading, toastFail } from '@/utils';
 
 import styles from './index.module.scss';
 import Touchable from '@/components/touchable';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const HINT_TIPS = {
   INIT: '输入后点击 done 即可搜索书籍。',
@@ -19,7 +19,7 @@ const HINT_TIPS = {
 };
 
 const SearchPage = () => {
-  const { push, go } = useHistory();
+  const navigate = useNavigate();
   const [list, setList] = useState<IBookX[]>([]);
   const [hint, setHint] = useState(HINT_TIPS.INIT);
 
@@ -43,12 +43,20 @@ const SearchPage = () => {
     [setList]
   );
 
-  const cancelSearch = useCallback(() => go(-1), [go]);
+  const cancelSearch = useCallback(() => navigate(-1), [navigate]);
 
   const renderItem = ({ style, index }) => {
     const item = list[index];
     return (
-      <Touchable style={style} className={styles.item} onClick={() => push('/detail', item)}>
+      <Touchable
+        style={style}
+        className={styles.item}
+        onClick={() =>
+          navigate('/detail', {
+            state: item,
+          })
+        }
+      >
         <span>{`${item.bookName} - ${item.author}`}</span>
       </Touchable>
     );

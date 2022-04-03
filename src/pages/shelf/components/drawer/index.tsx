@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Dialog, Toast } from 'antd-mobile';
 
 import SXider, { TOpener } from '@/components/drawer';
@@ -13,8 +13,10 @@ import styles from './index.module.scss';
 // @ts-ignore
 const version = ENV.PROJECT_VERSION_TAG;
 
-const SiderBar = ({ push }) => {
-  const onClick = () => push('/search');
+const SiderBar = () => {
+  const navigate = useNavigate();
+
+  const onClick = () => navigate('/search');
   const { changeSunny } = useTheme();
   const onClear = useCallback(async () => {
     await clearTemp();
@@ -26,7 +28,7 @@ const SiderBar = ({ push }) => {
       title: '警告',
       content: '确定清理应用以获取最新版本吗？',
       confirmText: '确定',
-      onConfirm: () =>
+      onConfirm: () => {
         caches
           .keys()
           .then(keys => Promise.all(keys.map(key => caches.delete(key))))
@@ -38,7 +40,8 @@ const SiderBar = ({ push }) => {
               },
               duration: 2000,
             })
-          ),
+          );
+      },
     });
   }, []);
 
@@ -69,8 +72,7 @@ interface IProps {
 }
 
 const Sider: React.FC<IProps> = ({ opener, children = null }) => {
-  const { push } = useHistory();
-  const siderBar = useMemo(() => <SiderBar push={push} />, [push]);
+  const siderBar = useMemo(() => <SiderBar />, []);
 
   return (
     <SXider sideBar={siderBar} opener={opener}>

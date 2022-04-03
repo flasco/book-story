@@ -1,5 +1,4 @@
-import { Route, BrowserRouter, Redirect } from 'react-router-dom';
-import { CacheSwitch, CacheRoute } from 'react-router-cache-route';
+import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
 import { BookProvider } from '@/hooks/use-book';
 import { ThemeProvider } from '@/hooks/use-theme';
 
@@ -12,20 +11,20 @@ import Detail from './pages/detail';
 import Origin from './pages/origin';
 import { connectContext } from './utils';
 
-const basepath = `${location.pathname}#`;
+const basepath = `/`;
 
 const routes = () => (
   <ThemeWrapper>
     <BrowserRouter basename={basepath}>
-      <CacheSwitch>
-        <CacheRoute when="forward" path="/shelf" exact component={Shelf} />
-        <CacheRoute when="forward" path="/read" exact component={Read} />
-        <CacheRoute when="forward" path="/search" exact component={Search} />
-        <Route path="/origin" exact component={Origin} />
-        <Route path="/detail" exact component={Detail} />
+      <Routes>
+        <Route path="/shelf" element={<Shelf />} />
+        <Route path="/read" element={<Read />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/origin" element={<Origin />} />
+        <Route path="/detail" element={<Detail />} />
 
-        <Redirect from="/*" exact to="/shelf" />
-      </CacheSwitch>
+        <Route path="/*" element={<Navigate to="/shelf" />} />
+      </Routes>
     </BrowserRouter>
   </ThemeWrapper>
 );

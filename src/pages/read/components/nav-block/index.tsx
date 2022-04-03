@@ -1,6 +1,6 @@
 import { useMemo, useState, useCallback, useRef } from 'react';
 import { Popover, ActionSheet, Modal, TextArea } from 'antd-mobile';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import cx from 'classnames';
 import { LeftOutline, MoreOutline } from 'antd-mobile-icons';
 
@@ -24,7 +24,7 @@ const useSwitch = (initVal: boolean): [boolean, () => void] => {
 };
 
 const NavBlock = () => {
-  const { push, goBack } = useHistory();
+  const navigate = useNavigate();
   const { changeSunny, sunny } = useTheme();
   const {
     api,
@@ -89,7 +89,7 @@ const NavBlock = () => {
       {
         text: '换源',
         onClick: () => {
-          setTimeout(() => push('/origin'), 100);
+          setTimeout(() => navigate('/origin'), 100);
         },
       },
       {
@@ -146,7 +146,7 @@ const NavBlock = () => {
       <CatalogDrawer opener={opener} changeMenu={api.changeMenu}>
         <div className={styles.container}>
           <div className={styles.header}>
-            <LeftOutline className={styles.back} onClick={() => goBack()} />
+            <LeftOutline className={styles.back} onClick={() => navigate(-1)} />
             <Popover.Menu actions={popOtrMap} destroyOnHide trigger="click" placement="topRight">
               <div>
                 <MoreOutline style={{ fontSize: 24 }} />
