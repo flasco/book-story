@@ -98,15 +98,13 @@ const KeepAliver: React.FC<Props> = ({ route }) => {
       });
     }
   }, [location.key]);
-  const include = useMemo(() => {
+  const includeKeys = useMemo(() => {
     return keepAliveList.map(res => res.key);
   }, [keepAliveList]);
   return (
-    <>
-      <KeepAlive activeName={matchRouteObj?.key} include={include} isAsyncInclude>
-        {ele}
-      </KeepAlive>
-    </>
+    <KeepAlive activeName={matchRouteObj?.key} includeKeys={includeKeys}>
+      {ele}
+    </KeepAlive>
   );
 };
 

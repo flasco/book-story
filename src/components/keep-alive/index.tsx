@@ -1,5 +1,4 @@
 import ReactDOM from 'react-dom';
-import { useUpdate } from '@/hooks/use-update';
 import {
   JSXElementConstructor,
   memo,
@@ -9,47 +8,42 @@ import {
   useRef,
   useState,
 } from 'react';
+
 type Children = ReactElement<any, string | JSXElementConstructor<any>> | null;
 interface Props {
   activeName?: string;
-  isAsyncInclude: boolean; // 是否异步添加 Include  如果不是又填写了 true 会导致重复渲染
-  include?: Array<string>;
+  includeKeys?: Array<string>;
   maxLen?: number;
   children: Children;
 }
-function KeepAlive({ activeName, children, include, isAsyncInclude, maxLen = 10 }: Props) {
+function KeepAlive({ activeName, children, includeKeys, maxLen = 10 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const components = useRef<Array<{ name: string; ele: Children }>>([]);
-  const [asyncInclude] = useState<boolean>(isAsyncInclude);
-  const update = useUpdate();
 
   useEffect(() => {
-    if (include) {
-      components.current = components.current.filter(({ name }) => include.includes(name));
+    /** 同步机制 */
+    if (includeKeys) {
+      components.current = components.current.filter(({ name }) => includeKeys.includes(name));
     }
-  }, [include]);
+  }, [includeKeys]);
 
   useEffect(() => {
     if (activeName == null) {
       return;
     }
+    const curComponent = components.current;
     // 缓存超过上限的
-    if (components.current.length >= maxLen) {
-      components.current = components.current.slice(1);
+    if (curComponent.length >= maxLen) {
+      components.current = curComponent.slice(1);
     }
-    // 添加
-    const component = components.current.find(res => res.name === activeName);
-    if (component == null) {
-      components.current.push({
+    // 如果不存在 cache 就 add 一个
+    if (!curComponent.find(res => res.name === activeName)) {
+      curComponent.push({
         name: activeName,
         ele: children,
       });
-
-      if (!asyncInclude) {
-        update();
-      }
     }
-  }, [children, activeName, include, update, asyncInclude]);
+  }, [children, activeName, includeKeys]);
 
   return (
     <>
@@ -62,6 +56,7 @@ function KeepAlive({ activeName, children, include, isAsyncInclude, maxLen = 10 
     </>
   );
 }
+
 export default memo(KeepAlive);
 
 interface ComponentProps {
@@ -89,5 +84,3 @@ function Component({ active, children, name, renderDiv }: ComponentProps) {
   }, [name, targetElement]);
   return <>{activatedRef.current && ReactDOM.createPortal(children, targetElement)}</>;
 }
-
-export const KeepAliveComponent = memo(Component);
