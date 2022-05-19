@@ -5,8 +5,8 @@ import {
   ReactElement,
   RefObject,
   useEffect,
+  useMemo,
   useRef,
-  useState,
 } from 'react';
 
 type Children = ReactElement<any, string | JSXElementConstructor<any>> | null;
@@ -67,7 +67,7 @@ interface ComponentProps {
 }
 
 function Component({ active, children, name, renderDiv }: ComponentProps) {
-  const [targetElement] = useState(() => document.createElement('div'));
+  const targetElement = useMemo(() => document.createElement('div'), []);
   const activatedRef = useRef(false);
   activatedRef.current = activatedRef.current || active;
   useEffect(() => {
