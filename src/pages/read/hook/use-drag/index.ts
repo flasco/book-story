@@ -88,11 +88,10 @@ function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, h
         const curApi = isLeftEdge ? hookLeft : hookRight;
         setLoading(true);
         const isSucceed = (await curApi?.()) ?? false;
-        if (!isSucceed) {
-          setLoading(false);
-          Toast.show('已经临近边界');
-          currentPage = page;
-        }
+        if (isSucceed) return;
+        setLoading(false);
+        Toast.show('已经临近边界');
+        currentPage = page;
       }
 
       page !== currentPage && setPage(Math.round(currentPage));
