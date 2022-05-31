@@ -78,7 +78,7 @@ export async function post<T = any>(url: string, payload?: any) {
     });
     if (code !== 0 && code !== 200) throw msg;
     return data as T;
-  } catch (error) {
+  } catch (error: any) {
     throw error.message || error;
   }
 }
