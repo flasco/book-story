@@ -13,6 +13,7 @@ const pageWidth = screenWidth - 16;
 
 function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRight }) {
   const innerRef = createRef<HTMLDivElement>();
+  const outerRef = createRef<HTMLDivElement>();
   const [page, setPage] = useState(() => Math.round(initialPage - 1));
   const inAnimate = useRef(false);
   const [total, setTotal] = useState(0);
@@ -101,7 +102,8 @@ function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, h
   );
 
   useEffect(() => {
-    const current = innerRef.current!;
+    // 事件绑定到 outer 上是为了避免在内容不全的时候无法翻页，确保交互可以正常执行
+    const current = outerRef.current!;
     const touchStart = fromEvent<TouchEvent>(current, 'touchstart').pipe(
       map(e => e.touches[0].clientX)
     );
@@ -135,12 +137,13 @@ function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, h
       clicker$.unsubscribe();
       mover$.unsubscribe();
     };
-  }, [innerRef, api, touchEndFn]);
+  }, [outerRef, api, touchEndFn]);
 
   return {
     page,
     total,
     innerRef,
+    outerRef,
     goTo,
     loading,
     transformX,
