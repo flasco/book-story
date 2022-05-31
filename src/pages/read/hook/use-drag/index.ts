@@ -93,7 +93,6 @@ function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, h
           Toast.show('已经临近边界');
           currentPage = page;
         }
-        return;
       }
 
       page !== currentPage && setPage(Math.round(currentPage));
