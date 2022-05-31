@@ -1,6 +1,5 @@
 import KeepAlive from '@/components/keep-alive';
 import { RouteConfig } from '@/router/configure';
-import { last } from 'ramda';
 import React, { useEffect, useMemo, useReducer } from 'react';
 import {
   RouteMatch,
@@ -73,8 +72,9 @@ const KeepAliver: React.FC<Props> = ({ route }) => {
       return null;
     }
 
-    const data = last(matchRoute)?.route as RouteObjectDto;
-    const key = (last(matchRoute)?.pathname === '/shelf' ? 'shelf' : location.key) ?? '';
+    const lastRoute = matchRoute[matchRoute.length - 1];
+    const data = lastRoute?.route as RouteObjectDto;
+    const key = (lastRoute?.pathname === '/shelf' ? 'shelf' : location.key) ?? '';
     return {
       key,
       title: data?.meta?.title ?? '',
