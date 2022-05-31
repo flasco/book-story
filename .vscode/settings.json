@@ -6,5 +6,9 @@
     "javascriptreact",
     "typescript",
     "typescriptreact"
+  ],
+  "cSpell.words": [
+    "antd",
+    "penv"
   ]
 }
