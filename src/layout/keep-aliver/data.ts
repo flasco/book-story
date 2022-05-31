@@ -1,4 +1,3 @@
-import { cloneDeep } from 'lodash-es';
 import type { NavigateFunction } from 'react-router-dom';
 
 export interface TagsViewDto {
@@ -81,7 +80,7 @@ function delKeepAlive(keepAliveList: Array<TagsViewDto>, { key, navigate }: Acti
   if (!pathname) {
     navigate({ pathname });
   }
-  return cloneDeep(keepAliveList);
+  return [...keepAliveList];
 }
 
 function addKeepAlive(state: Array<TagsViewDto>, matchRouteObj: ActionTypeAddPayload) {
