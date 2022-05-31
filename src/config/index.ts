@@ -19,8 +19,8 @@ export const getIp = (() => {
   return () => {
     const current = Date.now();
     if (prevIp == null || current - lockTime > 3600 * 1000) {
-      const currenthours = new Date().getUTCHours() + 8;
-      const curPoi = currenthours >= 9 && currenthours < 22 ? 0 : 1;
+      const currentHours = new Date().getUTCHours() + 8;
+      const curPoi = currentHours >= 9 && currentHours < 22 ? 0 : 1;
       prevIp = serverIps[curPoi];
       lockTime = current;
     }

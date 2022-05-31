@@ -1,4 +1,4 @@
-/// <reference types="vite/client" />
+declare module '*.scss';
 
 interface PureObject {
   [key: string]: any;

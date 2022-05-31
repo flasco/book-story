@@ -1,5 +1,3 @@
-import { mergeRight, pick, pipe } from 'ramda';
-import { cloneDeep } from 'lodash-es';
 import type { NavigateFunction } from 'react-router-dom';
 
 export interface TagsViewDto {
@@ -82,9 +80,8 @@ function delKeepAlive(keepAliveList: Array<TagsViewDto>, { key, navigate }: Acti
   if (!pathname) {
     navigate({ pathname });
   }
-  return cloneDeep(keepAliveList);
+  return [...keepAliveList];
 }
-const mergeMatchRoute = pipe(pick(['key', 'title', 'ele', 'name']), mergeRight({ active: true }));
 
 function addKeepAlive(state: Array<TagsViewDto>, matchRouteObj: ActionTypeAddPayload) {
   if (state.some(item => item.key === matchRouteObj.key && item.active)) {
@@ -105,18 +102,23 @@ function addKeepAlive(state: Array<TagsViewDto>, matchRouteObj: ActionTypeAddPay
     if (data.length >= 10) {
       data.shift();
     }
-    data.push(mergeMatchRoute(matchRouteObj));
+    data.push({
+      active: true,
+      key: matchRouteObj.key,
+      title: matchRouteObj.title,
+      name: matchRouteObj.name,
+    });
   }
   return data;
 }
 
 const updateKeepAlive = (state: Array<TagsViewDto>, keepAlive: Partial<TagsViewDto>) =>
-  state.map(item => (item.key === keepAlive.key ? mergeRight(item, keepAlive) : item));
+  state.map(item => (item.key === keepAlive.key ? Object.assign(item, keepAlive) : item));
 const updateKeepAliveList = (state: Array<TagsViewDto>, keepAlive: Array<TagsViewDto>) =>
   state.map(item => {
     const data = keepAlive.find(res => res.key === item.key);
     if (data) {
-      item = mergeRight(item, data ?? {});
+      Object.assign(item, data ?? {});
     }
     return item;
   });

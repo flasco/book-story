@@ -20,7 +20,7 @@ const NewReader: React.FC = () => {
     [watched, api]
   );
 
-  const { ref, page, touchEvent, loading, total, transformX } = useDrag(pages, param);
+  const { innerRef, page, loading, total, transformX } = useDrag(pages, param);
 
   const footer = useMemo(() => {
     if (total < 1) return null;
@@ -38,9 +38,9 @@ const NewReader: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.title}>{title}</div>
         <div className={styles.wrapper}>
-          <div className={styles.inner} {...touchEvent}>
+          <div className={styles.inner}>
             <animated.div
-              ref={ref}
+              ref={innerRef}
               className={styles.main}
               style={{ transform: transformX.to(x => `translateX(${x}px)`) }}
             >

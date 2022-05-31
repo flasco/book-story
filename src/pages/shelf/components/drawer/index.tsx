@@ -47,19 +47,17 @@ const SiderBar = () => {
 
   return (
     <div className={styles.sider}>
-      <Touchable needStop className={styles.item} onClick={onClick}>
+      <Touchable className={styles.item} onClick={onClick}>
         搜索
       </Touchable>
-      <Touchable needStop className={styles.item}>
-        排行
-      </Touchable>
-      <Touchable needStop className={styles.item} onClick={changeSunny}>
+      <Touchable className={styles.item}>排行</Touchable>
+      <Touchable className={styles.item} onClick={changeSunny}>
         日夜切换
       </Touchable>
-      <Touchable needStop className={styles.item} onClick={onClear}>
+      <Touchable className={styles.item} onClick={onClear}>
         缓存清理
       </Touchable>
-      <Touchable needStop className={styles.item} onClick={onForceUpdate}>
+      <Touchable className={styles.item} onClick={onForceUpdate}>
         强制更新
       </Touchable>
       <div className={styles.version}>Version: {version}</div>
