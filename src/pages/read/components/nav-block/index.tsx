@@ -154,11 +154,11 @@ const NavBlock = () => {
               </div>
             </Popover.Menu>
           </div>
-          <Touchable needStop className={styles.content} onClick={() => api.changeMenu()} />
+          <Touchable className={styles.content} onClick={() => api.changeMenu()} />
           {progress && <ProgressBlock />}
           <div className={styles.footer}>
             {operatorMap.map(item => (
-              <Touchable needStop className={styles.item} key={item.title} onClick={item.click}>
+              <Touchable className={styles.item} key={item.title} onClick={item.click}>
                 <i className="iconfont">{item.icon}</i>
                 {item.title}
               </Touchable>
