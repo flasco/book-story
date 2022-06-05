@@ -3,7 +3,10 @@ import React, { useState, useLayoutEffect, useRef } from 'react';
 import { getImage } from './api';
 
 // 考虑做个图片本地缓存
-const ImageShow: React.FC<any> = ({ src, ...otherProps }) => {
+const ImageShow: React.FC<React.ImgHTMLAttributes<HTMLImageElement> & { src: string }> = ({
+  src,
+  ...otherProps
+}) => {
   const [origin, setSrc] = useState<string>(undefined as any);
   const isActive = useRef(true);
 
@@ -22,7 +25,8 @@ const ImageShow: React.FC<any> = ({ src, ...otherProps }) => {
     };
   }, [src]);
 
-  return <img {...otherProps} src={origin} />;
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  return <img {...otherProps} alt="cover" src={origin} />;
 };
 
 export default ImageShow;

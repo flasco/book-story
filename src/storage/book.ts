@@ -1,5 +1,6 @@
-import { setItem, getItem, STORE_LEVEL } from './base';
 import { IChapter, IContent, IBook, IRecord } from '@/definition';
+
+import { setItem, getItem, STORE_LEVEL } from './base';
 
 type bookType = 'books' | 'flattens';
 

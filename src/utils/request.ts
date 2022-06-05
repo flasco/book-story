@@ -22,7 +22,7 @@ interface IOptions {
 const requestCache = new Map<string, Promise<any>>();
 
 /** 支持缓存，避免重复请求，特别针对 prefetch 场景下 */
-export function get<T = any>(url: string, payload?: TObject, options?: IOptions): Promise<T> {
+export function get<T = any>(url: string, payload?: Record<string, any>, options?: IOptions): Promise<T> {
   const { cache = false, ...others } = options ?? {};
   url = transformURL(getIp() + url, payload);
 
@@ -37,6 +37,7 @@ export function get<T = any>(url: string, payload?: TObject, options?: IOptions)
   return request;
 }
 
+// eslint-disable-next-line no-underscore-dangle
 export async function _get<T = any>(url: string, options: Omit<IOptions, 'cache'>): Promise<T> {
   const { retryCnt = 0, timeout } = options;
   for (let i = 0; i <= retryCnt; i++) {
@@ -54,7 +55,7 @@ export async function _get<T = any>(url: string, options: Omit<IOptions, 'cache'
       console.log(`请求失败，第${i + 1}次重试...`);
     }
   }
-  throw '请求失败';
+  throw new Error('请求失败');
 }
 
 export async function getAsBuffer(url: string, payload?: any) {

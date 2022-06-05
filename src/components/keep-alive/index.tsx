@@ -16,7 +16,7 @@ interface Props {
   maxLen?: number;
   children: Children;
 }
-function KeepAlive({ activeName, children, includeKeys, maxLen = 10 }: Props) {
+const KeepAlive = ({ activeName, children, includeKeys, maxLen = 10 }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const components = useRef<Array<{ name: string; ele: Children }>>([]);
 
@@ -49,6 +49,7 @@ function KeepAlive({ activeName, children, includeKeys, maxLen = 10 }: Props) {
     <>
       <div ref={containerRef} className="keep-alive" />
       {components.current.map(({ name, ele }) => (
+        // eslint-disable-next-line no-use-before-define
         <Component active={name === activeName} renderDiv={containerRef} name={name} key={name}>
           {ele}
         </Component>
@@ -66,7 +67,7 @@ interface ComponentProps {
   renderDiv: RefObject<HTMLDivElement>;
 }
 
-function Component({ active, children, name, renderDiv }: ComponentProps) {
+const Component = ({ active, children, name, renderDiv }: ComponentProps) => {
   const targetElement = useMemo(() => document.createElement('div'), []);
   const activatedRef = useRef(false);
   activatedRef.current = activatedRef.current || active;
@@ -76,11 +77,14 @@ function Component({ active, children, name, renderDiv }: ComponentProps) {
     } else {
       try {
         renderDiv.current?.removeChild(targetElement);
-      } catch (e) {}
+      } catch (e) {
+        // ignore
+      }
     }
   }, [active, name, renderDiv, targetElement]);
   useEffect(() => {
     targetElement.setAttribute('id', name);
   }, [name, targetElement]);
+  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <>{activatedRef.current && ReactDOM.createPortal(children, targetElement)}</>;
 }

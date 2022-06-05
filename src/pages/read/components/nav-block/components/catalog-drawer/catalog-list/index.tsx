@@ -38,7 +38,7 @@ const BookList: React.FC<IListProps> = ({ opener, changeMenu }) => {
   const onClick = useCallback(index => {
     changeVisible();
     changeMenu();
-    goToChapter(index, 1);
+    goToChapter({ position: index, ctrlPos: 1 });
   }, []);
 
   const renderItem = useCallback(

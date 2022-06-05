@@ -19,9 +19,11 @@ class ListCache {
     updateChapterList(this.key, list);
   };
 
-  getChapterUrl = position => this.list[position]?.url ?? '';
+  getListChapterItem = position => this.list[position];
 
-  getChapterName = position => this.list[position]?.title ?? '';
+  getChapterUrl = position => this.getListChapterItem(position)?.url ?? '';
+
+  getChapterName = position => this.getListChapterItem(position)?.title ?? '';
 
   getLength = () => this.list.length;
 

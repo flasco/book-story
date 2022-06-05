@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 
 import { Popup } from 'antd-mobile';
 
+export type TOpener = ReturnType<typeof useDrawer>;
+
 interface IDrawerProps {
-  sideBar: JSX.Element;
+  sideBar: React.ReactNode;
   children: any;
   opener: TOpener;
   fullScreen?: boolean;
@@ -27,9 +29,7 @@ const Drawer: React.FC<IDrawerProps> = ({ sideBar, children, opener, fullScreen 
   );
 };
 
-export type TOpener = ReturnType<typeof useDrawer>;
-
-export const useDrawer = () => {
+export function useDrawer() {
   const [visible, change] = useState(false);
 
   const close = () => change(false);
@@ -37,6 +37,6 @@ export const useDrawer = () => {
   const changeVisible = () => change(a => !a);
 
   return { open, close, visible, changeVisible };
-};
+}
 
 export default Drawer;

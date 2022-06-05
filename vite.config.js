@@ -1,3 +1,5 @@
+import path from 'path';
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import viteCompression from 'vite-plugin-compression';
@@ -6,7 +8,6 @@ import macrosPlugin from 'vite-plugin-babel-macros';
 import OptimizationPersist from 'vite-plugin-optimize-persist';
 import PkgConfig from 'vite-plugin-package-config';
 // import { visualizer as analyze } from 'rollup-plugin-visualizer';
-import path from 'path';
 
 import { version } from './package.json';
 

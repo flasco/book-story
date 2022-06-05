@@ -8,9 +8,10 @@ import useDrag from '../../hook/use-drag';
 import styles from './index.module.scss';
 
 const NewReader: React.FC = () => {
-  const { title, pages, watched, api } = useReaderContext();
+  const { title, pages, watched, api, hasMultiPage } = useReaderContext();
   const param = useMemo(
     () => ({
+      hasMultiPage,
       initialPage: watched,
       saveRecord: api.saveRecord,
       hookLeft: api.prevChapter,

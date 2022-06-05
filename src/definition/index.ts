@@ -36,10 +36,13 @@ export interface IChapter {
 export interface IContent {
   title: string;
   content: string;
+  nextUrl?: string;
+  prevUrl?: string;
 }
 
 export interface IRecord {
   recordChapterNum: number;
   recordPage: number;
+  recordChapterUrl: string;
   filters: string[];
 }

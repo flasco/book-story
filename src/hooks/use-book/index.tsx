@@ -6,6 +6,7 @@ import CacheBooks from '@/cache/books';
 import { openLoading, closeLoading, toastFail } from '@/utils';
 import ListCache from '@/cache/list';
 
+// eslint-disable-next-line no-use-before-define
 type Context = ReturnType<typeof useBookAndFlatten>;
 
 const BookContext = React.createContext<Context>({} as Context);
@@ -135,6 +136,7 @@ const useBookAndFlatten = () => {
     book.plantformId = plantformId;
     setBooks([...books]);
 
+    // eslint-disable-next-line no-use-before-define
     setCurBook(book);
 
     bookCache.update({ books: [...books] });

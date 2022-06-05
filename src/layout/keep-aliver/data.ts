@@ -14,6 +14,11 @@ export enum ActionType {
   update = 'UPDATE',
   clear = 'CLEAR',
 }
+
+interface ActionDelDto {
+  key: string;
+  navigate: NavigateFunction;
+}
 interface ActionDel {
   type: ActionType.del;
   payload: ActionDelDto;
@@ -26,10 +31,6 @@ interface ActionDelAdd {
   };
 }
 
-interface ActionDelDto {
-  key: string;
-  navigate: NavigateFunction;
-}
 interface ActionClear {
   type: ActionType.clear;
   payload: undefined;

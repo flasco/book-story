@@ -9,8 +9,8 @@ import Touchable from '@/components/touchable';
 
 import styles from './index.module.scss';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
+// eslint-disable-next-line no-undef
 const version = ENV.PROJECT_VERSION_TAG;
 
 const SiderBar = () => {

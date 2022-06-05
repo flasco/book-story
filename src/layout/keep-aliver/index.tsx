@@ -1,6 +1,5 @@
-import KeepAlive from '@/components/keep-alive';
-import { RouteConfig } from '@/router/configure';
 import React, { useEffect, useMemo, useReducer } from 'react';
+
 import {
   RouteMatch,
   RouteObject,
@@ -9,6 +8,10 @@ import {
   useNavigationType,
   useRoutes,
 } from 'react-router-dom';
+
+import KeepAlive from '@/components/keep-alive';
+import { RouteConfig } from '@/router/configure';
+
 import { Action, ActionType, reducer } from './data';
 import { ViewProvider } from './use-view';
 

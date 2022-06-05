@@ -6,12 +6,13 @@ import { concatMap, filter, map, takeUntil, withLatestFrom } from 'rxjs/operator
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
 
-import { changeCtrlPos, getCtrlPos } from '../use-reader';
 import { useCallbackRef } from '@/hooks';
+
+import { changeCtrlPos, getCtrlPos } from '../use-reader';
 
 const pageWidth = screenWidth - 16;
 
-function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRight }) {
+function useCustomDrag(pages, { hasMultiPage, saveRecord, initialPage, hookCenter, hookLeft, hookRight }) {
   const innerRef = createRef<HTMLDivElement>();
   const outerRef = createRef<HTMLDivElement>();
   const [page, setPage] = useState(() => Math.round(initialPage - 1));
@@ -23,25 +24,6 @@ function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, h
     from: { transformX: 0 },
     config: { duration: 150 },
   }));
-
-  useEffect(() => {
-    const totalWidth = innerRef.current!.scrollWidth;
-    const totalPage = (totalWidth + 16) / pageWidth;
-    setTotal(totalPage);
-    const ctrlPos = getCtrlPos();
-    if (ctrlPos < 0) {
-      goTo(totalPage, false);
-    } else if (ctrlPos > 0) {
-      goTo(1, false);
-    }
-    setTimeout(() => setLoading(false), 100);
-  }, [pages]);
-
-  useEffect(() => {
-    if (initialPage > 1) {
-      goTo(Math.round(initialPage), false);
-    }
-  }, [initialPage]);
 
   /** cur 从1开始 */
   const goTo = useCallback(
@@ -64,6 +46,25 @@ function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, h
     },
     [api, inAnimate]
   );
+
+  useEffect(() => {
+    const totalWidth = innerRef.current!.scrollWidth;
+    const totalPage = (totalWidth + 16) / pageWidth;
+    setTotal(totalPage);
+    const ctrlPos = getCtrlPos();
+    if (ctrlPos < 0) {
+      goTo(hasMultiPage.current ? 1 : totalPage, false);
+    } else if (ctrlPos > 0) {
+      goTo(1, false);
+    }
+    setTimeout(() => setLoading(false), 100);
+  }, [pages]);
+
+  useEffect(() => {
+    if (initialPage > 1) {
+      goTo(Math.round(initialPage), false);
+    }
+  }, [initialPage]);
 
   const touchEndFn = useCallbackRef(
     async ({ diff, endX }) => {

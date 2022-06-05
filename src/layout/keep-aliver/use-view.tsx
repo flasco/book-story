@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react';
+
 import { Action } from './data';
 interface ViewContext {
   name?: string;

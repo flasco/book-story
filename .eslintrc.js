@@ -1,59 +1,51 @@
+// eslint-disable-next-line no-undef
 module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  extends: [
+    'eslint:recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:react/recommended',
+    'plugin:import/typescript',
+    'prettier',
+  ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 'latest',
+  },
+  plugins: ['react', '@typescript-eslint', 'import'],
   rules: {
-    quotes: ['error', 'single'],
-    eqeqeq: [
+    'import/extensions': 0,
+    'import/no-unresolved': 0,
+    'react/react-in-jsx-scope': 0,
+    'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
+    'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
+    'import/order': [
       'error',
-      'always',
       {
-        null: 'ignore',
+        'newlines-between': 'always-and-inside-groups',
+        pathGroups: [
+          {
+            pattern: '@/**',
+            group: 'external',
+            position: 'after',
+          },
+        ],
       },
     ],
+    'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/no-static-element-interactions': 0,
+    'react/require-default-props': 0,
+    'no-use-before-define': ['error', { functions: false, classes: false, variables: true }],
   },
   settings: {
-    react: {
-      version: '16.8.6', // use which you installed
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
     },
   },
-  env: {
-    node: true,
-    browser: true,
-  },
-  parserOptions: {
-    ecmaVersion: 7,
-    sourceType: 'module',
-  },
-  overrides: [
-    {
-      files: ['*.js', '*.jsx'],
-      extends: ['eslint:recommended', 'plugin:prettier/recommended'],
-    },
-    {
-      files: ['*.ts', '*.tsx'],
-      extends: [
-        'plugin:prettier/recommended',
-        'prettier/react',
-        'prettier/@typescript-eslint',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:react/recommended',
-      ],
-      parser: '@typescript-eslint/parser',
-      plugins: ['react', '@typescript-eslint'],
-
-      rules: {
-        // @fixable 必须使用 === 或 !==，禁止使用 == 或 !=，与 null 比较时除外
-        '@typescript-eslint/indent': ['error', 2],
-        // 类和接口的命名必须遵守帕斯卡命名法，比如 PersianCat
-        '@typescript-eslint/explicit-function-return-type': 0,
-        '@typescript-eslint/no-unused-vars': 2,
-        '@typescript-eslint/no-explicit-any': 0,
-        '@typescript-eslint/interface-name-prefix': 0,
-        '@typescript-eslint/no-use-before-define': 0,
-        'react/no-children-prop': 0,
-        'react/prop-types': 0,
-        '@typescript-eslint/explicit-module-boundary-types': 0,
-        'react/jsx-uses-react': 0,
-        'react/react-in-jsx-scope': 0,
-      },
-    },
-  ],
 };

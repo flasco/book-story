@@ -78,7 +78,7 @@ self.addEventListener('fetch', e => {
 
         const fetchAndUpdate = () =>
           fetch(e.request)
-            .then(res => res.redirected ? fetch(res.url) : res)
+            .then(res => (res.redirected ? fetch(res.url) : res))
             .then(res => {
               if (canCache(res.status, e.request.method.toLowerCase())) {
                 cache.put(requestKey, res.clone());
@@ -104,13 +104,13 @@ self.addEventListener('fetch', e => {
 // 监听push消息
 self.addEventListener('push', function (event) {
   const notificationData = event.data.json();
-  const title = notificationData.title;
+  const { title } = notificationData;
   event.waitUntil(self.registration.showNotification(title, notificationData));
 });
 
 // 监听notification事件
 self.addEventListener('notificationclick', function (e) {
-  const notification = e.notification;
+  const { notification } = e;
   notification.close();
   e.waitUntil(clients.openWindow(notification.data.url));
 });
