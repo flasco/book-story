@@ -18,7 +18,7 @@ class RecordCache {
 
   getChapterPosition = () => this.record.recordChapterNum;
 
-  getLastChapterUrl = () => this.record.recordChapterUrl || '';
+  getLastReadChapterUrl = () => this.record.recordChapterUrl || '';
 
   getFilters = () => {
     return this.record.filters || [];

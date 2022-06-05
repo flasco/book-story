@@ -12,7 +12,7 @@ import { changeCtrlPos, getCtrlPos } from '../use-reader';
 
 const pageWidth = screenWidth - 16;
 
-function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRight }) {
+function useCustomDrag(pages, { hasMultiPage, saveRecord, initialPage, hookCenter, hookLeft, hookRight }) {
   const innerRef = createRef<HTMLDivElement>();
   const outerRef = createRef<HTMLDivElement>();
   const [page, setPage] = useState(() => Math.round(initialPage - 1));
@@ -53,7 +53,7 @@ function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, h
     setTotal(totalPage);
     const ctrlPos = getCtrlPos();
     if (ctrlPos < 0) {
-      goTo(totalPage, false);
+      goTo(hasMultiPage.current ? 1 : totalPage, false);
     } else if (ctrlPos > 0) {
       goTo(1, false);
     }

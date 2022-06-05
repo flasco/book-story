@@ -39,6 +39,8 @@ function useReader(bookInfo?: IBook) {
   const [watched, setWatched] = useState(1);
   const [showMenu, setShow] = useState(false);
   const nextChapterUrl = useRef<string>('');
+  // 是否是新版的多页结构
+  const hasMultiPage = useRef<boolean>(false);
 
   const changeMenu = useCallback(() => setShow(val => !val), [setShow]);
 
@@ -92,7 +94,14 @@ function useReader(bookInfo?: IBook) {
           .map((_, ind) => cachedList.getChapterUrl(position + ind + 1));
         workArr.push(...urlArr);
       }
-      return cachedChapters.getContent(chapterUrl);
+      return cachedChapters.getContent(chapterUrl).then(chapter => {
+        // prefetch nextUrl
+        if (chapter.nextUrl) {
+          cachedChapters.getContent(chapter.nextUrl);
+          hasMultiPage.current = true;
+        }
+        return chapter;
+      });
     },
     [cachedList, cachedChapters]
   );
@@ -121,8 +130,8 @@ function useReader(bookInfo?: IBook) {
       }
 
       const position = cachedRecord.getChapterPosition();
-      const lastChapter = cachedRecord.getLastChapterUrl() || cachedList.getChapterUrl(position);
-      const chapter = await prefetchChapter(position, lastChapter);
+      const lastReadChapter = cachedRecord.getLastReadChapterUrl() || cachedList.getChapterUrl(position);
+      const chapter = await prefetchChapter(position, lastReadChapter);
       setTitle(chapter.title || cachedList.getChapterName(position));
       setPages(formatPageContent(chapter.content, cachedRecord.getFilters()));
     } catch (error) {
@@ -213,7 +222,7 @@ function useReader(bookInfo?: IBook) {
    * 当然三方书源更新时间无法保证，这个问题不大
    */
   const reloadChapter = useCallback(
-    (curPos = 1) => {
+    () => {
       if (sourceUrl == null) {
         throw new Error('书源记录获取失败...');
       }
@@ -262,6 +271,7 @@ function useReader(bookInfo?: IBook) {
     pages,
     watched,
     showMenu,
+    hasMultiPage,
     cache: {
       list: cachedList,
       record: cachedRecord,
