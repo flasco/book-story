@@ -1,7 +1,7 @@
-/// <reference types="vite/client" />
+declare module '*.scss';
 
-interface PureObject {
+export interface PureObject {
   [key: string]: any;
 }
 
-type TObject = Record<string, unknown>;
+export type TObject = Record<string, unknown>;

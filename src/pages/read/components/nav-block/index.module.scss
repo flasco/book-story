@@ -15,7 +15,7 @@
 
 .header {
   background: var(--read-nav);
-  height: 44px;
+  height: 45px;
   padding: 0 12px;
   display: flex;
   align-items: center;
@@ -24,7 +24,7 @@
 
   .back {
     color: #fff;
-    font-size: 18px;
+    font-size: 24px;
   }
 
   span {
@@ -55,6 +55,20 @@
 
     :global(.iconfont) {
       font-size: 18px;
+      line-height: 20px;
     }
   }
+}
+
+.filter-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  height: 120px;
+  border: 0;
+  border-radius: 5px;
+  background-color: rgba(241, 241, 241, 0.73);
+  padding: 10px;
+  resize: none;
+  outline: none;
+  line-height: 20px;
 }

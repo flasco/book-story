@@ -3,6 +3,7 @@ import { getBookRecord, updateBookRecord } from '@/storage/book';
 
 class RecordCache {
   key: string;
+
   record: IRecord = {} as IRecord;
 
   constructor(key: string) {
@@ -18,6 +19,10 @@ class RecordCache {
   getChapterPosition = () => this.record.recordChapterNum;
 
   getLastChapterUrl = () => this.record.recordChapterUrl || '';
+
+  getFilters = () => {
+    return this.record.filters || [];
+  };
 
   updateRecord = (param: Partial<IRecord>, needSave = false) => {
     this.record = {

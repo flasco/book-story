@@ -44,3 +44,9 @@ export interface IRecord {
   recordPage: number;
   recordChapterUrl: string;
 }
+
+export interface IRecord {
+  recordChapterNum: number;
+  recordPage: number;
+  filters: string[];
+}

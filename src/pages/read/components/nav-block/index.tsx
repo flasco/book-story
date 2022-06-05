@@ -1,20 +1,21 @@
-import { useMemo, useState, useCallback } from 'react';
-import { Popover, ActionSheet } from 'antd-mobile';
-import { useHistory } from 'react-router-dom';
+import { useMemo, useState, useCallback, useRef } from 'react';
+import { Popover, ActionSheet, Dialog } from 'antd-mobile';
+import { useNavigate } from 'react-router-dom';
 import cx from 'classnames';
 import { LeftOutline, MoreOutline } from 'antd-mobile-icons';
 
 import { ICON_FONT_MAP } from '@/constants';
 import { useTheme } from '@/hooks/use-theme';
 import Touchable from '@/components/touchable';
+import { useDrawer } from '@/components/drawer';
 
 import { useReaderContext } from '../../context';
 
 import ProgressBlock from './components/progress';
 import CatalogDrawer from './components/catalog-drawer';
+import ModalContent from './modal-content';
 
 import styles from './index.module.scss';
-import { useDrawer } from '@/components/drawer';
 
 const useSwitch = (initVal: boolean): [boolean, () => void] => {
   const [chx, setChx] = useState<boolean>(initVal);
@@ -24,13 +25,14 @@ const useSwitch = (initVal: boolean): [boolean, () => void] => {
 };
 
 const NavBlock = () => {
-  const { push, goBack } = useHistory();
+  const navigate = useNavigate();
   const { changeSunny, sunny } = useTheme();
   const {
     api,
     cache: { list, record },
     showMenu,
   } = useReaderContext();
+  const hederRef = useRef<HTMLDivElement>(null);
 
   const [progress, changeProgress] = useSwitch(false);
   const opener = useDrawer();
@@ -61,12 +63,28 @@ const NavBlock = () => {
 
   const cacheCnts = [20, 50, 200];
 
+  const openRegExpModal = () => {
+    Dialog.show({
+      content: (
+        <ModalContent
+          initialStr={record.getFilters().join('\n')}
+          onConfirm={(filterStr: string) => {
+            api.setFilters(filterStr.split('\n'));
+            Dialog.clear();
+          }}
+          onCancel={() => Dialog.clear()}
+        />
+      ),
+      title: '请输入过滤的正则表达式',
+    });
+  };
+
   const popOtrMap = useMemo(
     () => [
       {
         text: '换源',
         onClick: () => {
-          setTimeout(() => push('/origin'), 100);
+          setTimeout(() => navigate('/origin'), 100);
         },
       },
       {
@@ -110,28 +128,37 @@ const NavBlock = () => {
         text: '重载列表',
         onClick: () => api.reloadList(),
       },
+      {
+        text: '正则过滤',
+        onClick: openRegExpModal,
+      },
     ],
     [api]
   );
 
   return (
-    <div className={cx(styles.container, { [styles.hidden]: !showMenu })}>
+    <div className={cx(styles.container, { [styles.hidden]: !showMenu })} ref={hederRef}>
       <CatalogDrawer opener={opener} changeMenu={api.changeMenu}>
         <div className={styles.container}>
           <div className={styles.header}>
-            <LeftOutline className={styles.back} onClick={() => goBack()} />
-            <Popover.Menu actions={popOtrMap} destroyOnHide trigger="click" placement="topRight">
-              <div style={{ paddingRight: 8 }}>
+            <LeftOutline className={styles.back} onClick={() => navigate(-1)} />
+            <Popover.Menu
+              getContainer={() => hederRef.current!}
+              actions={popOtrMap}
+              destroyOnHide
+              trigger="click"
+              placement="topRight"
+            >
+              <div>
                 <MoreOutline style={{ fontSize: 24 }} />
               </div>
             </Popover.Menu>
           </div>
-          <Touchable needStop className={styles.content} onClick={() => api.changeMenu()} />
-          {/**TODO: 状态机，同一时间内只有一个面板展示 */}
+          <Touchable className={styles.content} onClick={() => api.changeMenu()} />
           {progress && <ProgressBlock />}
           <div className={styles.footer}>
             {operatorMap.map(item => (
-              <Touchable needStop className={styles.item} key={item.title} onClick={item.click}>
+              <Touchable className={styles.item} key={item.title} onClick={item.click}>
                 <i className="iconfont">{item.icon}</i>
                 {item.title}
               </Touchable>

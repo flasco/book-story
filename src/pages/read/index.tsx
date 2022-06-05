@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Container from '@/layout/container';
 import { useBook } from '@/hooks/use-book';
@@ -13,11 +13,11 @@ import styles from './index.module.scss';
 
 const Home = () => {
   const { currentBook } = useBook();
-  const { replace } = useHistory();
+  const navigate = useNavigate();
   const bookInfo = currentBook ?? null;
 
   useEffect(() => {
-    if (bookInfo == null || bookInfo.source == null) replace('/shelf');
+    if (bookInfo == null || bookInfo.source == null) navigate('/shelf', { replace: true });
   }, [bookInfo]);
 
   return (

@@ -1,6 +1,10 @@
-import { getItem, setItem, STORE_LEVEL } from '@/storage/base';
+/**
+ * Deprecated: not use it;
+ */
 import { Dialog } from 'antd-mobile';
 import { useState, useEffect, useRef } from 'react';
+
+import { getItem, setItem, STORE_LEVEL } from '@/storage/base';
 
 const newVersionNoticedKey = 'new-version-noticed';
 

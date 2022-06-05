@@ -17,9 +17,10 @@ const Drawer: React.FC<IDrawerProps> = ({ sideBar, children, opener, fullScreen 
     <>
       <Popup
         visible={visible}
-        onMaskClick={() => close()}
         position="right"
-        bodyStyle={{ minWidth: '60vw', top: fullScreen ? 0 : 45 }}
+        getContainer={null}
+        onMaskClick={() => close()}
+        bodyStyle={{ minWidth: '60vw', top: !fullScreen ? 45 : 0 }}
       >
         {sideBar}
       </Popup>

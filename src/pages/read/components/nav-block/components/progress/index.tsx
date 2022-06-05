@@ -3,8 +3,9 @@ import { Slider } from 'antd-mobile';
 import { SliderValue } from 'antd-mobile/es/components/slider';
 import { LeftOutline, RightOutline } from 'antd-mobile-icons';
 
-import styles from './index.module.scss';
 import { useReaderContext } from '@/pages/read/context';
+
+import styles from './index.module.scss';
 
 const getPercent = (pos, total) => ((pos / total) * 100).toFixed(1) + '%';
 
@@ -33,7 +34,7 @@ const ProgressBlock = () => {
 
   const afterChangeSlider = (pos: SliderValue) => {
     if (typeof pos !== 'number') return;
-    goToChapter(pos - 1, 1);
+    goToChapter({ position: pos - 1, ctrlPos: 1 });
   };
 
   const percent = useMemo(() => getPercent(position, total), [position, cache]);
@@ -61,6 +62,7 @@ const ProgressBlock = () => {
           max={total}
           onChange={changeSlider}
           onAfterChange={afterChangeSlider}
+          icon={<></>}
         />
       </div>
     </div>

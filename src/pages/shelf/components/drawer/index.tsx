@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Dialog, Toast } from 'antd-mobile';
 
 import SXider, { TOpener } from '@/components/drawer';
@@ -13,8 +13,10 @@ import styles from './index.module.scss';
 // eslint-disable-next-line no-undef
 const version = ENV.PROJECT_VERSION_TAG;
 
-const SiderBar = ({ push }: any) => {
-  const onClick = () => push('/search');
+const SiderBar = () => {
+  const navigate = useNavigate();
+
+  const onClick = () => navigate('/search');
   const { changeSunny } = useTheme();
   const onClear = useCallback(async () => {
     await clearTemp();
@@ -45,19 +47,17 @@ const SiderBar = ({ push }: any) => {
 
   return (
     <div className={styles.sider}>
-      <Touchable needStop className={styles.item} onClick={onClick}>
+      <Touchable className={styles.item} onClick={onClick}>
         搜索
       </Touchable>
-      <Touchable needStop className={styles.item}>
-        排行
-      </Touchable>
-      <Touchable needStop className={styles.item} onClick={changeSunny}>
+      <Touchable className={styles.item}>排行</Touchable>
+      <Touchable className={styles.item} onClick={changeSunny}>
         日夜切换
       </Touchable>
-      <Touchable needStop className={styles.item} onClick={onClear}>
+      <Touchable className={styles.item} onClick={onClear}>
         缓存清理
       </Touchable>
-      <Touchable needStop className={styles.item} onClick={onForceUpdate}>
+      <Touchable className={styles.item} onClick={onForceUpdate}>
         强制更新
       </Touchable>
       <div className={styles.version}>Version: {version}</div>
@@ -70,8 +70,7 @@ interface IProps {
 }
 
 const Sider: React.FC<IProps> = ({ opener, children = null }) => {
-  const { push } = useHistory();
-  const siderBar = useMemo(() => <SiderBar push={push} />, [push]);
+  const siderBar = useMemo(() => <SiderBar />, []);
 
   return (
     <SXider sideBar={siderBar} opener={opener}>

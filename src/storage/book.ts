@@ -1,7 +1,9 @@
-import { setItem, getItem, STORE_LEVEL } from './base';
 import { IChapter, IContent, IBook, IRecord } from '@/definition';
 
+import { setItem, getItem, STORE_LEVEL } from './base';
+
 type bookType = 'books' | 'flattens';
+
 export function getBooksWithType(type: bookType): Promise<IBook[]> {
   const key = 'book-story@' + type;
 
@@ -28,7 +30,7 @@ export function updateChapterList(sourceUrl: string, list: IChapter[]) {
 export async function getBookRecord(sourceUrl: string): Promise<IRecord> {
   const key = 'record@' + sourceUrl;
 
-  return (await getItem(key)) ?? { recordChapterNum: 0, recordPage: 1 };
+  return (await getItem(key)) ?? { recordChapterNum: 0, recordPage: 1, filters: [] };
 }
 
 export function updateBookRecord(sourceUrl: string, record: IRecord) {

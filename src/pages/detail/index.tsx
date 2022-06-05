@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button } from 'antd-mobile';
-import { useHistory } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Container from '@/layout/container';
 import ImageShow from '@/components/image-show';
@@ -12,13 +12,14 @@ import { getDetail } from './api';
 
 import styles from './index.module.scss';
 
-const DetailPage = props => {
-  const { push } = useHistory();
+const DetailPage = () => {
+  const navigate = useNavigate();
   const {
     api: { getExistBook, insertBook, setCurBook },
   } = useBook();
 
-  const initBook = props?.location?.state ?? {};
+  const { state = {} } = useLocation();
+  const initBook = state as any;
   const existedBook = getExistBook(initBook);
   const isExist = !!existedBook;
 
@@ -52,7 +53,7 @@ const DetailPage = props => {
   }, []);
 
   const readBook = () => {
-    push('/read');
+    navigate('/read');
     setCurBook(bookInfo);
   };
 

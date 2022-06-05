@@ -6,6 +6,13 @@
   box-sizing: content-box;
 }
 
+input,
+select,
+textarea {
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+
 html {
   touch-action: manipulation;
 }

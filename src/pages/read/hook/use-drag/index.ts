@@ -1,19 +1,22 @@
-import { createRef, useState, useCallback, useEffect } from 'react';
+import { createRef, useState, useCallback, useEffect, useRef } from 'react';
 import { useSpring } from '@react-spring/web';
 import { Toast } from 'antd-mobile';
+import { fromEvent } from 'rxjs';
+import { concatMap, filter, map, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import { screenWidth, leftBoundary, rightBoundary } from '@/constants';
 
-import { changeCtrlPos, getCtrlPos } from '../use-reader';
+import { useCallbackRef } from '@/hooks';
 
-let startX = 0;
-let inAnimate = false;
+import { changeCtrlPos, getCtrlPos } from '../use-reader';
 
 const pageWidth = screenWidth - 16;
 
 function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, hookRight }) {
-  const ref = createRef<HTMLDivElement>();
+  const innerRef = createRef<HTMLDivElement>();
+  const outerRef = createRef<HTMLDivElement>();
   const [page, setPage] = useState(() => Math.round(initialPage - 1));
+  const inAnimate = useRef(false);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -22,8 +25,30 @@ function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, h
     config: { duration: 150 },
   }));
 
+  /** cur 从1开始 */
+  const goTo = useCallback(
+    (cur: number, needAnimate = true) => {
+      cur = Math.round(cur - 1);
+      setPage(cur);
+      saveRecord(cur);
+      inAnimate.current = true;
+      requestAnimationFrame(async () => {
+        const params = { transformX: 0 - cur * pageWidth };
+        if (needAnimate) {
+          await Promise.all(api.start(params));
+        } else {
+          api.set(params);
+        }
+
+        inAnimate.current = false;
+      });
+      changeCtrlPos(0);
+    },
+    [api, inAnimate]
+  );
+
   useEffect(() => {
-    const totalWidth = ref.current!.scrollWidth;
+    const totalWidth = innerRef.current!.scrollWidth;
     const totalPage = (totalWidth + 16) / pageWidth;
     setTotal(totalPage);
     const ctrlPos = getCtrlPos();
@@ -41,60 +66,8 @@ function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, h
     }
   }, [initialPage]);
 
-  /** cur 从1开始 */
-  const goTo = useCallback(
-    (cur: number, needAnimate = true) => {
-      cur = Math.round(cur - 1);
-      setPage(cur);
-      saveRecord(cur);
-      inAnimate = true;
-      requestAnimationFrame(async () => {
-        const params = { transformX: 0 - cur * pageWidth };
-        if (needAnimate) {
-          await Promise.all(api.start(params));
-        } else {
-          api.set(params);
-        }
-
-        inAnimate = false;
-      });
-      changeCtrlPos(0);
-    },
-    [ref]
-  );
-
-  const onTouchStart = useCallback(
-    e => {
-      if (inAnimate) {
-        return;
-      }
-      startX = e.touches[0].clientX;
-    },
-    [ref]
-  );
-
-  /** 垃圾throttle，别用，用了就掉帧 */
-  const onTouchMove = useCallback(
-    (e: any) => {
-      if (inAnimate) {
-        return;
-      }
-      const prevX = e.touches[0].clientX - startX;
-
-      api.set({ transformX: 0 - page * pageWidth + prevX });
-    },
-    [page, ref]
-  );
-
-  const onTouchEnd = useCallback(
-    async e => {
-      e.preventDefault();
-      if (inAnimate) {
-        return;
-      }
-      const endX = e.changedTouches[0].clientX;
-      const diff = endX - startX;
-
+  const touchEndFn = useCallbackRef(
+    async ({ diff, endX }) => {
       let currentPage = page;
       let needAnimate = false;
       if (Math.abs(diff) > 5) {
@@ -117,32 +90,64 @@ function useCustomDrag(pages, { saveRecord, initialPage, hookCenter, hookLeft, h
         const curApi = isLeftEdge ? hookLeft : hookRight;
         setLoading(true);
         const isSucceed = (await curApi?.()) ?? false;
-        if (!isSucceed) {
-          setLoading(false);
-          Toast.show('已经临近边界');
-          currentPage = page;
-        }
-        return;
+        if (isSucceed) return;
+        setLoading(false);
+        Toast.show('已经临近边界');
+        currentPage = page;
       }
 
       page !== currentPage && setPage(Math.round(currentPage));
       goTo(currentPage + 1, needAnimate);
     },
-    [ref, page, total]
+    [page, total]
   );
+
+  useEffect(() => {
+    // 事件绑定到 outer 上是为了避免在内容不全的时候无法翻页，确保交互可以正常执行
+    const current = outerRef.current!;
+    const touchStart = fromEvent<TouchEvent>(current, 'touchstart').pipe(
+      map(e => e.touches[0].clientX)
+    );
+    const touchMove = fromEvent<TouchEvent>(current, 'touchmove');
+    const touchEnd = fromEvent<TouchEvent>(current, 'touchend');
+
+    const mover = touchStart.pipe(
+      filter(() => !inAnimate.current),
+      concatMap(() => touchMove.pipe(takeUntil(touchEnd))),
+      withLatestFrom(touchStart, (move, startX) => {
+        return move.touches[0].clientX - startX;
+      })
+    );
+
+    const mover$ = mover.subscribe(prevX => {
+      api.set({ transformX: 0 - page * pageWidth + prevX });
+    });
+
+    const clicker = touchStart.pipe(
+      filter(() => !inAnimate.current),
+      concatMap(() => touchEnd),
+      withLatestFrom(touchStart, (end, startX) => {
+        const endX = end.changedTouches[0].clientX;
+        return { diff: endX - startX, endX };
+      })
+    );
+
+    const clicker$ = clicker.subscribe(touchEndFn.current);
+
+    return () => {
+      clicker$.unsubscribe();
+      mover$.unsubscribe();
+    };
+  }, [outerRef, api, touchEndFn]);
 
   return {
     page,
     total,
-    ref,
+    innerRef,
+    outerRef,
     goTo,
     loading,
     transformX,
-    touchEvent: {
-      onTouchStart,
-      onTouchMove,
-      onTouchEnd,
-    },
   };
 }
 

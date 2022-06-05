@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { List, PullToRefresh, Toast, SwipeAction } from 'antd-mobile';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import cx from 'classnames';
 
 import { useCallbackRef } from '@/hooks';
@@ -24,7 +24,7 @@ let isInit = false;
 const BookList = () => {
   const { books, api } = useBook();
   const { updateLists, clickBookToRead, sortBookWithStamp, deleteBook } = api;
-  const { push } = useHistory();
+  const navigate = useNavigate();
 
   const flag = books.length > 0 ? true : isInit ? true : false;
 
@@ -49,7 +49,7 @@ const BookList = () => {
   const renderItem = (item: IBook, index: number) => {
     const { bookName, author, plantformId, img, isUpdate } = item;
     const onClick = () => {
-      push('/read');
+      navigate('/read');
       clickBookToRead(+index);
       sortBookWithStamp();
     };
@@ -65,7 +65,7 @@ const BookList = () => {
           {
             text: '详情',
             key: 'detail',
-            onClick: () => push('/detail', item),
+            onClick: () => navigate('/detail', { state: item }),
             color: '#000',
           },
           {
@@ -97,7 +97,7 @@ const BookList = () => {
   return (
     <div className={cx('needScroll', styles.container)}>
       <PullToRefresh onRefresh={() => onPull.current()}>
-        <List className={styles.list}>
+        <List className={cx('needScroll', styles.list)}>
           {books.map((book, ind) => {
             return (
               <List.Item key={`${book.bookName}-${book.author}`}>{renderItem(book, ind)}</List.Item>

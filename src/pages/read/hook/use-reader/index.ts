@@ -1,16 +1,19 @@
-import { ee } from '@/third-party/event';
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+
+import { Toast } from 'antd-mobile';
+
+import { ee } from '@/third-party/event';
 
 import ListCache from '@/cache/list';
 import RecordCache from '@/cache/record';
 import ChaptersCache from '@/cache/chapter';
 import Queue from '@/third-party/queue';
 import { openLoading, closeLoading, toastFail } from '@/utils';
-import { newGetP } from '@/utils/text';
+import { formatPageContent } from '@/utils/text';
 
 import { getList } from '@/pages/read/api';
 import { IBook } from '@/definition';
-import { Toast } from 'antd-mobile';
+
 
 /**
  * 书籍进度存储key约定 record@${sourceUrl}
@@ -52,7 +55,9 @@ function useReader(bookInfo?: IBook) {
   useEffect(() => {
     // prefetch
     const prefetch = async item => {
-      if (item === '') return;
+      if (item === '') {
+        return;
+      }
       await cachedChapters.getContent(item, 3);
     };
     workArr.work = prefetch;
@@ -60,6 +65,7 @@ function useReader(bookInfo?: IBook) {
   }, [cachedChapters]);
 
   useEffect(() => {
+    // eslint-disable-next-line no-use-before-define
     init();
   }, [bookInfo]);
 
@@ -102,7 +108,9 @@ function useReader(bookInfo?: IBook) {
   const init = async () => {
     try {
       openLoading('数据加载中...');
-      if (sourceUrl == null) throw new Error('书源记录获取失败...');
+      if (sourceUrl == null) {
+        throw new Error('书源记录获取失败...');
+      }
       await cachedRecord.init();
 
       setWatched(cachedRecord.getWatchedPage());
@@ -116,7 +124,7 @@ function useReader(bookInfo?: IBook) {
       const lastChapter = cachedRecord.getLastChapterUrl() || cachedList.getChapterUrl(position);
       const chapter = await prefetchChapter(position, lastChapter);
       setTitle(chapter.title || cachedList.getChapterName(position));
-      setPages(newGetP(chapter.content));
+      setPages(formatPageContent(chapter.content, cachedRecord.getFilters()));
     } catch (error) {
       console.trace(error);
       toastFail((error as any).message || error);
@@ -130,13 +138,17 @@ function useReader(bookInfo?: IBook) {
   interface IParams {
     ctrlPos: number;
     position: number;
-    chapterUrl: string;
+    chapterUrl?: string;
   }
 
   const goToChapter = useCallback(
     async ({ position, chapterUrl, ctrlPos }: IParams) => {
+      if (chapterUrl == null) {
+        chapterUrl = cachedList.getChapterUrl(position);
+      }
       if (sourceUrl == null) throw new Error('书源记录获取失败...');
       if (position >= cachedList.getLength() || position < 0) return false;
+      
       openLoading('数据加载中...');
       changeCtrlPos(ctrlPos);
 
@@ -169,7 +181,7 @@ function useReader(bookInfo?: IBook) {
       nextChapterUrl.current = chapter.nextUrl || cachedList.getChapterUrl(position + 1);
 
       setTitle(chapter.title || cachedList.getChapterName(position));
-      setPages(newGetP(chapter.content));
+      setPages(formatPageContent(chapter.content, cachedRecord.getFilters()));
       closeLoading();
       return true;
     },
@@ -188,7 +200,9 @@ function useReader(bookInfo?: IBook) {
 
   const reloadList = useCallback(() => {
     console.log(sourceUrl);
-    if (sourceUrl == null) throw new Error('书源记录获取失败...');
+    if (sourceUrl == null) {
+      throw new Error('书源记录获取失败...');
+    }
 
     cachedList.cleanListCache();
     init();
@@ -198,28 +212,43 @@ function useReader(bookInfo?: IBook) {
    * 不过服务器侧会有缓存，时间在 20 min
    * 当然三方书源更新时间无法保证，这个问题不大
    */
-  const reloadChapter = useCallback(() => {
-    if (sourceUrl == null) throw new Error('书源记录获取失败...');
+  const reloadChapter = useCallback(
+    (curPos = 1) => {
+      if (sourceUrl == null) {
+        throw new Error('书源记录获取失败...');
+      }
 
-    const curpoi = cachedRecord.getChapterPosition();
-    const curChapterUrl = cachedList.getChapterUrl(curpoi);
+      const curpoi = cachedRecord.getChapterPosition();
+      const curChapterUrl = cachedList.getChapterUrl(curpoi);
 
     cachedChapters.cleanChapterCache(curChapterUrl);
     return goToChapter({ position: curpoi, ctrlPos: 1, chapterUrl: curChapterUrl });
   }, [sourceUrl]);
 
   const prevChapter = useCallback(() => {
-    if (sourceUrl == null) throw new Error('书源记录获取失败...');
+    if (sourceUrl == null) {
+      throw new Error('书源记录获取失败...');
+    }
     const position = cachedRecord.getChapterPosition() - 1;
     /** 为了简单起见，上一章就直接跳到上一章的起始位置 */
     const chapterUrl = cachedList.getChapterUrl(position);
     return goToChapter({ position, ctrlPos: -1, chapterUrl });
   }, [sourceUrl]);
 
+  const setFilters = (filters: string[]) => {
+    cachedRecord.updateRecord({
+      filters,
+    });
+    const curpoi = cachedRecord.getChapterPosition();
+    return goToChapter({ position: curpoi, ctrlPos: 0, chapterUrl: cachedList.getChapterUrl(curpoi) });
+  };
+
   /** 只存页数，章节在翻页的时候存 */
   const saveRecord = useCallback(
     (page: number) => {
-      if (sourceUrl == null) throw new Error('书源记录获取失败...');
+      if (sourceUrl == null) {
+        throw new Error('书源记录获取失败...');
+      }
 
       cachedRecord.updateRecord({
         recordPage: page + 1,
@@ -247,6 +276,7 @@ function useReader(bookInfo?: IBook) {
       reloadChapter,
       changeMenu,
       reloadList,
+      setFilters,
     },
   };
 }

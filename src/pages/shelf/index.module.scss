@@ -1,3 +1,9 @@
 .container {
   background: var(--shelf-container);
 }
+
+:global {
+  .adm-list-body {
+    background: var(--shelf-container);
+  }
+}
