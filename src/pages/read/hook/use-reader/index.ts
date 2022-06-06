@@ -206,7 +206,8 @@ function useReader(bookInfo?: IBook) {
 
       const chapter = await prefetchChapter(curPosition, curChapterUrl);
 
-      nextChapterUrl.current = chapter.nextUrl || cachedList.getChapterUrl(curPosition + 1);
+      // 因为 position 已经在翻页的时候就做过 change 了，所以不需要再额外做增减操作
+      nextChapterUrl.current = chapter.nextUrl || cachedList.getChapterUrl(position);
 
       setTitle(appendTitleSuffix(chapter.title || cachedList.getChapterName(curPosition)));
       setPages(formatPageContent(chapter.content, cachedRecord.getFilters()));
