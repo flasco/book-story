@@ -116,7 +116,7 @@ const NavBlock = () => {
                 const url = list.getChapterUrl(i + position);
                 if (url) urls.push(url);
               }
-              api.pretchWorker(...urls);
+              api.prefetchWorker(...urls);
             },
           }),
       },

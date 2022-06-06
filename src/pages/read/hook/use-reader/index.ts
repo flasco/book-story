@@ -43,6 +43,13 @@ function useReader(bookInfo?: IBook) {
   const hasMultiPage = useRef<boolean>(false);
   const multiChapterStack = useRef<string[]>([]);
   const canBackToLast = useRef<boolean>(false);
+  const appendTitleSuffix = useCallback((title: string) => {
+    if (!hasMultiPage.current) {
+      return title;
+    }
+
+    return `${title}_${multiChapterStack.current.length - 1}`;
+  }, [multiChapterStack, hasMultiPage]);
 
   const changeMenu = useCallback(() => setShow(val => !val), [setShow]);
 
@@ -108,7 +115,7 @@ function useReader(bookInfo?: IBook) {
     [cachedList, cachedChapters]
   );
 
-  const pretchWorker = useCallback(
+  const prefetchWorker = useCallback(
     (...urls: string[]) => {
       Toast.show('开始后台缓存...');
       cachedQueue.push(...urls);
@@ -137,7 +144,7 @@ function useReader(bookInfo?: IBook) {
 
       const chapter = await prefetchChapter(position, lastReadChapter);
       nextChapterUrl.current = chapter.nextUrl || '';
-      setTitle(chapter.title || cachedList.getChapterName(position));
+      setTitle(appendTitleSuffix(chapter.title || cachedList.getChapterName(position)));
       setPages(formatPageContent(chapter.content, cachedRecord.getFilters()));
     } catch (error) {
       console.trace(error);
@@ -201,7 +208,7 @@ function useReader(bookInfo?: IBook) {
 
       nextChapterUrl.current = chapter.nextUrl || cachedList.getChapterUrl(curPosition + 1);
 
-      setTitle(chapter.title || cachedList.getChapterName(curPosition));
+      setTitle(appendTitleSuffix(chapter.title || cachedList.getChapterName(curPosition)));
       setPages(formatPageContent(chapter.content, cachedRecord.getFilters()));
       closeLoading();
       return true;
@@ -239,11 +246,11 @@ function useReader(bookInfo?: IBook) {
         throw new Error('书源记录获取失败...');
       }
 
-      const curpoi = cachedRecord.getChapterPosition();
-      const curChapterUrl = cachedList.getChapterUrl(curpoi);
+      const curPoi = cachedRecord.getChapterPosition();
+      const curChapterUrl = cachedList.getChapterUrl(curPoi);
 
     cachedChapters.cleanChapterCache(curChapterUrl);
-    return goToChapter({ position: curpoi, ctrlPos: 1, chapterUrl: curChapterUrl });
+    return goToChapter({ position: curPoi, ctrlPos: 1, chapterUrl: curChapterUrl });
   }, [sourceUrl]);
 
   const prevChapter = useCallback(() => {
@@ -262,8 +269,8 @@ function useReader(bookInfo?: IBook) {
     cachedRecord.updateRecord({
       filters,
     });
-    const curpoi = cachedRecord.getChapterPosition();
-    return goToChapter({ position: curpoi, ctrlPos: 0, chapterUrl: cachedList.getChapterUrl(curpoi) });
+    const curPoi = cachedRecord.getChapterPosition();
+    return goToChapter({ position: curPoi, ctrlPos: 0, chapterUrl: cachedList.getChapterUrl(curPoi) });
   };
 
   /** 只存页数，章节在翻页的时候存 */
@@ -293,7 +300,7 @@ function useReader(bookInfo?: IBook) {
       chapters: cachedChapters,
     },
     api: {
-      pretchWorker,
+      prefetchWorker,
       nextChapter,
       prevChapter,
       saveRecord,
