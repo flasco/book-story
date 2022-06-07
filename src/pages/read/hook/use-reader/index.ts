@@ -205,7 +205,7 @@ function useReader(bookInfo?: IBook) {
       /** 如果是一章的起始，可以更新 recordChapterNum */
       const chapter = await prefetchChapter(curPosition, curChapterUrl);
 
-      nextChapterUrl.current = chapter.nextUrl || cachedList.getChapterUrl(position + 1);
+      nextChapterUrl.current = chapter.nextUrl || cachedList.getChapterUrl(position !== curPosition ? position : position + 1);
 
       setTitle(appendTitleSuffix(chapter.title || cachedList.getChapterName(curPosition)));
       setPages(formatPageContent(chapter.content, cachedRecord.getFilters()));
