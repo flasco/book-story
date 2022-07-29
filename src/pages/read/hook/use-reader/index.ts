@@ -164,7 +164,7 @@ function useReader(bookInfo?: IBook) {
 
   const goToChapter = useCallback(
     async ({ position, chapterUrl, ctrlPos }: IParams) => {
-      if (chapterUrl == null) {
+      if (!chapterUrl) {
         chapterUrl = cachedList.getChapterUrl(position);
       }
 
@@ -203,11 +203,9 @@ function useReader(bookInfo?: IBook) {
       }
 
       /** 如果是一章的起始，可以更新 recordChapterNum */
-
       const chapter = await prefetchChapter(curPosition, curChapterUrl);
 
-      // 因为 position 已经在翻页的时候就做过 change 了，所以不需要再额外做增减操作
-      nextChapterUrl.current = chapter.nextUrl || cachedList.getChapterUrl(position);
+      nextChapterUrl.current = chapter.nextUrl || cachedList.getChapterUrl(position !== curPosition ? position : position + 1);
 
       setTitle(appendTitleSuffix(chapter.title || cachedList.getChapterName(curPosition)));
       setPages(formatPageContent(chapter.content, cachedRecord.getFilters()));
@@ -220,8 +218,10 @@ function useReader(bookInfo?: IBook) {
   const nextChapter = useCallback(async () => {
     if (sourceUrl == null) throw new Error('书源记录获取失败...');
 
+    const position = cachedRecord.getChapterPosition() + 1;
+
     return goToChapter({
-      position: cachedRecord.getChapterPosition() + 1,
+      position,
       ctrlPos: 1,
       chapterUrl: nextChapterUrl.current,
     });
